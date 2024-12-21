@@ -1,0 +1,31 @@
+{
+    "name": "backend Eats&Seats",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "format": "prettier . --write"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "mongodb": "6.12",
+        "mongoose": "^8.9.2",
+        "morgan": "^1.10.0"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.0",
+        "@types/mongoose": "^5.11.97",
+        "@types/morgan": "^1.9.9",
+        "@types/node": "^22.10.2",
+        "prettier": "^3.4.2",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.7.2"
+    }
+}
