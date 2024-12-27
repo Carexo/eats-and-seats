@@ -6,6 +6,7 @@ import { queryClient } from './api/client.ts';
 import './styles/index.css';
 
 import Layout from './components/Layout.tsx';
+import DishDetails from "./components/DishDetails.tsx";
 import SignUp from './pages/Auth/Signup/SignUp.tsx';
 import SignIn from './pages/Auth/SignIn/SignIn.tsx';
 
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<Layout />}>
             <Route path="/auth/signup" element={<SignUp />} />
             <Route path="/auth/signin" element={<SignIn />} />
+              <Route path="dish/:id" element={<DishDetails />}/>
           </Route>
         </Routes>
       </BrowserRouter>
