@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "typeRoots": ["./src/config/custom.d.ts"],
         "target": "ESNext",
         "module": "CommonJS",
         "rootDir": "./src",
