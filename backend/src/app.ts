@@ -4,12 +4,18 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import connectDB from "./config/dbConfig";
+import dotenv from "dotenv";
+import dishRoutes from './routes/dishes';
 
 import { errorHandler } from "./middlewares/error";
 
 import authRoute from "./routes/auth";
 
 const app: Application = express();
+
+app.use(cors());
+
+dotenv.config();
 
 connectDB();
 
@@ -28,5 +34,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 
 app.use(errorHandler);
+
+app.use('/api/dishes', dishRoutes);
 
 export default app;
