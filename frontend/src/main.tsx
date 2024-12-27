@@ -9,6 +9,7 @@ import Layout from './components/Layout.tsx';
 import DishDetails from "./components/DishDetails.tsx";
 import SignUp from './pages/Auth/Signup/SignUp.tsx';
 import SignIn from './pages/Auth/SignIn/SignIn.tsx';
+import MenuPage from './pages/MenuPage.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/auth/signup" element={<SignUp />} />
             <Route path="/auth/signin" element={<SignIn />} />
               <Route path="dish/:id" element={<DishDetails />}/>
+              <Route path="/menu" element={<MenuPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
