@@ -8,15 +8,13 @@ import dotenv from "dotenv";
 import dishRoutes from './routes/dishes';
 import opinionsRoutes from './routes/opinions';
 
+import menuRoutes from "./routes/menu";
+
 import { errorHandler } from "./middlewares/error";
 
 import authRoute from "./routes/auth";
 
 const app: Application = express();
-
-app.use(cors());
-
-dotenv.config();
 
 connectDB();
 
@@ -38,5 +36,6 @@ app.use(errorHandler);
 
 app.use('/api/dishes', dishRoutes);
 app.use('/api/opinions', opinionsRoutes);
+app.use("/menu", menuRoutes);
 
 export default app;
