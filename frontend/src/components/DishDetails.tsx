@@ -16,7 +16,8 @@ type Dish = {
 
 type Opinion = {
     rating: number;
-};
+    [key: string]: any;
+}
 
 const DishDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -37,9 +38,17 @@ const DishDetails: React.FC = () => {
             }
 
             try {
-                const opinionsResponse = await axios.get<Opinion[]>(`http://localhost:3000/api/opinions?dishId=${id}`);
-                const opinions = opinionsResponse.data;
-                const averageRating = opinions.reduce((sum, opinion) => sum + opinion.rating, 0) / opinions.length;
+                const opinionsResponse = await axios.get(`http://localhost:3000/api/opinions/${id}`);
+                const {opinions} = opinionsResponse.data;
+                let averageRating = 0;
+                if (opinions.length > 0) {
+                    averageRating =
+                      opinions.reduce(
+                        (sum: number, opinion: Opinion) =>
+                          sum + opinion.rating,
+                        0,
+                      ) / opinions.length;
+                }
                 setRating(averageRating);
             } catch {
                 console.warn('Nieudane ładowanie opinii');
@@ -47,7 +56,6 @@ const DishDetails: React.FC = () => {
                 setLoading(false);
             }
         };
-
         fetchDishDetails();
     }, [id]);
 
@@ -79,16 +87,16 @@ const DishDetails: React.FC = () => {
                 <Title level={2} style={{fontWeight: 'bold'}}>{dish.name}</Title>
                 <Paragraph style={{ fontSize: '14px', padding: '5px 10px' }}>{dish.category}</Paragraph>
             </div>
-            <Paragraph style={{ fontSize: '16px', lineHeight: '1.6', textAlign: 'justify' }}>{dish.description}</Paragraph>
-            <Paragraph style={{ fontSize: '18px', fontWeight: 'bold', marginTop: '20px' }}>
-                Cena: <span style={{ color: 'green' }}>{dish.price} zł</span>
-            </Paragraph>
             {rating !== null && (
                 <Paragraph style={{ textAlign: 'center', marginTop: '20px' }}>
                     <b>Ocena:</b> <Rate disabled allowHalf value={rating} style={{ fontSize: '18px' }} />
                     <span style={{ fontSize: '16px', marginLeft: '10px' }}>({rating.toFixed(1)} / 5)</span>
                 </Paragraph>
             )}
+            <Paragraph style={{ fontSize: '16px', lineHeight: '1.6', textAlign: 'justify' }}>{dish.description}</Paragraph>
+            <Paragraph style={{ fontSize: '18px', fontWeight: 'bold', marginTop: '20px' }}>
+                Cena: <span style={{ color: 'green' }}>{dish.price} zł</span>
+            </Paragraph>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 30 }}>
                 <Button type="primary" size="large" style={{ width: '49%' }}>
                     Dodaj do koszyka

@@ -6,6 +6,7 @@ import cors from "cors";
 import connectDB from "./config/dbConfig";
 import dotenv from "dotenv";
 import dishRoutes from './routes/dishes';
+import opinionsRoutes from './routes/opinions';
 
 import { errorHandler } from "./middlewares/error";
 
@@ -36,5 +37,6 @@ app.use("/api/auth", authRoute);
 app.use(errorHandler);
 
 app.use('/api/dishes', dishRoutes);
+app.use('/api/opinions', opinionsRoutes);
 
 export default app;

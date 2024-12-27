@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const OpinionSchema = new Schema ({
-    username: { type: String, required: true},
+    user_id: { type: String, required: true},
+    dish_id: { type: String, required: true},
     rating: { type: Number, required: true },
     description: { type: String, required: false },
 
