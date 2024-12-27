@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="format" type="CompoundRunConfigurationType">
+    <toRun name="format backend" type="js.build_tools.npm" />
+    <toRun name="format frontned" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>
