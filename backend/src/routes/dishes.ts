@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import {
     addDish,
     getDishes,
@@ -8,19 +8,18 @@ import {
     deleteDishById,
     updateDishByName,
     deleteDishByName,
-} from '../controllers/dishes';
+} from "../controllers/dishes";
 
 const router = express.Router();
-import { uploadImage} from "../middlewares/uploadImage";
+import { uploadImage } from "../middlewares/uploadImage";
 
-
-router.post('/', uploadImage.single('image'), addDish);
-router.get('/', getDishes);
-router.get('/name/:name', getDishByName);
-router.get('/:id', getDishById);
-router.put('/:id', uploadImage.single('image'), updateDishById);
-router.put('/name/:name', uploadImage.single('image'), updateDishByName);
-router.delete('/:id', deleteDishById);
-router.delete('/name/:name', deleteDishByName);
+router.post("/", uploadImage.single("image"), addDish);
+router.get("/", getDishes);
+router.get("/name/:name", getDishByName);
+router.get("/:id", getDishById);
+router.put("/:id", uploadImage.single("image"), updateDishById);
+router.put("/name/:name", uploadImage.single("image"), updateDishByName);
+router.delete("/:id", deleteDishById);
+router.delete("/name/:name", deleteDishByName);
 
 export default router;

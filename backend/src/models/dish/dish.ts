@@ -1,33 +1,36 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-const DishSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
+const DishSchema = new Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        description: {
+            type: String,
+            required: false,
+        },
+        category: {
+            type: String,
+            required: false,
+        },
+        price: {
+            type: Number,
+            required: true,
+        },
+        image: {
+            type: Buffer,
+            required: true,
+        },
+        imageType: {
+            type: String,
+            required: true,
+        },
     },
-    description: {
-        type: String,
-        required: false,
-    },
-    category: {
-        type: String,
-        required: false,
-    },
-    price: {
-        type: Number,
-        required: true,
-    },
-    image: {
-        type: Buffer,
-        required: true,
-    },
-    imageType: {
-        type: String,
-        required: true,
-    }
-}, { timestamps: false });
+    { timestamps: false },
+);
 
-export const Dish = model('Dish', DishSchema);
+export const Dish = model("Dish", DishSchema);

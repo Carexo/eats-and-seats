@@ -1,20 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
-import { Opinion } from '../models/opinion/opinion';
+import { Request, Response, NextFunction } from "express";
+import { Opinion } from "../models/opinion/opinion";
 import createError from "http-errors";
-import mongoose from 'mongoose';
-import axios from 'axios';
+import mongoose from "mongoose";
+import axios from "axios";
 
-
-export const addOpinion = async (req: Request, res: Response, next:NextFunction): Promise<void> => {
+export const addOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const {user_id, dish_id, rating, description} = req.body;
+        const { user_id, dish_id, rating, description } = req.body;
 
         if (!user_id || !dish_id || !rating) {
-            next(createError(400, "Please provide all required fields"))
+            next(createError(400, "Please provide all required fields"));
             return;
         }
 
-        if (rating<0 || rating > 5){
+        if (rating < 0 || rating > 5) {
             next(createError(400, "Rating must be between 0 and 5"));
             return;
         }
@@ -25,28 +24,26 @@ export const addOpinion = async (req: Request, res: Response, next:NextFunction)
             return;
         }
 
-        const newOpinion = new Opinion({user_id, dish_id, rating, description});
+        const newOpinion = new Opinion({ user_id, dish_id, rating, description });
         await newOpinion.save();
 
-        res.status(201).json({message: 'Opinion added successfully.', opinion: newOpinion});
-    }
-    catch (error: any) {
+        res.status(201).json({ message: "Opinion added successfully.", opinion: newOpinion });
+    } catch (error: any) {
         next(createError(500, error.message));
     }
-}
+};
 
-
-export const getOpinionsByDishId = async (req: Request, res: Response, next: NextFunction):Promise<void>  => {
+export const getOpinionsByDishId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const { dish_id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(dish_id)) {
-            next(createError(400, 'Invalid ID'));
+            next(createError(400, "Invalid ID"));
         }
 
-        const opinions = await Opinion.find({dish_id});
+        const opinions = await Opinion.find({ dish_id });
 
-        res.status(200).json({opinions});
+        res.status(200).json({ opinions });
     } catch (error: any) {
         next(createError(500, error.message));
     }
