@@ -33,4 +33,4 @@ const DishSchema = new Schema(
     { timestamps: false },
 );
 
-export const Dish = model("Dish", DishSchema);
+export const dish = model("dish", DishSchema);

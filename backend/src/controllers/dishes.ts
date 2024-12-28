@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { Dish } from "../models/dish/dish";
+import { dish } from "../models/dish/dish";
 import createError from "http-errors";
 import mongoose from "mongoose";
 
-export const addDish = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const addDish = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { name, description, category, price } = req.body;
 
@@ -12,7 +12,7 @@ export const addDish = async (req: Request, res: Response, next: NextFunction): 
             return;
         }
 
-        const newDish = new Dish({
+        const newDish = new dish({
             name,
             description,
             category,
@@ -28,9 +28,9 @@ export const addDish = async (req: Request, res: Response, next: NextFunction): 
     }
 };
 
-export const getDishes = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getDishes = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const dishes = await Dish.find();
+        const dishes = await dish.find();
 
         const formattedDishes = dishes.map((dish) => ({
             id: dish._id,
@@ -47,58 +47,59 @@ export const getDishes = async (req: Request, res: Response, next: NextFunction)
     }
 };
 
-export const getDishByName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getDishByName = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { name } = req.params;
-        const dish = await Dish.findOne({ name });
+        const foundDish = await dish.findOne({ name });
 
-        if (!dish) {
+        if (!foundDish) {
             next(createError(404, "Dish not found"));
             return;
         }
 
         res.status(200).json({
-            id: dish._id,
-            name: dish.name,
-            description: dish.description,
-            price: dish.price,
-            category: dish.category,
-            image: `data:${dish.imageType};base64,${dish.image.toString("base64")}`, // Zdjęcie w Base64
+            id: foundDish._id,
+            name: foundDish.name,
+            description: foundDish.description,
+            price: foundDish.price,
+            category: foundDish.category,
+            image: `data:${foundDish.imageType};base64,${foundDish.image.toString("base64")}`, // Zdjęcie w Base64
         });
     } catch (error: any) {
         next(createError(500, error.message));
     }
 };
 
-export const getDishById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getDishById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             next(createError(400, "Invalid ID"));
+            return
         }
 
-        const dish = await Dish.findById(id);
+        const foundDish = await dish.findById(id);
 
-        if (!dish) {
+        if (!foundDish) {
             next(createError(404, "Dish not found"));
             return;
         }
 
         res.status(200).json({
-            id: dish._id,
-            name: dish.name,
-            description: dish.description,
-            price: dish.price,
-            category: dish.category,
-            image: `data:${dish.imageType};base64,${dish.image.toString("base64")}`, // Zdjęcie w Base64
+            id: foundDish._id,
+            name: foundDish.name,
+            description: foundDish.description,
+            price: foundDish.price,
+            category: foundDish.category,
+            image: `data:${foundDish.imageType};base64,${foundDish.image.toString("base64")}`, // Zdjęcie w Base64
         });
     } catch (error: any) {
         next(createError(500, error.message));
     }
 };
 
-export const updateDishById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updateDishById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
 
@@ -113,7 +114,7 @@ export const updateDishById = async (req: Request, res: Response, next: NextFunc
             updates.imageType = req.file.mimetype;
         }
 
-        const updatedDish = await Dish.findByIdAndUpdate(id, updates, { new: true });
+        const updatedDish = await dish.findByIdAndUpdate(id, updates, { new: true });
 
         if (!updatedDish) {
             next(createError(404, "Dish not found"));
@@ -126,7 +127,7 @@ export const updateDishById = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-export const updateDishByName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updateDishByName = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { name } = req.params;
         const updates = req.body;
@@ -136,7 +137,7 @@ export const updateDishByName = async (req: Request, res: Response, next: NextFu
             updates.imageType = req.file.mimetype;
         }
 
-        const updatedDish = await Dish.findOneAndUpdate({ name }, updates, { new: true });
+        const updatedDish = await dish.findOneAndUpdate({ name }, updates, { new: true });
 
         if (!updatedDish) {
             next(createError(404, "Dish not found"));
@@ -149,7 +150,7 @@ export const updateDishByName = async (req: Request, res: Response, next: NextFu
     }
 };
 
-export const deleteDishById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteDishById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
 
@@ -158,7 +159,7 @@ export const deleteDishById = async (req: Request, res: Response, next: NextFunc
             return;
         }
 
-        const deletedDish = await Dish.findByIdAndDelete(id);
+        const deletedDish = await dish.findByIdAndDelete(id);
 
         if (!deletedDish) {
             next(createError(404, "Dish not found"));
@@ -171,11 +172,11 @@ export const deleteDishById = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-export const deleteDishByName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteDishByName = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { name } = req.params;
 
-        const deletedDish = await Dish.findOneAndDelete({ name });
+        const deletedDish = await dish.findOneAndDelete({ name });
 
         if (!deletedDish) {
             next(createError(404, "Dish not found"));
