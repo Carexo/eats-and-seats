@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 import { Card, Typography, Spin, Alert, Button, Rate } from 'antd';
-import axios from 'axios';
+import { useDish } from '../../api/queries/dishes.ts';
+import { useOpinions } from '../../api/queries/opinions.ts';
 
 const { Title, Paragraph } = Typography;
-
-type Dish = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-};
 
 type Opinion = {
   rating: number;
@@ -21,63 +13,42 @@ type Opinion = {
 
 const DishDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [dish, setDish] = useState<Dish | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [rating, setRating] = useState<number | null>(null);
+  const {
+    data: dish,
+    isLoading: dishLoading,
+    error: dishError,
+  } = useDish(id ?? '');
+  const { data: opinions = [], error: opinionsError } = useOpinions(id ?? '');
 
-  useEffect(() => {
-    const fetchDishDetails = async () => {
-      try {
-        const dishResponse = await axios.get<Dish>(
-          `http://localhost:3000/api/dishes/${id}`,
-        );
-        setDish(dishResponse.data);
-      } catch (err: any) {
-        setError(err.message);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const opinionsResponse = await axios.get(
-          `http://localhost:3000/api/opinions/${id}`,
-        );
-        const { opinions } = opinionsResponse.data;
-        let averageRating = 0;
-        if (opinions.length > 0) {
-          averageRating =
-            opinions.reduce(
-              (sum: number, opinion: Opinion) => sum + opinion.rating,
-              0,
-            ) / opinions.length;
-        }
-        setRating(averageRating);
-      } catch {
-        console.warn('Nieudane ładowanie opinii');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDishDetails();
-  }, [id]);
-
-  if (loading) {
+  if (dishLoading) {
     return (
       <Spin size="large" style={{ display: 'block', margin: '50px auto' }} />
     );
   }
 
-  if (error) {
+  if (dishError) {
     return (
       <Alert
         message="Błąd"
-        description={error}
+        description={dishError.message}
         type="error"
         showIcon
         style={{ margin: '20px' }}
       />
     );
+  }
+
+  let rating = 0;
+  if (opinions.length > 0) {
+    rating =
+      opinions.reduce(
+        (sum: number, opinion: Opinion) => sum + opinion.rating,
+        0,
+      ) / opinions.length;
+  }
+
+  if (opinionsError) {
+    console.warn(opinionsError);
   }
 
   if (!dish) {
