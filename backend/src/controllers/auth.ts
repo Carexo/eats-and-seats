@@ -4,9 +4,17 @@ import createError from "http-errors";
 import config from "../config";
 import { newToken } from "../utils/auth";
 import BlackList from "../models/auth/blackList";
+import { loginUserValidator, registerUserValidator } from "../models/auth/user/userValidation";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     const { username, email, password } = req.body;
+
+    const { error } = registerUserValidator.validate({ username, email, password });
+
+    if (error) {
+        next(createError(400, error.message));
+        return;
+    }
 
     if (!username || !email || !password) {
         next(createError(400, "Please provide all fields"));
@@ -35,6 +43,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+
+    const { error } = loginUserValidator.validate({ email, password });
+
+    if (error) {
+        next(createError(400, error.message));
+        return;
+    }
+
     if (!email || !password) {
         next(createError(400, "Please provide all fields"));
         return;
