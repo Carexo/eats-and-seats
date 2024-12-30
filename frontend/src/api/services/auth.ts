@@ -2,10 +2,15 @@ import { client } from '../index.ts';
 import { LoginUserPayload } from '../../components/auth/LoginForm/LoginForm.types.ts';
 import { isAxiosError } from 'axios';
 import { RegisterUserPayload } from '../../components/auth/RegisterForm/RegisterForm.types.ts';
+import { ApiResponse } from '../types.ts';
+
+interface UserResponse {
+  username: string;
+}
 
 export const loginUser = async (user: LoginUserPayload) => {
   try {
-    await client.post(
+    const response = await client.post<ApiResponse<UserResponse>>(
       '/auth/login',
       {
         email: user.email,
@@ -13,6 +18,8 @@ export const loginUser = async (user: LoginUserPayload) => {
       },
       { withCredentials: true },
     );
+
+    return response.data;
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data.error.message);
@@ -24,7 +31,7 @@ export const loginUser = async (user: LoginUserPayload) => {
 
 export const registerUser = async (user: RegisterUserPayload) => {
   try {
-    await client.post(
+    const response = await client.post<ApiResponse<UserResponse>>(
       '/auth/register',
       {
         username: user.username,
@@ -33,6 +40,8 @@ export const registerUser = async (user: RegisterUserPayload) => {
       },
       { withCredentials: true },
     );
+
+    return response.data;
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data.error.message);

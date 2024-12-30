@@ -8,8 +8,7 @@ export const getOpinionsByDishId = async (dishId: string) => {
   } catch (error) {
     if (isAxiosError(error)) {
       console.warn(error?.response?.data?.message);
-    }
-    else {
+    } else {
       console.warn('Failed to fetch dish opinions.');
     }
     return [];
