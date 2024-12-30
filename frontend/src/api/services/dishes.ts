@@ -8,10 +8,8 @@ export const getDishById = async (dishId: string) => {
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data?.message);
-    }
-    else {
+    } else {
       throw new Error('Failed to fetch dish details.');
     }
   }
-
 };

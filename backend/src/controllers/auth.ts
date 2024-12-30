@@ -24,7 +24,10 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             secure: config.production,
         });
 
-        res.status(201).json({ message: `User ${user.username} was successfully created` });
+        res.status(201).json({
+            message: `User ${user.username} was successfully created`,
+            data: { username: user.username },
+        });
     } catch (error: any) {
         next(createError(400, error.message));
     }
@@ -48,7 +51,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             secure: config.production,
         });
 
-        res.status(201).json({ message: `User ${user.username} was successfully login` });
+        res.status(201).json({
+            message: `User ${user.username} was successfully login`,
+            data: { username: user.username },
+        });
     } catch (error: any) {
         next(createError(400, error.message));
     }

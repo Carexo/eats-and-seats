@@ -10,7 +10,6 @@ type Dish = {
   image: string;
 };
 
-
 export const useDish = (dishId: string) => {
   return useQuery<Dish>({
     queryKey: ['dish', dishId],

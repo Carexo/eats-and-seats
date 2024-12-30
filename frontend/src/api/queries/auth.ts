@@ -1,42 +1,45 @@
 import { useMutation } from '@tanstack/react-query';
 import { loginUser, logoutUser, registerUser } from '../services/auth.ts';
-import type { NotificationInstance } from 'antd/es/notification/interface';
 import { ActionsContextType } from '../../store/types.ts';
 
 export const useLogIn = (
-  notification: NotificationInstance,
+  notificationSend: ActionsContextType['notificationSend'],
   storeLogin: ActionsContextType['loginUser'],
 ) => {
   return useMutation({
     mutationFn: loginUser,
-    onSuccess: () => {
-      storeLogin('jan');
-      notification.success({
-        message: 'Login Successful',
+    onSuccess: (data) => {
+      storeLogin(data.data.username);
+      notificationSend('success', {
+        title: 'Login Successful',
         description: 'You have successfully logged in.',
       });
     },
     onError: (error) => {
-      notification.error({
-        message: 'Login Failed',
+      notificationSend('error', {
+        title: 'Login Failed',
         description: error.message,
       });
     },
   });
 };
 
-export const useRegister = (notification: NotificationInstance) => {
+export const useRegister = (
+  notificationSend: ActionsContextType['notificationSend'],
+  storeLoginUser: ActionsContextType['loginUser'],
+) => {
   return useMutation({
     mutationFn: registerUser,
-    onSuccess: () => {
-      notification.success({
-        message: 'Register Successful',
+    onSuccess: (data) => {
+      storeLoginUser(data.data.username);
+      notificationSend('success', {
+        title: 'Register Successful',
         description: 'You have successfully logged in.',
       });
     },
     onError: (error) => {
-      notification.error({
-        message: 'Register Failed',
+      notificationSend('error', {
+        title: 'Register Failed',
         description: error.message,
       });
     },
@@ -44,21 +47,21 @@ export const useRegister = (notification: NotificationInstance) => {
 };
 
 export const useLogout = (
-  notification: NotificationInstance,
+  notificationSend: ActionsContextType['notificationSend'],
   storeLogoutUser: ActionsContextType['logoutUser'],
 ) => {
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
       storeLogoutUser();
-      notification.success({
-        message: 'You are logged out!',
+      notificationSend('success', {
+        title: 'You are logged out!',
         description: 'You have successfully logged out.',
       });
     },
     onError: (error) => {
-      notification.error({
-        message: 'Logged out Failed',
+      notificationSend('success', {
+        title: 'Logged out Failed',
         description: error.message,
       });
     },
