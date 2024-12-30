@@ -74,7 +74,7 @@ const DishDetailsElement: React.FC = () => {
       cover={
         <img
           alt={dish.name}
-          src={dish.image}
+          src={`${dish.image}`}
           style={{
             height: 400,
             objectFit: 'cover',

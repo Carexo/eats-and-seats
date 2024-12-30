@@ -10,6 +10,8 @@ import DishDetails from './pages/Dish/DishDetails.tsx';
 import SignUp from './pages/Auth/Signup/SignUp.tsx';
 import SignIn from './pages/Auth/SignIn/SignIn.tsx';
 import MenuPage from './pages/MenuPage.tsx';
+import AdminDishDetails from './pages/Dashboard/AdminDishDetails'
+import DishEditPage from './pages/Dashboard/DishEditPage'
 import Provider from './store/Provider.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -23,6 +25,8 @@ createRoot(document.getElementById('root')!).render(
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="dishes/:id" element={<DishDetails />} />
               <Route path="menu" element={<MenuPage />} />
+              <Route path="admin/dishdetails/:id" element={<AdminDishDetails/>}/>
+              <Route path="admin/updateDish/:id" element={<DishEditPage/>}/>
             </Route>
           </Routes>
         </BrowserRouter>
