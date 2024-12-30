@@ -1,4 +1,4 @@
-import { IUser } from "../models/user/user.types";
+import { IUser } from "../models/auth/user/user.types";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 import config from "../config";
 

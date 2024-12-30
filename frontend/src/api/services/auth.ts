@@ -41,3 +41,15 @@ export const registerUser = async (user: RegisterUserPayload) => {
     }
   }
 };
+
+export const logoutUser = async () => {
+  try {
+    await client.get('/auth/logout', { withCredentials: true });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data.error.message);
+    } else {
+      throw new Error('something went wrong');
+    }
+  }
+};

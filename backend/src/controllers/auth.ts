@@ -3,6 +3,7 @@ import { createUser, loginUser } from "../services/auth";
 import createError from "http-errors";
 import config from "../config";
 import { newToken } from "../utils/auth";
+import BlackList from "../models/auth/blackList";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     const { username, email, password } = req.body;
@@ -51,4 +52,35 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     } catch (error: any) {
         next(createError(400, error.message));
     }
+};
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies?.jwt_auth;
+
+    if (!token) {
+        next(createError(401, "Token was not provided"));
+        return;
+    }
+
+    try {
+        const checkIfBlacklisted = await BlackList.findOne({ token: token });
+
+        if (checkIfBlacklisted) {
+            next(createError(400, "Token is expired"));
+            return;
+        }
+
+        const newBlacklist = new BlackList({
+            token: token,
+        });
+
+        await newBlacklist.save();
+
+        res.setHeader("Clear-Site-Data", '"cookies"');
+        res.status(200).json({ message: "You are logged out!" });
+    } catch (err) {
+        next(createError(500, "Internal Server Error"));
+    }
+
+    res.end();
 };

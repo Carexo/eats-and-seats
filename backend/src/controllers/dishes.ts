@@ -76,7 +76,7 @@ export const getDishById = async (req: Request, res: Response, next: NextFunctio
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             next(createError(400, "Invalid ID"));
-            return
+            return;
         }
 
         const foundDish = await dish.findById(id);

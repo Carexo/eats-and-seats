@@ -22,16 +22,16 @@ app.use(
     }),
 );
 
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 
-app.use(errorHandler);
-
 app.use("/api/dishes", dishRoutes);
 app.use("/api/opinions", opinionsRoutes);
+
+app.use(errorHandler);
 
 export default app;
