@@ -1,5 +1,5 @@
-import { IUser } from "../models/user/user.types";
-import { User } from "../models/user/user";
+import { IUser } from "../models/auth/user/user.types";
+import { User } from "../models/auth/user/user";
 
 export const createUser = async (userData: IUser) => {
     try {

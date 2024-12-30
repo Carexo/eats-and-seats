@@ -10,20 +10,23 @@ import DishDetails from './pages/Dish/DishDetails.tsx';
 import SignUp from './pages/Auth/Signup/SignUp.tsx';
 import SignIn from './pages/Auth/SignIn/SignIn.tsx';
 import MenuPage from './pages/MenuPage.tsx';
+import Provider from './store/Provider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="auth/signup" element={<SignUp />} />
-            <Route path="auth/signin" element={<SignIn />} />
-            <Route path="dishes/:id" element={<DishDetails />} />
-            <Route path="menu" element={<MenuPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <Provider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="auth/signup" element={<SignUp />} />
+              <Route path="auth/signin" element={<SignIn />} />
+              <Route path="dishes/:id" element={<DishDetails />} />
+              <Route path="menu" element={<MenuPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </Provider>
   </StrictMode>,
 );
