@@ -10,6 +10,7 @@ import opinionsRoutes from "./routes/opinions";
 import { errorHandler } from "./middlewares/error";
 
 import authRoute from "./routes/auth";
+import { protect } from "./middlewares/auth";
 
 const app: Application = express();
 
