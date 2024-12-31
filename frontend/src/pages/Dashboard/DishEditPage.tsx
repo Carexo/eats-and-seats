@@ -10,7 +10,7 @@ const DishEditPage = () => {
       style={{ width: '100%', marginTop: '2rem' }}
     >
       <Typography.Title level={2}>Edit dish</Typography.Title>
-      <DishEditForm/>
+      <DishEditForm />
     </Flex>
   );
 };
