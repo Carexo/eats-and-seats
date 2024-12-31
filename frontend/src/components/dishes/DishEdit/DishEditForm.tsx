@@ -2,7 +2,6 @@ import {
   Button,
   Form,
   Input,
-  notification,
   Upload,
   Spin,
   Alert,
@@ -13,9 +12,10 @@ import { PlusOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Link, useParams } from 'react-router';
 import { DishEditPayload } from './DishEditForm.types';
-const { TextArea } = Input;
 import { useUpdateDish } from '../../../api/queries/dishes.ts';
 import { useDish } from '../../../api/queries/dishes.ts';
+import { useActions } from '../../../store/hooks.ts';
+const { TextArea } = Input;
 
 const onChange = (
   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -24,9 +24,9 @@ const onChange = (
 };
 
 const DishEditForm = () => {
+  const { notificationSend } = useActions();
   const { id } = useParams<{ id: string }>();
-  const [api, contextHolder] = notification.useNotification();
-  const { mutate } = useUpdateDish(api, id!);
+  const { mutate } = useUpdateDish(notificationSend, id!);
 
   const onChangeFile = ({
     fileList: newFileList,
@@ -89,7 +89,6 @@ const DishEditForm = () => {
 
   return (
     <>
-      {contextHolder}
       <Form
         name="Edit"
         style={{ maxWidth: 360, width: '100%' }}

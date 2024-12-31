@@ -7,9 +7,9 @@ import { Link, useParams } from 'react-router';
 const AdminDishDetails: React.FC = () => {
   return (
     <>
-      <DishDetailsElement />;
-      <Link to={`/admin/updatedish/${useParams().id}`}>
-        <FloatButton icon={<EditOutlined />} tooltip={<div>Edit</div>} />;
+      <DishDetailsElement />
+      <Link to={`/admin/update-dish/${useParams().id}`}>
+        <FloatButton icon={<EditOutlined />} tooltip={<div>Edit</div>} />
       </Link>
     </>
   );
