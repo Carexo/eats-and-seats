@@ -1,7 +1,7 @@
-import { RcFile } from "antd/es/upload";
+import { RcFile } from 'antd/es/upload';
 
 export interface DishEditPayload {
-  image: RcFile|undefined;
+  image: RcFile | undefined;
   name: string;
   description: string;
   category: string;
