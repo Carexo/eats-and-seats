@@ -6,6 +6,11 @@ export interface IUser {
     password: string;
 }
 
+export interface UserJwtPayload {
+    username: string;
+    email: string;
+}
+
 export interface UserMethods {
     isValidPassword: (password: string) => Promise<boolean>;
 }

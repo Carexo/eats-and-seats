@@ -1,5 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { loginUser, logoutUser, registerUser } from '../services/auth.ts';
+import {
+  checkUserStatus,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from '../services/auth.ts';
 import { ActionsContextType } from '../../store/types.ts';
 
 export const useLogIn = (
@@ -64,6 +69,17 @@ export const useLogout = (
         title: 'Logged out Failed',
         description: error.message,
       });
+    },
+  });
+};
+
+export const useCheckLoggedStatus = (
+  storeLoginUser: ActionsContextType['loginUser'],
+) => {
+  return useMutation({
+    mutationFn: checkUserStatus,
+    onSuccess: (data) => {
+      storeLoginUser(data.data.username);
     },
   });
 };

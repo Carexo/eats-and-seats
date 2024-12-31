@@ -9,7 +9,12 @@ const config = {
     mongoURI: process.env.MONGO_URI!!,
     secrets: {
         jwt: process.env.JWT_SECRET!!,
-        jwtExp: 30 * 60,
+        accessJwtExp: 30 * 60,
+        refreshJwtExp: 7 * 24 * 60 * 60,
+    },
+    constants: {
+        JWT_ACCESS: "jwt_access",
+        JWT_REFRESH: "jwt_refresh",
     },
 };
 

@@ -1,17 +1,25 @@
 import { Link, Outlet } from 'react-router';
 import { Button, Flex, Typography } from 'antd';
-import { useLogout } from '../api/queries/auth.ts';
+import { useCheckLoggedStatus, useLogout } from '../api/queries/auth.ts';
 import { useActions, useAuth } from '../store/hooks.ts';
+import { useEffect } from 'react';
 
 const Layout = () => {
-  const { logoutUser, notificationSend } = useActions();
+  const { loginUser, logoutUser, notificationSend } = useActions();
+  const userStatusMutation = useCheckLoggedStatus(loginUser);
+
   const auth = useAuth();
 
-  const { mutate } = useLogout(notificationSend, logoutUser);
+  const logoutMutation = useLogout(notificationSend, logoutUser);
 
   const handleLogout = () => {
-    mutate();
+    logoutMutation.mutate();
   };
+
+  useEffect(() => {
+    userStatusMutation.mutate();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div>
