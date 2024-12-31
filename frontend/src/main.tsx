@@ -29,7 +29,10 @@ createRoot(document.getElementById('root')!).render(
                 path="admin/dishdetails/:id"
                 element={<AdminDishDetails />}
               />
-              <Route path="admin/updateDish/:id" element={<DishEditPage />} />
+              <Route
+                path="dashboard/update-dish/:id"
+                element={<DishEditPage />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
