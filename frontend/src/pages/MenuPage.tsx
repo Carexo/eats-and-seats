@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useDishes } from '../hooks/useDishes';
 
 import {
   Card,
@@ -28,9 +28,8 @@ const MenuPage = () => {
     category: string; // Upewnij się, że każde danie ma kategorię
   }
 
-  const [dishes, setDishes] = useState<Dish[]>([]);
+  const { data: dishes = [], isLoading, error } = useDishes();
   const [filteredDishes, setFilteredDishes] = useState<Dish[]>([]);
-  const [loading, setLoading] = useState(true);
   const [maxPrice, setMaxPrice] = useState<number>(100);
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
@@ -38,30 +37,20 @@ const MenuPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_API_BASE_URL}/dishes`)
-      .then((response) => {
-        setDishes(response.data);
-        setLoading(false);
-        const maxPrice = Math.max(
-          ...response.data.map((dish: Dish) => dish.price),
-        );
-        setMaxPrice(maxPrice);
-        setPriceRange([0, maxPrice]);
-        setFilteredDishes(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching the menu:', error);
-        setLoading(false);
-      });
-  }, []);
+    if (dishes.length>0) {
+      setFilteredDishes(dishes);
+      const maxPrice = Math.max(...dishes.map((dish: Dish) => dish.price));
+      setMaxPrice(maxPrice);
+      setPriceRange([0, maxPrice]);
+    }
+  }, [dishes]);
 
   useEffect(() => {
     filterDishes();
   }, [selectedCategory, priceRange, searchTerm]);
 
   const filterDishes = () => {
-    let filtered = dishes;
+    let filtered = dishes || [];
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(
         (dish) =>
@@ -79,12 +68,12 @@ const MenuPage = () => {
     }
     setFilteredDishes(filtered);
   };
-  const handleFilter = (category: string) => {
+  const handleCategory = (category: string) => {
     setSelectedCategory(category);
   };
 
-  const handlePriceChange = (value: [number, number]) => {
-    setPriceRange(value);
+  const handlePriceChange = (value: number[]) => {
+    setPriceRange([value[0], value[1]]);
   };
 
   const handleSearch = (value: string) => {
@@ -128,7 +117,7 @@ const MenuPage = () => {
               key={category}
               type="default"
               style={{ margin: '0 5px' }}
-              onClick={() => handleFilter(category)}
+              onClick={() => handleCategory(category)}
             >
               {category}
             </Button>
@@ -152,7 +141,7 @@ const MenuPage = () => {
         </div>
       )}
 
-      {loading ? (
+      {isLoading ? (
         <Space
           size="middle"
           style={{
