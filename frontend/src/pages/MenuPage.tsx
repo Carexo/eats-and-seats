@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDishes } from '../hooks/useDishes';
+import { useDishes } from '../api/queries/dishes.ts';
 
 import {
   Card,
@@ -12,21 +12,13 @@ import {
   Slider,
   Input,
 } from 'antd';
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, MinusCircleOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
 const categories = ['All', 'Greek', 'Pizza'];
 
 const MenuPage = () => {
-  interface Dish {
-    _id: string;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-    category: string; // Upewnij się, że każde danie ma kategorię
-  }
 
   const { data: dishes = [], isLoading, error } = useDishes();
   const [filteredDishes, setFilteredDishes] = useState<Dish[]>([]);
@@ -168,10 +160,12 @@ const MenuPage = () => {
               >
                 <Title level={4}>{dish.name}</Title>
                 <Text type="secondary">{dish.description}</Text>
-                <div style={{ marginTop: '10px' }}>
+                <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <Text strong style={{ fontSize: '16px' }}>
                     {dish.price} zł
                   </Text>
+                  <Button href={`/dishes/${dish.id}`}>Zobacz więcej</Button>
+                  <Button type="primary" icon={<ShoppingCartOutlined />}>Dodaj do koszyka</Button>
                 </div>
               </Card>
             </Col>

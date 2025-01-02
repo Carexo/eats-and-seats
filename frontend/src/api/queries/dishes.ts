@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { getDishById, editDish } from '../services/dishes';
+import { getDishes, getDishById, editDish } from '../services/dishes';
 import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types';
 import { useNavigate } from 'react-router';
 import { ActionsContextType } from '../../store/types.ts';
@@ -12,6 +12,14 @@ type Dish = {
   price: number;
   category: string;
   image: string;
+};
+
+export const useDishes = () => {
+  return useQuery<Dish[]>({
+    queryKey: ['dishes'],
+    queryFn: getDishes,
+    refetchOnWindowFocus: true,}
+  );
 };
 
 export const useDish = (dishId: string) => {
