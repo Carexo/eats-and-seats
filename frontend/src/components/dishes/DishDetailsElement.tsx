@@ -2,14 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { Card, Typography, Spin, Alert, Button, Rate } from 'antd';
 import { useDish } from '../../api/queries/dishes.ts';
-import { useOpinions } from '../../api/queries/opinions.ts';
 
 const { Title, Paragraph } = Typography;
-
-type Opinion = {
-  rating: number;
-  [key: string]: any;
-};
 
 const DishDetailsElement: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +12,6 @@ const DishDetailsElement: React.FC = () => {
     isLoading: dishLoading,
     error: dishError,
   } = useDish(id ?? '');
-  const { data: opinions = [], error: opinionsError } = useOpinions(id ?? '');
 
   if (dishLoading) {
     return (
@@ -38,19 +31,7 @@ const DishDetailsElement: React.FC = () => {
     );
   }
 
-  let rating = 0;
-  if (opinions.length > 0) {
-    rating =
-      opinions.reduce(
-        (sum: number, opinion: Opinion) => sum + opinion.rating,
-        0,
-      ) / opinions.length;
-  }
-
-  if (opinionsError) {
-    console.warn(opinionsError);
-  }
-
+  const rating = 2;
   if (!dish) {
     return (
       <Alert
