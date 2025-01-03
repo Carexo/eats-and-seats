@@ -10,7 +10,26 @@ export const getDishes = async () => {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data?.message);
     } else {
-      throw new Error('Failed to fetch dish details.');
+      throw new Error('Failed to fetch dishes.');
+    }
+  }
+};
+
+interface Category {
+  category: string;
+}
+
+export const getCategories = async (): Promise<string[]> => {
+  try {
+    const response = await client.get<Category[]>(`/dishes`);
+    const dishes = response.data;
+    const categories = Array.from(new Set(dishes.map((dish) => dish.category)));
+    return categories;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error('Failed to fetch categories.');
     }
   }
 };
