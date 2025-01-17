@@ -12,7 +12,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Link, useParams } from 'react-router';
 import { DishEditPayload } from './DishEditForm.types';
-import { useUpdateDish } from '../../../api/queries/dishes.ts';
+import { useUpdateDish, useAddDish } from '../../../api/queries/dishes.ts';
 import { useDish } from '../../../api/queries/dishes.ts';
 import { useActions } from '../../../store/hooks.ts';
 const { TextArea } = Input;
@@ -26,8 +26,8 @@ const onChange = (
 const DishEditForm = () => {
   const { notificationSend } = useActions();
   const { id } = useParams<{ id: string }>();
-  const { mutate } = useUpdateDish(notificationSend, id!);
-
+  const { mutate } = id ? useUpdateDish(notificationSend, id!) : useAddDish(notificationSend);
+  const mode : 'edit'|'create' = id ? 'edit' : 'create';
   const onChangeFile = ({
     fileList: newFileList,
   }: {
@@ -90,7 +90,7 @@ const DishEditForm = () => {
   return (
     <>
       <Form
-        name="Edit"
+        name = {mode=='edit' ? "Edit" : "New Dish"}
         style={{ maxWidth: 360, width: '100%' }}
         onFinish={onFinish}
         layout="vertical"
