@@ -1,7 +1,12 @@
 import { Flex, Typography } from 'antd';
-import DishEditForm from '../../components/dishes/DishEdit/DishEditForm.tsx';
+import DishForm from '../../components/dishes/DishEdit/DishForm.tsx';
+import { useActions } from '../../store/hooks.ts';
+import {useAddDish} from "../../api/queries/dishes.ts";
 
 const DishEditPage = () => {
+    const { notificationSend } = useActions();
+    const mutate = useAddDish(notificationSend).mutate;
+
     return (
         <Flex
             vertical
@@ -10,7 +15,7 @@ const DishEditPage = () => {
             style={{ width: '100%', marginTop: '2rem' }}
         >
             <Typography.Title level={2}>Add dish</Typography.Title>
-            <DishEditForm />
+            <DishForm mutate={mutate}/>
         </Flex>
     );
 };

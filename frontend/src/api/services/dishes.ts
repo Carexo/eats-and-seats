@@ -1,6 +1,6 @@
 import { client } from '../index.ts';
 import { isAxiosError } from 'axios';
-import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types';
+import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
 
 export const getDishById = async (dishId: string) => {
   try {

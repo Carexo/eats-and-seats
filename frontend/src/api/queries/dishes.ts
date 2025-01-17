@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getDishById, editDish, addDish } from '../services/dishes';
-import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types';
+import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
 import { useNavigate } from 'react-router';
 import { ActionsContextType } from '../../store/types.ts';
 
