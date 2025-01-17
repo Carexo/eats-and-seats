@@ -14,6 +14,8 @@ import AdminDishDetails from './pages/Dashboard/AdminDishDetails';
 import DishEditPage from './pages/Dashboard/DishEditPage';
 import Provider from './store/Provider.tsx';
 import AddDishPage from "./pages/Dashboard/AddDishPage.tsx";
+import DashboardLayout from "./pages/Dashboard/DashboardLayout.tsx";
+import OverviewUsers from "./pages/Dashboard/OverviewUsers.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -26,10 +28,13 @@ createRoot(document.getElementById('root')!).render(
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="dishes/:id" element={<DishDetails />} />
               <Route path="menu" element={<MenuPage />} />
-              <Route path="admin/dishes" element={<MenuPage />} />
-              <Route path="admin/dishdetails/:id" element={<AdminDishDetails />}/>
-              <Route path="admin/update-dish/:id" element={<DishEditPage />}/>
-              <Route path="admin/add-dish/" element={<AddDishPage />} />
+            </Route>
+            <Route path="admin/" element={<DashboardLayout />}>
+              <Route path="dishes" element={<MenuPage />} />
+              <Route path="dishdetails/:id" element={<AdminDishDetails />}/>
+              <Route path="update-dish/:id" element={<DishEditPage />}/>
+              <Route path="add-dish/" element={<AddDishPage />} />
+              <Route path="users" element={<OverviewUsers/>} />
             </Route>
           </Routes>
         </BrowserRouter>
