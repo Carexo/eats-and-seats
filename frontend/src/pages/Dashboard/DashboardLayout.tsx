@@ -2,6 +2,7 @@ import React from 'react';
 import { SettingOutlined, UserOutlined, CloudUploadOutlined, ProductOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import {Link, Outlet} from "react-router";
+import '../../styles/DashboardLayout.css';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -19,23 +20,24 @@ const DashboardLayout: React.FC = () => {
     } = theme.useToken();
 
     return (
-        <Layout style={{minHeight: '100vh'}}>
+        <Layout style={{minHeight:'100vh'}}>
             <Sider
                 breakpoint="lg"
-                collapsedWidth="0"
+                collapsedWidth="50"
                 onBreakpoint={(broken) => {
                     console.log(broken);
                 }}
                 onCollapse={(collapsed, type) => {
                     console.log(collapsed, type);
                 }}
+                style={{position: 'fixed',height:'100%'}}
             >
                 <div className="demo-logo-vertical" />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']} items={items} />
             </Sider>
             <Layout>
                 {/*<Header style={{ padding: 0, background: colorBgContainer }} />*/}
-                <Content style={{ margin: '24px 16px 0', minHeight: '100%' }}>
+                <Content className='content' style={{ minHeight: '100%'}}>
                     <div
                         style={{
                             padding: 24,
@@ -46,7 +48,7 @@ const DashboardLayout: React.FC = () => {
                         <Outlet />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
+                <Footer className='content' style={{ textAlign: 'center' }}>
                     eats&seats ©{new Date().getFullYear()}
                 </Footer>
             </Layout>
