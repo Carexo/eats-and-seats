@@ -45,7 +45,14 @@ const RegisterForm = () => {
       <Form.Item
         label="Password"
         name="password"
-        rules={[{ required: true, message: 'Please input your Password!' }]}
+        rules={[
+          { required: true, message: 'Please input your Password!' },
+          { min: 8, message: 'Password should have at least 8 characters' },
+          {
+            pattern: /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+            message: 'Password should contains special character',
+          },
+        ]}
       >
         <Input
           prefix={<LockOutlined />}

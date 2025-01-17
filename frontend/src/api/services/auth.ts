@@ -4,7 +4,7 @@ import { isAxiosError } from 'axios';
 import { RegisterUserPayload } from '../../components/auth/RegisterForm/RegisterForm.types.ts';
 import { ApiResponse } from '../types.ts';
 
-interface UserResponse {
+export interface UserResponse {
   username: string;
 }
 
@@ -54,6 +54,23 @@ export const registerUser = async (user: RegisterUserPayload) => {
 export const logoutUser = async () => {
   try {
     await client.get('/auth/logout', { withCredentials: true });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data.error.message);
+    } else {
+      throw new Error('something went wrong');
+    }
+  }
+};
+
+export const checkUserStatus = async () => {
+  try {
+    const response = await client.get<ApiResponse<UserResponse>>(
+      '/auth/status',
+      { withCredentials: true },
+    );
+
+    return response.data;
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data.error.message);

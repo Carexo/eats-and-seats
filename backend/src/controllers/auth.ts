@@ -2,11 +2,19 @@ import type { Request, Response, NextFunction } from "express";
 import { createUser, loginUser } from "../services/auth";
 import createError from "http-errors";
 import config from "../config";
-import { newToken } from "../utils/auth";
+import { newAccessToken, newRefreshToken, verifyToken } from "../utils/auth";
 import BlackList from "../models/auth/blackList";
+import { loginUserValidator, registerUserValidator } from "../models/auth/user/userValidation";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     const { username, email, password } = req.body;
+
+    const { error } = registerUserValidator.validate({ username, email, password });
+
+    if (error) {
+        next(createError(400, error.message));
+        return;
+    }
 
     if (!username || !email || !password) {
         next(createError(400, "Please provide all fields"));
@@ -16,10 +24,18 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     try {
         const user = await createUser({ username, email, password });
 
-        const token = newToken(user);
+        const accessToken = newAccessToken({ username: user.username, email: user.email });
 
-        res.cookie("jwt_auth", token, {
-            maxAge: config.secrets.jwtExp * 1000,
+        res.cookie(config.constants.JWT_ACCESS, accessToken, {
+            maxAge: config.secrets.accessJwtExp * 1000,
+            httpOnly: true,
+            secure: config.production,
+        });
+
+        const refreshToken = newRefreshToken({ username: user.username, email: user.email });
+
+        res.cookie(config.constants.JWT_REFRESH, refreshToken, {
+            maxAge: config.secrets.refreshJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
         });
@@ -35,6 +51,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+
+    const { error } = loginUserValidator.validate({ email, password });
+
+    if (error) {
+        next(createError(400, error.message));
+        return;
+    }
+
     if (!email || !password) {
         next(createError(400, "Please provide all fields"));
         return;
@@ -43,10 +67,18 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const user = await loginUser(email, password);
 
-        const token = newToken(user);
+        const accessToken = newAccessToken({ username: user.username, email: user.email });
 
-        res.cookie("jwt_auth", token, {
-            maxAge: config.secrets.jwtExp * 1000,
+        res.cookie(config.constants.JWT_ACCESS, accessToken, {
+            maxAge: config.secrets.accessJwtExp * 1000,
+            httpOnly: true,
+            secure: config.production,
+        });
+
+        const refreshToken = newRefreshToken({ username: user.username, email: user.email });
+
+        res.cookie(config.constants.JWT_REFRESH, refreshToken, {
+            maxAge: config.secrets.refreshJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
         });
@@ -61,26 +93,35 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const logout = async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies?.jwt_auth;
+    const accessToken = req.cookies[config.constants.JWT_ACCESS];
+    const refreshToken = req.cookies[config.constants.JWT_REFRESH];
 
-    if (!token) {
-        next(createError(401, "Token was not provided"));
+    if (!accessToken) {
+        next(createError(400, "Token was not provided"));
         return;
     }
 
     try {
-        const checkIfBlacklisted = await BlackList.findOne({ token: token });
+        const checkIfAccessTokenBlacklisted = await BlackList.findOne({ token: accessToken });
 
-        if (checkIfBlacklisted) {
-            next(createError(400, "Token is expired"));
+        if (refreshToken) {
+            const checkIfRefreshTokenBlacklisted = await BlackList.findOne({ token: refreshToken });
+
+            if (!checkIfRefreshTokenBlacklisted) {
+                const newRefreshTokenBlacklist = new BlackList({ token: refreshToken });
+
+                await newRefreshTokenBlacklist.save();
+            }
+        }
+
+        if (checkIfAccessTokenBlacklisted) {
+            next(createError(401, "Token is expired"));
             return;
         }
 
-        const newBlacklist = new BlackList({
-            token: token,
-        });
+        const newAccessTokenBlacklist = new BlackList({ token: accessToken });
 
-        await newBlacklist.save();
+        await newAccessTokenBlacklist.save();
 
         res.setHeader("Clear-Site-Data", '"cookies"');
         res.status(200).json({ message: "You are logged out!" });
@@ -89,4 +130,81 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
     }
 
     res.end();
+};
+
+export const handleRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
+    const refreshToken = req.cookies[config.constants.JWT_REFRESH];
+    const accessToken = req.cookies[config.constants.JWT_ACCESS];
+
+    try {
+        await verifyToken(accessToken);
+        const checkIfBlacklisted = await BlackList.findOne({ token: accessToken });
+
+        if (!checkIfBlacklisted) {
+            const newBlacklist = new BlackList({
+                token: accessToken,
+            });
+
+            await newBlacklist.save();
+        }
+    } catch (err) {}
+
+    if (!refreshToken) {
+        next(createError(400, "Token was not provided"));
+        return;
+    }
+
+    try {
+        const checkIfBlacklisted = await BlackList.findOne({ token: refreshToken });
+
+        if (checkIfBlacklisted) {
+            next(createError(400, "Token is expired"));
+            return;
+        }
+
+        const newBlacklist = new BlackList({
+            token: refreshToken,
+        });
+
+        await newBlacklist.save();
+
+        const decoded = await verifyToken(refreshToken);
+
+        const accessToken = newAccessToken(decoded.user);
+
+        res.cookie(config.constants.JWT_ACCESS, accessToken, {
+            maxAge: config.secrets.accessJwtExp * 1000,
+            httpOnly: true,
+            secure: config.production,
+        });
+
+        const refreshTokenNew = newRefreshToken(decoded.user);
+
+        res.cookie(config.constants.JWT_REFRESH, refreshTokenNew, {
+            maxAge: config.secrets.refreshJwtExp * 1000,
+            httpOnly: true,
+            secure: config.production,
+        });
+
+        res.status(200).json({ message: "Successfully refresh token" });
+    } catch (err) {
+        next(createError(500, "Internal Server Error"));
+    }
+};
+
+export const checkStatus = async (req: Request, res: Response, next: NextFunction) => {
+    const accessToken = req.cookies[config.constants.JWT_ACCESS];
+
+    if (!accessToken) {
+        next(createError(401, "Token was not provided"));
+        return;
+    }
+
+    try {
+        const decoded = await verifyToken(accessToken);
+
+        res.status(200).json({ message: "You are logged in", data: { username: decoded.user.username } });
+    } catch (err) {
+        next(createError(401, "Token is invalid"));
+    }
 };
