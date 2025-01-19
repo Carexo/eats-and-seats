@@ -1,6 +1,6 @@
 import { client } from '../index.ts';
 import { isAxiosError } from 'axios';
-import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types';
+import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
 
 export const getDishes = async () => {
   try {
@@ -72,3 +72,28 @@ export const editDish = async (dishId: string, dish: DishEditPayload) => {
     }
   }
 };
+
+export const addDish = async (dish: DishEditPayload) => {
+    try {
+        const formData = new FormData();
+        formData.append('name', dish.name);
+        formData.append('description', dish.description);
+        formData.append('category', dish.category);
+        formData.append('price', dish.price);
+        if (dish.image) {
+        formData.append('image', dish.image);
+        }
+
+        await client.post('/dishes', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        });
+    } catch (error) {
+        if (isAxiosError(error)) {
+        throw new Error(error?.response?.data.error.message);
+        } else {
+        throw new Error('something went wrong');
+        }
+    }
+}

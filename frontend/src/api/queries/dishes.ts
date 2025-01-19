@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getDishes, getCategories, getDishById, editDish } from '../services/dishes';
-import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types';
+import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types.ts';
 import { useNavigate } from 'react-router';
 import { ActionsContextType } from '../../store/types.ts';
 
@@ -63,3 +63,28 @@ export const useUpdateDish = (
     },
   });
 };
+
+export const useAddDish = (
+    notification: ActionsContextType['notificationSend']) => {
+    const navigate = useNavigate();
+    return useMutation({
+        mutationFn: (dish: DishEditPayload) => addDish(dish),
+        onSuccess: () => {
+            console.log('onSuccess called');
+            notification('success', {
+                title: 'Add successfully',
+                description: 'You have successfully added the dish.',
+            });
+            setTimeout(() => {
+                navigate(`/admin/dishes`);
+            }, 1500);
+        },
+        onError: (error) => {
+            notification('error', {
+                title: 'Add failed',
+                description: error.message,
+            });
+        },
+    });
+
+}

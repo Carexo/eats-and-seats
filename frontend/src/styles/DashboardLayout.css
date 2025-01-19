@@ -1,0 +1,11 @@
+
+.content {
+    margin-left: 180px;
+    transition: margin-left 0.3s;
+}
+
+@media (max-width: 992px) {
+    .content {
+        margin-left: 80px;
+    }
+}

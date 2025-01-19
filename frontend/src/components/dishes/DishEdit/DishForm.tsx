@@ -11,10 +11,8 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Link, useParams } from 'react-router';
-import { DishEditPayload } from './DishEditForm.types';
-import { useUpdateDish } from '../../../api/queries/dishes.ts';
+import { DishEditPayload } from './DishForm.types.ts';
 import { useDish } from '../../../api/queries/dishes.ts';
-import { useActions } from '../../../store/hooks.ts';
 const { TextArea } = Input;
 
 const onChange = (
@@ -23,11 +21,12 @@ const onChange = (
   console.log('Change:', e.target.value);
 };
 
-const DishEditForm = () => {
-  const { notificationSend } = useActions();
-  const { id } = useParams<{ id: string }>();
-  const { mutate } = useUpdateDish(notificationSend, id!);
+interface DishFormProps {
+  mutate: (values: DishEditPayload) => void;
+}
 
+const DishForm: React.FC<DishFormProps> = ({mutate}) => {
+  const { id } = useParams<{ id: string }>();
   const onChangeFile = ({
     fileList: newFileList,
   }: {
@@ -90,7 +89,7 @@ const DishEditForm = () => {
   return (
     <>
       <Form
-        name="Edit"
+        name = {id ? "Edit" : "New Dish"}
         style={{ maxWidth: 360, width: '100%' }}
         onFinish={onFinish}
         layout="vertical"
@@ -161,7 +160,7 @@ const DishEditForm = () => {
           <Button block type="primary" htmlType="submit">
             Zapisz zmiany
           </Button>
-          <Link to={`/admin/dishdetails/${id}`}>
+          <Link to={ id ? `/admin/dishdetails/${id}` : `/admin/dishes`}>
             <Button block type="link">
               Anuluj
             </Button>
@@ -172,4 +171,4 @@ const DishEditForm = () => {
   );
 };
 
-export default DishEditForm;
+export default DishForm;
