@@ -9,7 +9,7 @@ import Layout from './components/Layout.tsx';
 import DishDetails from './pages/Dish/DishDetails.tsx';
 import SignUp from './pages/Auth/Signup/SignUp.tsx';
 import SignIn from './pages/Auth/SignIn/SignIn.tsx';
-import MenuPage from './pages/MenuPage.tsx';
+import MenuPage from './pages/Menu/MenuPage.tsx';
 import AdminDishDetails from './pages/Dashboard/AdminDishDetails';
 import DishEditPage from './pages/Dashboard/DishEditPage';
 import Provider from './store/Provider.tsx';

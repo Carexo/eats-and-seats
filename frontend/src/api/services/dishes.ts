@@ -2,6 +2,39 @@ import { client } from '../index.ts';
 import { isAxiosError } from 'axios';
 import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
 
+export const getDishes = async () => {
+  try {
+    const response = await client.get(`/dishes`);
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error('Failed to fetch dishes.');
+    }
+  }
+};
+
+interface Category {
+  category: string;
+}
+
+export const getCategories = async (): Promise<string[]> => {
+  try {
+    const response = await client.get<Category[]>(`/dishes`);
+    const dishes = response.data;
+    const categories = Array.from(new Set(dishes.map((dish) => dish.category)));
+    return categories;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error('Failed to fetch categories.');
+    }
+  }
+};
+
+
 export const getDishById = async (dishId: string) => {
   try {
     const response = await client.get(`/dishes/${dishId}`);
