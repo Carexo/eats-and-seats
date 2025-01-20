@@ -13,3 +13,15 @@ export const getUsers = async () => {
         }
     }
 };
+
+export const deleteUser = async (userId: string) => {
+    try {
+        await client.delete(`/users/${userId}`);
+    } catch (error) {
+        if (isAxiosError(error)) {
+            throw new Error(error?.response?.data?.message);
+        } else {
+            throw new Error('Failed to delete user.');
+        }
+    }
+}
