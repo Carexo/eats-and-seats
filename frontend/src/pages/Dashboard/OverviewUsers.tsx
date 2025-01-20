@@ -2,20 +2,15 @@ import { useEffect, useState } from 'react';
 import { useUsers } from '../../api/queries/users.ts';
 
 import {
-    Card,
-    Col,
     Row,
     Typography,
     Spin,
     Space,
-    Button,
-    Input,
-    Avatar,
-    Tooltip,
+    Input, FloatButton,
 } from 'antd';
-import { UserOutlined, UserDeleteOutlined } from '@ant-design/icons';
+import UserCard from '../../components/users/UserCard.tsx';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const MenuPage = () => {
     type User = {
@@ -90,48 +85,11 @@ const MenuPage = () => {
             ) : (
                 <Row gutter={[16, 16]} justify="center">
                     {filteredUsers.map((user) => (
-                        <Col key={user._id} xs={24} sm={12} md={8} lg={6}>
-                            <Card
-                                hoverable
-                                style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-                                classNames={{ body: 'dish-card' }}
-                                cover={
-                                    <Avatar
-                                        icon={<UserOutlined />}
-                                    />
-                                }
-                            >
-                                <div style={{ flex: '1', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                                    <Title level={4}>{user.username}</Title>
-                                    <Text type="secondary">{user.email}</Text>
-                                    <Text type="secondary">id: {user._id}</Text>
-                                </div>
-                                <div style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flexGrow: 0,
-                                    marginTop: '40px',
-                                    paddingTop: '10px',
-                                    borderTop: '1px solid #f0f0f0'
-                                }}>
-                                    <div style={{
-                                        marginTop: 'auto',
-                                        paddingTop: '10px',
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between'
-                                    }}>
-                                        <Button size='large' style={{ width: '80%' }} href={`/orders/${user._id}`}>Zobacz zamówienia</Button>
-                                        <Tooltip title="Remove user">
-                                        <Button size='large' style={{width: '18%' }} icon={<UserDeleteOutlined />}></Button>
-                                        </Tooltip>
-                                        </div>
-                                </div>
-                            </Card>
-                        </Col>
+                        <UserCard user={user}/>
                     ))}
                 </Row>
             )}
+            <FloatButton.BackTop />
         </div>
     );
 };
