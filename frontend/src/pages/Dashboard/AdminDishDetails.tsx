@@ -8,7 +8,7 @@ const AdminDishDetails: React.FC = () => {
   return (
     <>
       <DishDetailsElement />
-      <Link to={`/admin/update-dish/${useParams().id}`}>
+      <Link to={`/admin/dishes/edit/${useParams().id}`}>
         <FloatButton icon={<EditOutlined />} tooltip={<div>Edit</div>} />
       </Link>
     </>
