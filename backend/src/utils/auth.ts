@@ -1,15 +1,15 @@
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 import config from "../config";
-import { UserJwtPayload } from "../models/auth/user/user.types";
+import { IUser, UserJwtPayload } from "../models/auth/user/user.types";
 
-export const newAccessToken = (user: UserJwtPayload) => {
-    return sign({ user }, config.secrets.jwt, {
+export const newAccessToken = (user: Omit<IUser, "email" | "password">) => {
+    return sign({ user: { userID: user._id, username: user.username } }, config.secrets.jwt, {
         expiresIn: config.secrets.accessJwtExp,
     });
 };
 
-export const newRefreshToken = (user: UserJwtPayload) => {
-    return sign({ user }, config.secrets.jwt, {
+export const newRefreshToken = (user: Omit<IUser, "email" | "password">) => {
+    return sign({ user: { userID: user._id, username: user.username } }, config.secrets.jwt, {
         expiresIn: config.secrets.refreshJwtExp,
     });
 };

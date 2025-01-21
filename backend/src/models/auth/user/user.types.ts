@@ -1,14 +1,15 @@
 import type { Model } from "mongoose";
 
 export interface IUser {
+    _id: string;
     username: string;
     email: string;
     password: string;
 }
 
 export interface UserJwtPayload {
+    userID: string;
     username: string;
-    email: string;
 }
 
 export interface UserMethods {
