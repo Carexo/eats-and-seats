@@ -40,6 +40,7 @@ const OverviewDishes = () => {
     page: currentPage,
     limit: pageSize,
   });
+  const addToCart = useAddProductToCart();
 
   useEffect(() => {
     if (filteredDishes.length > 0) {
@@ -68,6 +69,10 @@ const OverviewDishes = () => {
 
   const handleSortOrderChange = (value: string) => {
     setSortOrder(value);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
   };
 
   const handlePageChange = (page: number, pageSize?: number) => {
