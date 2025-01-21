@@ -14,13 +14,16 @@ import {
   Input,
   Select,
 } from 'antd';
-import { PlusCircleOutlined, MinusCircleOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import {
+  PlusCircleOutlined,
+  MinusCircleOutlined,
+  ShoppingCartOutlined,
+} from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const MenuPage = () => {
-
   // TODO: THIS HAS TO USE ITS OWN REQUEST AS ITS ABSURDLY SLOW NOW
   const { data: categories = [] } = useCategories();
   const { data: dishes = [], isLoading, error } = useDishes();
@@ -33,7 +36,7 @@ const MenuPage = () => {
   const [sortOrder, setSortOrder] = useState<string>('asc');
 
   useEffect(() => {
-    if (dishes.length>0) {
+    if (dishes.length > 0) {
       setFilteredDishes(dishes);
       const maxPrice = Math.max(...dishes.map((dish: Dish) => dish.price));
       setMaxPrice(maxPrice);
@@ -115,7 +118,6 @@ const MenuPage = () => {
 
       {showFilters && (
         <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-
           <div style={{ marginTop: '20px' }}>
             <Title level={5}>Filtruj według ceny:</Title>
             <Slider
@@ -158,67 +160,94 @@ const MenuPage = () => {
         ))}
       </div>
 
-        {isLoading ? (
-          <Space
-            size="middle"
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '50px',
-            }}
-          >
-            <Spin size="large" />
-          </Space>
-        ) : (
-          <Row gutter={[16, 16]} justify="center">
-            {filteredDishes.map((dish) => (
-              <Col key={dish._id} xs={24} sm={12} md={8} lg={6}>
-                <Card
-                  hoverable
-                  style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-                  classNames={{ body: 'dish-card' }}
-                  cover={
-                    <img
-                      alt={dish.name}
-                      src={dish.image || 'https://via.placeholder.com/300'}
-                      style={{ height: '200px', objectFit: 'cover' }}
-                    />
-                  }
+      {isLoading ? (
+        <Space
+          size="middle"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '50px',
+          }}
+        >
+          <Spin size="large" />
+        </Space>
+      ) : (
+        <Row gutter={[16, 16]} justify="center">
+          {filteredDishes.map((dish) => (
+            <Col key={dish._id} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                hoverable
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+                classNames={{ body: 'dish-card' }}
+                cover={
+                  <img
+                    alt={dish.name}
+                    src={dish.image || 'https://via.placeholder.com/300'}
+                    style={{ height: '200px', objectFit: 'cover' }}
+                  />
+                }
+              >
+                <div
+                  style={{
+                    flex: '1',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                  }}
                 >
-                  <div style={{ flex: '1', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                    <Title level={4}>{dish.name}</Title>
-                    <Text type="secondary">{dish.description}</Text>
-                  </div>
-                  <div style={{
+                  <Title level={4}>{dish.name}</Title>
+                  <Text type="secondary">{dish.description}</Text>
+                </div>
+                <div
+                  style={{
                     display: 'flex',
                     flexDirection: 'column',
                     flexGrow: 0,
                     marginTop: '40px',
                     paddingTop: '10px',
-                    borderTop: '1px solid #f0f0f0'
-                  }}>
-                    <Text strong style={{ fontSize: '20px' }}>
-                      {dish.price} zł
-                    </Text>
-                    <div style={{
+                    borderTop: '1px solid #f0f0f0',
+                  }}
+                >
+                  <Text strong style={{ fontSize: '20px' }}>
+                    {dish.price} zł
+                  </Text>
+                  <div
+                    style={{
                       marginTop: 'auto',
                       paddingTop: '10px',
                       display: 'flex',
                       flexDirection: 'row',
-                      justifyContent: 'space-between'
-                    }}>
-                      <Button size='large' style={{ width: '49%' }} href={`/dishes/${dish.id}`}>Zobacz więcej</Button>
-                      <Button size='large' style={{ width: '49%' }} type="primary" icon={<ShoppingCartOutlined />}>Dodaj
-                        do koszyka</Button>
-                    </div>
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Button
+                      size="large"
+                      style={{ width: '49%' }}
+                      href={`/dishes/${dish.id}`}
+                    >
+                      Zobacz więcej
+                    </Button>
+                    <Button
+                      size="large"
+                      style={{ width: '49%' }}
+                      type="primary"
+                      icon={<ShoppingCartOutlined />}
+                    >
+                      Dodaj do koszyka
+                    </Button>
                   </div>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        )}
-      </div>
-      );
-      };
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
+  );
+};
 
-      export default MenuPage;
+export default MenuPage;

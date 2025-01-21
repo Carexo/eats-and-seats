@@ -13,11 +13,11 @@ import MenuPage from './pages/Menu/MenuPage.tsx';
 import AdminDishDetails from './pages/Dashboard/AdminDishDetails';
 import DishEditPage from './pages/Dashboard/DishEditPage';
 import Provider from './store/Provider.tsx';
-import AddDishPage from "./pages/Dashboard/AddDishPage.tsx";
-import DashboardLayout from "./pages/Dashboard/DashboardLayout.tsx";
-import OverviewUsers from "./pages/Dashboard/OverviewUsers.tsx";
-import OverviewDishes from "./pages/Dashboard/OverviewDishes.tsx";
-import ManageYourAccount from "./pages/Dashboard/ManageYourAccount.tsx";
+import AddDishPage from './pages/Dashboard/AddDishPage.tsx';
+import DashboardLayout from './pages/Dashboard/DashboardLayout.tsx';
+import OverviewUsers from './pages/Dashboard/OverviewUsers.tsx';
+import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
+import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -32,12 +32,12 @@ createRoot(document.getElementById('root')!).render(
               <Route path="menu" element={<MenuPage />} />
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
-              <Route path="account" element={<ManageYourAccount/>}/>
+              <Route path="account" element={<ManageYourAccount />} />
               <Route path="dishes" element={<OverviewDishes />} />
-              <Route path="dishdetails/:id" element={<AdminDishDetails />}/>
-              <Route path="dishes/edit/:id" element={<DishEditPage />}/>
+              <Route path="dishdetails/:id" element={<AdminDishDetails />} />
+              <Route path="dishes/edit/:id" element={<DishEditPage />} />
               <Route path="add-dish/" element={<AddDishPage />} />
-              <Route path="users" element={<OverviewUsers/>} />
+              <Route path="users" element={<OverviewUsers />} />
             </Route>
           </Routes>
         </BrowserRouter>

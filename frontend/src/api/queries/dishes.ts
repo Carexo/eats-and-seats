@@ -1,5 +1,12 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import {getDishes, getCategories, getDishById, editDish, addDish, deleteDish} from '../services/dishes';
+import {
+  getDishes,
+  getCategories,
+  getDishById,
+  editDish,
+  addDish,
+  deleteDish,
+} from '../services/dishes';
 import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
 import { useNavigate } from 'react-router';
 import { ActionsContextType } from '../../store/types.ts';
@@ -18,8 +25,8 @@ export const useDishes = () => {
   return useQuery<Dish[]>({
     queryKey: ['dishes'],
     queryFn: getDishes,
-    refetchOnWindowFocus: true,}
-  );
+    refetchOnWindowFocus: true,
+  });
 };
 
 export const useCategories = () => {
@@ -65,45 +72,46 @@ export const useUpdateDish = (
 };
 
 export const useAddDish = (
-    notification: ActionsContextType['notificationSend']) => {
-    const navigate = useNavigate();
-    return useMutation({
-        mutationFn: (dish: DishEditPayload) => addDish(dish),
-        onSuccess: () => {
-            console.log('onSuccess called');
-            notification('success', {
-                title: 'Add successfully',
-                description: 'You have successfully added the dish.',
-            });
-            setTimeout(() => {
-                navigate(`/admin/dishes`);
-            }, 1500);
-        },
-        onError: (error) => {
-            notification('error', {
-                title: 'Add failed',
-                description: error.message,
-            });
-        },
-    });
-}
+  notification: ActionsContextType['notificationSend'],
+) => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (dish: DishEditPayload) => addDish(dish),
+    onSuccess: () => {
+      console.log('onSuccess called');
+      notification('success', {
+        title: 'Add successfully',
+        description: 'You have successfully added the dish.',
+      });
+      setTimeout(() => {
+        navigate(`/admin/dishes`);
+      }, 1500);
+    },
+    onError: (error) => {
+      notification('error', {
+        title: 'Add failed',
+        description: error.message,
+      });
+    },
+  });
+};
 
 export const useDeleteDish = (
-    notification: ActionsContextType['notificationSend']) => {
-    return useMutation({
-        mutationFn: (dishId: string) => deleteDish(dishId),
-        onSuccess: () => {
-            notification('success', {
-                title: 'Delete successfully',
-                description: 'You have successfully deleted the dish.',
-            });
-        },
-        onError: (error) => {
-            notification('error', {
-                title: 'Delete failed',
-                description: error.message,
-            });
-        },
-    });
-}
-
+  notification: ActionsContextType['notificationSend'],
+) => {
+  return useMutation({
+    mutationFn: (dishId: string) => deleteDish(dishId),
+    onSuccess: () => {
+      notification('success', {
+        title: 'Delete successfully',
+        description: 'You have successfully deleted the dish.',
+      });
+    },
+    onError: (error) => {
+      notification('error', {
+        title: 'Delete failed',
+        description: error.message,
+      });
+    },
+  });
+};
