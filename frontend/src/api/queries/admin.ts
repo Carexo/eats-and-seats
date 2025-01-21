@@ -11,7 +11,10 @@ export const useChangePassword = (
   return useMutation({
     mutationFn: changePassword,
     onSuccess: (data) => {
-      storeLogin(data.data.username);
+      storeLogin({
+        username: data.data.username,
+        role: data.data.role,
+      });
       notification('success', {
         title: 'Changed successfully',
         description: 'You have successfully changed your password.',

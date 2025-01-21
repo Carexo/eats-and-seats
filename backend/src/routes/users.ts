@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/", protectAdmin, getUsers);
 router.delete("/:id", protectAdmin, deleteUser);
-router.patch(":username", protectAdmin, changePassword);
+router.patch("/change-password", protectAdmin, changePassword);
 
 export default router;

@@ -4,12 +4,13 @@ import { ChangePasswordPayload } from '../../components/admin/ChangePassword/Cha
 import { ApiResponse } from '../types.ts';
 import { UserResponse } from './auth.ts';
 
+
 export const changePassword = async (payload: ChangePasswordPayload) => {
   try {
     const response = await client.patch<ApiResponse<UserResponse>>(
       `/users/change-password`,
-      {
-        email: payload.email,
+        {
+        username: payload.username,
         oldPassword: payload.oldPassword,
         newPassword: payload.newPassword,
       },

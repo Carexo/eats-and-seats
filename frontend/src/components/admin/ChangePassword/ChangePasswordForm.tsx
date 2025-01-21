@@ -1,39 +1,43 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { useChangePassword } from '../../../api/queries/admin.ts';
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { LockOutlined } from '@ant-design/icons';
 import { ChangePasswordPayload } from './ChangePassword.types.ts';
-import { useActions } from '../../../store/hooks.ts';
+import {useActions, useAuth} from '../../../store/hooks.ts';
 
 const ChangePasswordForm: React.FC = () => {
+  const [form] = Form.useForm();
   const { loginUser, notificationSend } = useActions();
   const { mutate } = useChangePassword(notificationSend, loginUser);
+  const { username } = useAuth();
 
   const onFinish = async (values: ChangePasswordPayload) => {
-    mutate(values);
+    mutate({
+      username,
+      oldPassword: values.oldPassword,
+      newPassword: values.newPassword
+    }, {
+      onSuccess: () => {
+        form.resetFields();
+      }
+    });
   };
 
   return (
     <Form
+        form = {form}
       name="changePassword"
       onFinish={onFinish}
       layout="vertical"
       style={{ maxWidth: 400, margin: 'auto' }}
     >
       <Form.Item
-        label="Email"
-        name="email"
-        rules={[
-          { required: true, message: 'Please input your email!' },
-          {
-            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: 'Enter a valid email',
-          },
-        ]}
+          label="Old Password"
+          name="oldPassword"
+          rules={[
+            { required: true, message: 'Please input old Password!' },
+          ]}
       >
-        <Input prefix={<MailOutlined />} placeholder="Email" />
-      </Form.Item>
-      <Form.Item label="Old Password" name="oldPassword">
         <Input
           prefix={<LockOutlined />}
           type="password"
