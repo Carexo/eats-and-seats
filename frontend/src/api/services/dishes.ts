@@ -88,6 +88,7 @@ export const addDish = async (dish: DishEditPayload) => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      withCredentials: true,
     });
   } catch (error) {
     if (isAxiosError(error)) {
@@ -100,7 +101,9 @@ export const addDish = async (dish: DishEditPayload) => {
 
 export const deleteDish = async (dishId: string) => {
   try {
-    await client.delete(`/dishes/${dishId}`);
+    await client.delete(`/dishes/${dishId}`, {
+      withCredentials: true,
+    });
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data.message);
