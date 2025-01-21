@@ -1,4 +1,4 @@
-import DishDetailsElement from '../../components/dishes/DishDetailsElement.tsx';
+import DishDetailsElement from '../../components/dishes/SingleDishPageElement/DishDetailsElement.tsx';
 
 const DishDetails = () => {
   return <DishDetailsElement />;

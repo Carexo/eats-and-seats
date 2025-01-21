@@ -4,10 +4,12 @@ import { Dish } from './Dish.types.ts';
 import { useDeleteDish } from '../../../api/queries/dishes.ts';
 import { useNavigate } from 'react-router-dom';
 import { useActions } from "../../../store/hooks.ts";
-import './DishCard.css'; // Import the CSS file
+import './DishCard.css';
+import {useLocation} from "react-router"; // Import the CSS file
 
 const DishCard = ({ dish }: { dish: Dish }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { notificationSend } = useActions();
     const deleteDish = useDeleteDish(notificationSend);
 
