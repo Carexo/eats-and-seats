@@ -1,8 +1,17 @@
-import mongoose from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
-const { Schema, model } = mongoose;
+export interface IDish extends Document {
+    _id: Types.ObjectId;
+    name: string;
+    description?: string;
+    category?: string;
+    price: number;
+    image: Buffer;
+    imageType: string;
+    type: string;
+}
 
-const DishSchema = new Schema(
+const DishSchema = new Schema<IDish>(
     {
         name: {
             type: String,
@@ -36,4 +45,4 @@ const DishSchema = new Schema(
     { timestamps: false },
 );
 
-export const dish = model("dish", DishSchema);
+export const dish = model<IDish>("dish", DishSchema);
