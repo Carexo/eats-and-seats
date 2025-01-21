@@ -170,7 +170,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
 
         const decoded = await verifyToken(refreshToken);
 
-        const accessToken = newAccessToken({ _id: decoded.user.userID, username: decoded.user.username });
+        const accessToken = newAccessToken({ _id: decoded.user.userID, ...decoded.user });
 
         res.cookie(config.constants.JWT_ACCESS, accessToken, {
             maxAge: config.secrets.accessJwtExp * 1000,
@@ -178,7 +178,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
             secure: config.production,
         });
 
-        const refreshTokenNew = newRefreshToken({ _id: decoded.user.userID, username: decoded.user.username });
+        const refreshTokenNew = newRefreshToken({ _id: decoded.user.userID, ...decoded.user });
 
         res.cookie(config.constants.JWT_REFRESH, refreshTokenNew, {
             maxAge: config.secrets.refreshJwtExp * 1000,

@@ -31,6 +31,8 @@ const Layout = () => {
             <>
               <Typography.Text>{auth.username}</Typography.Text>
               <Button onClick={handleLogout}>Logout</Button>
+
+              {auth.role === 'admin' && <Link to="/admin">Dashboard</Link>}
             </>
           ) : (
             <Link to="/auth/signin">Log in</Link>

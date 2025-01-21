@@ -5,7 +5,6 @@ import BlackList from "../models/auth/blackList";
 import config from "../config";
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.cookies);
     const token = req.cookies[config.constants.JWT_ACCESS];
 
     if (!token) {
