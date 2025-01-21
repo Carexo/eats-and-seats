@@ -3,9 +3,11 @@ import { LoginUserPayload } from '../../components/auth/LoginForm/LoginForm.type
 import { isAxiosError } from 'axios';
 import { RegisterUserPayload } from '../../components/auth/RegisterForm/RegisterForm.types.ts';
 import { ApiResponse } from '../types.ts';
+import { authRoles } from '../../store/auth/state.types.ts';
 
 export interface UserResponse {
   username: string;
+  role: authRoles;
 }
 
 export const loginUser = async (user: LoginUserPayload) => {

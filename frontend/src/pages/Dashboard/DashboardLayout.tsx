@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SettingOutlined,
   UserOutlined,
@@ -6,9 +6,11 @@ import {
   ProductOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu, Spin, theme } from 'antd';
 import { Link, Outlet } from 'react-router';
 import '../../styles/DashboardLayout.css';
+import { useActions, useAuth } from '../../store/hooks.ts';
+import { useCheckLoggedStatus } from '../../api/queries/auth.ts';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -44,6 +46,24 @@ const DashboardLayout: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const { loginUser } = useActions();
+  const userStatusMutation = useCheckLoggedStatus(loginUser);
+
+  const auth = useAuth();
+
+  useEffect(() => {
+    userStatusMutation.mutate();
+    // eslint-disable-next-line
+  }, []);
+
+  if (userStatusMutation.isPending) {
+    return <Spin />;
+  }
+
+  if (auth.role !== 'admin') {
+    return <div>Access Denied</div>;
+  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

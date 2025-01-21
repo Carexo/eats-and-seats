@@ -42,7 +42,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
         res.status(201).json({
             message: `User ${user.username} was successfully created`,
-            data: { username: user.username },
+            data: { username: user.username, role: user.role },
         });
     } catch (error: any) {
         next(createError(400, error.message));
@@ -85,7 +85,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
         res.status(201).json({
             message: `User ${user.username} was successfully login`,
-            data: { username: user.username },
+            data: { username: user.username, role: user.role },
         });
     } catch (error: any) {
         next(createError(400, error.message));
@@ -203,7 +203,10 @@ export const checkStatus = async (req: Request, res: Response, next: NextFunctio
     try {
         const decoded = await verifyToken(accessToken);
 
-        res.status(200).json({ message: "You are logged in", data: { username: decoded.user.username } });
+        res.status(200).json({
+            message: "You are logged in",
+            data: { username: decoded.user.username, role: decoded.user.role },
+        });
     } catch (err) {
         next(createError(401, "Token is invalid"));
     }

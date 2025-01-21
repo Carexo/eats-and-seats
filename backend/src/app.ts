@@ -11,7 +11,6 @@ import userRoutes from "./routes/users";
 import { errorHandler } from "./middlewares/error";
 
 import authRoute from "./routes/auth";
-import { protect } from "./middlewares/auth";
 
 const app: Application = express();
 

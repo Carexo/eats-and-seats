@@ -5,11 +5,13 @@ export interface IUser {
     username: string;
     email: string;
     password: string;
+    role?: "user" | "admin";
 }
 
 export interface UserJwtPayload {
     userID: string;
     username: string;
+    role: "user" | "admin";
 }
 
 export interface UserMethods {

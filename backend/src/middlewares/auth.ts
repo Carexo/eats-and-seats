@@ -5,6 +5,7 @@ import BlackList from "../models/auth/blackList";
 import config from "../config";
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.cookies);
     const token = req.cookies[config.constants.JWT_ACCESS];
 
     if (!token) {
@@ -28,4 +29,20 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     } catch (error) {
         next(createError(401, "Invalid token"));
     }
+};
+
+export const protectAdmin = async (req: Request, res: Response, next: NextFunction) => {
+    await protect(req, res, async (err: any) => {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        if (req?.user?.role !== "admin") {
+            next(createError(403, "You are not authorized to access this route"));
+            return;
+        }
+
+        next();
+    });
 };

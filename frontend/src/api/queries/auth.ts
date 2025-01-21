@@ -14,7 +14,7 @@ export const useLogIn = (
   return useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      storeLogin(data.data.username);
+      storeLogin({ username: data.data.username, role: data.data.role });
       notificationSend('success', {
         title: 'Login Successful',
         description: 'You have successfully logged in.',
@@ -36,7 +36,7 @@ export const useRegister = (
   return useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
-      storeLoginUser(data.data.username);
+      storeLoginUser({ username: data.data.username, role: data.data.role });
       notificationSend('success', {
         title: 'Register Successful',
         description: 'You have successfully logged in.',
@@ -79,7 +79,7 @@ export const useCheckLoggedStatus = (
   return useMutation({
     mutationFn: checkUserStatus,
     onSuccess: (data) => {
-      storeLoginUser(data.data.username);
+      storeLoginUser({ username: data.data.username, role: data.data.role });
     },
   });
 };

@@ -3,13 +3,13 @@ import config from "../config";
 import { IUser, UserJwtPayload } from "../models/auth/user/user.types";
 
 export const newAccessToken = (user: Omit<IUser, "email" | "password">) => {
-    return sign({ user: { userID: user._id, username: user.username } }, config.secrets.jwt, {
+    return sign({ user: { userID: user._id, username: user.username, role: user.role } }, config.secrets.jwt, {
         expiresIn: config.secrets.accessJwtExp,
     });
 };
 
 export const newRefreshToken = (user: Omit<IUser, "email" | "password">) => {
-    return sign({ user: { userID: user._id, username: user.username } }, config.secrets.jwt, {
+    return sign({ user: { userID: user._id, username: user.username, role: user.role } }, config.secrets.jwt, {
         expiresIn: config.secrets.refreshJwtExp,
     });
 };

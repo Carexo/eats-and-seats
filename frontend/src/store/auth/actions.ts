@@ -1,9 +1,11 @@
+import { UserPayload } from './state.types.ts';
+
 export const authActions = {
   logoutUser: () => ({ type: 'auth/logout' as const }),
 
-  loginUser: (username: string) => ({
+  loginUser: (user: UserPayload) => ({
     type: 'auth/login' as const,
-    payload: { username: username },
+    payload: { user },
   }),
 };
 
