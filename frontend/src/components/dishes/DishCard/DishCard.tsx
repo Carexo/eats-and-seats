@@ -2,10 +2,9 @@ import { Card, Button, Tooltip, Avatar, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { Dish } from './Dish.types.ts';
 import { useDeleteDish } from '../../../api/queries/dishes.ts';
-import { useNavigate } from 'react-router-dom';
 import { useActions } from "../../../store/hooks.ts";
 import './DishCard.css';
-import {useLocation} from "react-router"; // Import the CSS file
+import {useLocation, useNavigate} from "react-router"; // Import the CSS file
 
 const DishCard = ({ dish }: { dish: Dish }) => {
     const navigate = useNavigate();
