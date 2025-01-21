@@ -1,97 +1,91 @@
 import { useEffect, useState } from 'react';
 import { useUsers } from '../../api/queries/users.ts';
 
-import {
-    Row,
-    Typography,
-    Spin,
-    Space,
-    Input, FloatButton,
-} from 'antd';
+import { Row, Typography, Spin, Space, Input, FloatButton } from 'antd';
 import UserCard from '../../components/users/UserCard.tsx';
 
 const { Title } = Typography;
 
 const MenuPage = () => {
-    type User = {
-        _id: string;
-        username: string;
-        email: string;
+  type User = {
+    _id: string;
+    username: string;
+    email: string;
+  };
+
+  const { data: users = [], isLoading, error } = useUsers();
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  if (error) {
+    console.error('Error fetching users:', error);
+  }
+
+  useEffect(() => {
+    if (users.length > 0) {
+      setFilteredUsers(users);
     }
+  }, [users]);
 
-    const { data: users = [], isLoading, error } = useUsers();
-    const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>('');
+  useEffect(() => {
+    filterUsers();
+  }, [searchTerm]);
 
-    if (error) {
-        console.error('Error fetching users:', error);
+  const filterUsers = () => {
+    let filtered = users || [];
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (user) =>
+          user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
     }
+    setFilteredUsers(filtered);
+  };
 
-    useEffect(() => {
-        if (users.length>0) {
-            setFilteredUsers(users);
-        }
-    }, [users]);
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
 
-    useEffect(() => {
-        filterUsers();
-    }, [searchTerm]);
+  return (
+    <div style={{ padding: '20px' }}>
+      <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
+        Users
+      </Title>
 
-    const filterUsers = () => {
-        let filtered = users || [];
-        if (searchTerm) {
-            filtered = filtered.filter((user) =>
-                user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-            );
-        }
-        setFilteredUsers(filtered);
-    };
+      <Input.Search
+        placeholder="Szukaj użytkownika..."
+        allowClear
+        onSearch={handleSearch}
+        style={{
+          margin: 'auto',
+          marginBottom: '20px',
+          maxWidth: '400px',
+          display: 'block',
+        }}
+      />
 
-    const handleSearch = (value: string) => {
-        setSearchTerm(value);
-    };
-
-    return (
-        <div style={{ padding: '20px' }}>
-            <Title level={2} style={{ textAlign: 'center', marginBottom: '20px' }}>
-                Users
-            </Title>
-
-            <Input.Search
-                placeholder="Szukaj użytkownika..."
-                allowClear
-                onSearch={handleSearch}
-                style={{
-                    margin: 'auto',
-                    marginBottom: '20px',
-                    maxWidth: '400px',
-                    display: 'block',
-
-                }}
-            />
-
-            {isLoading ? (
-                <Space
-                    size="middle"
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        marginTop: '50px',
-                    }}
-                >
-                    <Spin size="large" />
-                </Space>
-            ) : (
-                <Row gutter={[16, 16]} justify="center">
-                    {filteredUsers.map((user) => (
-                        <UserCard user={user}/>
-                    ))}
-                </Row>
-            )}
-            <FloatButton.BackTop />
-        </div>
-    );
+      {isLoading ? (
+        <Space
+          size="middle"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '50px',
+          }}
+        >
+          <Spin size="large" />
+        </Space>
+      ) : (
+        <Row gutter={[16, 16]} justify="center">
+          {filteredUsers.map((user) => (
+            <UserCard user={user} />
+          ))}
+        </Row>
+      )}
+      <FloatButton.BackTop />
+    </div>
+  );
 };
 
 export default MenuPage;

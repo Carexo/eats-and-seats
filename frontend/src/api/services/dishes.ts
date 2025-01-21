@@ -34,7 +34,6 @@ export const getCategories = async (): Promise<string[]> => {
   }
 };
 
-
 export const getDishById = async (dishId: string) => {
   try {
     const response = await client.get(`/dishes/${dishId}`);
@@ -74,38 +73,38 @@ export const editDish = async (dishId: string, dish: DishEditPayload) => {
 };
 
 export const addDish = async (dish: DishEditPayload) => {
-    try {
-        const formData = new FormData();
-        formData.append('name', dish.name);
-        formData.append('description', dish.description);
-        formData.append('category', dish.category);
-        formData.append('price', dish.price);
-        if (dish.image) {
-        formData.append('image', dish.image);
-        }
-
-        await client.post('/dishes', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-        });
-    } catch (error) {
-        if (isAxiosError(error)) {
-        throw new Error(error?.response?.data.error.message);
-        } else {
-        throw new Error('something went wrong');
-        }
+  try {
+    const formData = new FormData();
+    formData.append('name', dish.name);
+    formData.append('description', dish.description);
+    formData.append('category', dish.category);
+    formData.append('price', dish.price);
+    if (dish.image) {
+      formData.append('image', dish.image);
     }
-}
+
+    await client.post('/dishes', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data.error.message);
+    } else {
+      throw new Error('something went wrong');
+    }
+  }
+};
 
 export const deleteDish = async (dishId: string) => {
-    try {
-        await client.delete(`/dishes/${dishId}`);
-    } catch (error) {
-        if (isAxiosError(error)) {
-        throw new Error(error?.response?.data.message);
-        } else {
-        throw new Error('Failed to delete dish.');
-        }
+  try {
+    await client.delete(`/dishes/${dishId}`);
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data.message);
+    } else {
+      throw new Error('Failed to delete dish.');
     }
-}
+  }
+};
