@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     try {
         const user = await createUser({ username, email, password });
 
-        const accessToken = newAccessToken({ username: user.username, email: user.email });
+        const accessToken = newAccessToken(user);
 
         res.cookie(config.constants.JWT_ACCESS, accessToken, {
             maxAge: config.secrets.accessJwtExp * 1000,
@@ -32,7 +32,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             secure: config.production,
         });
 
-        const refreshToken = newRefreshToken({ username: user.username, email: user.email });
+        const refreshToken = newRefreshToken(user);
 
         res.cookie(config.constants.JWT_REFRESH, refreshToken, {
             maxAge: config.secrets.refreshJwtExp * 1000,
@@ -67,7 +67,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const user = await loginUser(email, password);
 
-        const accessToken = newAccessToken({ username: user.username, email: user.email });
+        const accessToken = newAccessToken(user);
 
         res.cookie(config.constants.JWT_ACCESS, accessToken, {
             maxAge: config.secrets.accessJwtExp * 1000,
@@ -75,7 +75,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             secure: config.production,
         });
 
-        const refreshToken = newRefreshToken({ username: user.username, email: user.email });
+        const refreshToken = newRefreshToken(user);
 
         res.cookie(config.constants.JWT_REFRESH, refreshToken, {
             maxAge: config.secrets.refreshJwtExp * 1000,
@@ -170,7 +170,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
 
         const decoded = await verifyToken(refreshToken);
 
-        const accessToken = newAccessToken(decoded.user);
+        const accessToken = newAccessToken({ _id: decoded.user.userID, username: decoded.user.username });
 
         res.cookie(config.constants.JWT_ACCESS, accessToken, {
             maxAge: config.secrets.accessJwtExp * 1000,
@@ -178,7 +178,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
             secure: config.production,
         });
 
-        const refreshTokenNew = newRefreshToken(decoded.user);
+        const refreshTokenNew = newRefreshToken({ _id: decoded.user.userID, username: decoded.user.username });
 
         res.cookie(config.constants.JWT_REFRESH, refreshTokenNew, {
             maxAge: config.secrets.refreshJwtExp * 1000,

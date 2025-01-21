@@ -2,29 +2,41 @@ import { Request, Response, NextFunction } from "express";
 import { Opinion } from "../models/opinion/opinion";
 import createError from "http-errors";
 import mongoose from "mongoose";
-import axios from "axios";
+import { opinionValidator } from "../models/opinion/opinionValidation";
+import { isUserPresent } from "../services/user";
+import { isDishPresent } from "../services/dish";
+import { IUser } from "../models/auth/user/user.types";
 
 export const addOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { dish_id, rating, description } = req.body;
+
+    const { error } = opinionValidator.validate({ dish_id, rating });
+
+    if (error) {
+        next(createError(400, error.message));
+        return;
+    }
+
+    if (!req?.user || !req.user?.userID) {
+        next(createError(400, "User is not logged in"));
+        return;
+    }
+
     try {
-        const { user_id, dish_id, rating, description } = req.body;
+        const isUser = await isUserPresent(req.user.userID);
 
-        if (!user_id || !dish_id || !rating) {
-            next(createError(400, "Please provide all required fields"));
-            return;
+        if (!isUser) {
+            next(createError(404, "User not found"));
         }
 
-        if (rating < 0 || rating > 5) {
-            next(createError(400, "Rating must be between 0 and 5"));
-            return;
-        }
+        const isDish = await isDishPresent(dish_id);
 
-        const opinionatedDish = await axios.get(`http://localhost:3000/api/dishes/${dish_id}`);
-        if (!opinionatedDish) {
+        if (!isDish) {
             next(createError(404, "Dish not found"));
             return;
         }
 
-        const newOpinion = new Opinion({ user_id, dish_id, rating, description });
+        const newOpinion = new Opinion({ user: req.user.userID, dish_id, rating, description });
         await newOpinion.save();
 
         res.status(201).json({ message: "Opinion added successfully.", opinion: newOpinion });
@@ -41,9 +53,17 @@ export const getOpinionsByDishId = async (req: Request, res: Response, next: Nex
             next(createError(400, "Invalid ID"));
         }
 
-        const opinions = await Opinion.find({ dish_id });
+        const opinions = await Opinion.find({ dish_id }).populate<{ user: IUser }>("user");
 
-        res.status(200).json({ opinions });
+        res.status(200).json({
+            message: "Successfully get opinions",
+            data: opinions.map((opinion) => ({
+                opinionID: opinion._id,
+                rating: opinion.rating,
+                description: opinion.description,
+                username: opinion?.user?.username,
+            })),
+        });
     } catch (error: any) {
         next(createError(500, error.message));
     }

@@ -1,7 +1,7 @@
 import { IUser } from "../models/auth/user/user.types";
 import { User } from "../models/auth/user/user";
 
-export const createUser = async (userData: IUser) => {
+export const createUser = async (userData: Omit<IUser, "_id">) => {
     try {
         return await User.create({ ...userData });
     } catch (error) {
