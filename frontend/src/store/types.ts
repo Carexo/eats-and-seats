@@ -3,8 +3,10 @@ import {
   NotificationTypes,
 } from './notification/state.types.ts';
 
+import { UserPayload } from './auth/state.types.ts';
+
 export type ActionsContextType = {
-  loginUser: (username: string) => void;
+  loginUser: (user: UserPayload) => void;
   logoutUser: () => void;
   notificationSend: (
     type: NotificationTypes,

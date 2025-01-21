@@ -1,8 +1,8 @@
-import {NextFunction, Request, Response} from "express";
-import {User} from "../models/auth/user/user";
+import { NextFunction, Request, Response } from "express";
+import { User } from "../models/auth/user/user";
 import createError from "http-errors";
 import bcrypt from "bcrypt";
-import { loginUserValidator} from "../models/auth/user/userValidation";
+import { loginUserValidator } from "../models/auth/user/userValidation";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,7 +21,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     } catch (error: any) {
         next(createError(500, error.message));
     }
-}
+};
 
 export const changePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {

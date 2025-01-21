@@ -62,6 +62,7 @@ export const editDish = async (dishId: string, dish: DishEditPayload) => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      withCredentials: true,
     });
   } catch (error) {
     if (isAxiosError(error)) {

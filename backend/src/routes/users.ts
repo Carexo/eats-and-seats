@@ -1,13 +1,11 @@
 import express from "express";
-import {
-    getUsers,
-    deleteUser, changePassword,
-} from "../controllers/users";
+import { getUsers, deleteUser, changePassword } from "../controllers/users";
+import { protectAdmin } from "../middlewares/auth";
 
 const router = express.Router();
 
-router.get("/", getUsers);
-router.delete("/:id", deleteUser);
-router.patch(":username", changePassword)
+router.get("/", protectAdmin, getUsers);
+router.delete("/:id", protectAdmin, deleteUser);
+router.patch(":username", protectAdmin, changePassword);
 
 export default router;

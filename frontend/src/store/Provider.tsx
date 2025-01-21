@@ -9,6 +9,13 @@ import {
   NotificationMessage,
   NotificationTypes,
 } from './notification/state.types.ts';
+import { AuthState, UserPayload } from './auth/state.types.ts';
+
+const initialAuthState: AuthState = {
+  isLogged: false,
+  username: '',
+  role: 'guest',
+};
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const [api, contextHolder] = notification.useNotification();
@@ -18,22 +25,19 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
   });
   const notificationDispatch = reducerNotification[1];
 
-  const [auth, authDispatch] = useReducer(authReducer, {
-    isLogged: false,
-    username: '',
-  });
+  const [auth, authDispatch] = useReducer(authReducer, initialAuthState);
 
   const actions = useMemo(
     () => ({
-      loginUser: (username: string) =>
-        authDispatch(authActions.loginUser(username)),
+      loginUser: (user: UserPayload) =>
+        authDispatch(authActions.loginUser(user)),
       logoutUser: () => authDispatch(authActions.logoutUser()),
       notificationSend: (
         type: NotificationTypes,
         message: NotificationMessage,
       ) => notificationDispatch(notificationActions.send(type, message)),
     }),
-    [authDispatch],
+    [authDispatch, notificationDispatch],
   );
 
   return (
