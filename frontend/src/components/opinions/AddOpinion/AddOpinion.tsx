@@ -12,8 +12,6 @@ const AddOpinion = () => {
   const { mutate } = useAddOpinion(notificationSend);
 
   const onFinish = (values: OpinionPayload) => {
-    console.log(values);
-
     mutate({ dishID: dishID || '', opinion: values });
   };
 

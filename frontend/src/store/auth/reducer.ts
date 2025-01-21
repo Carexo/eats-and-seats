@@ -3,7 +3,6 @@ import { AuthState } from './state.types.ts';
 
 export const authReducer = (state: AuthState, action: AuthActions) => {
   if (action.type === 'auth/login') {
-    console.log(action.payload.user);
     return {
       ...state,
       username: action.payload.user.username,
