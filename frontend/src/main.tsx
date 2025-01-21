@@ -17,6 +17,7 @@ import AddDishPage from "./pages/Dashboard/AddDishPage.tsx";
 import DashboardLayout from "./pages/Dashboard/DashboardLayout.tsx";
 import OverviewUsers from "./pages/Dashboard/OverviewUsers.tsx";
 import OverviewDishes from "./pages/Dashboard/OverviewDishes.tsx";
+import ManageYourAccount from "./pages/Dashboard/ManageYourAccount.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="menu" element={<MenuPage />} />
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
+              <Route path="account" element={<ManageYourAccount/>}/>
               <Route path="dishes" element={<OverviewDishes />} />
               <Route path="dishdetails/:id" element={<AdminDishDetails />}/>
               <Route path="dishes/edit/:id" element={<DishEditPage />}/>

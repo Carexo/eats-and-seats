@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router';
 import {Card, Typography, Spin, Alert, Button, Rate, Tooltip} from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
-import { useDish } from '../../api/queries/dishes.ts';
+import { useDish } from '../../../api/queries/dishes.ts';
 
 const { Title, Paragraph } = Typography;
 

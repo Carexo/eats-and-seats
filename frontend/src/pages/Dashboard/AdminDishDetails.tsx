@@ -1,17 +1,23 @@
 import React from 'react';
-import DishDetailsElement from '../../components/dishes/DishDetailsElement.tsx';
+import DishDetailsElement from '../../components/dishes/SingleDishPageElement/DishDetailsElement.tsx';
 import { FloatButton } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
-import { Link, useParams } from 'react-router';
+import { useParams, useNavigate, useLocation } from 'react-router';
 
 const AdminDishDetails: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { id } = useParams<{ id: string }>();
+
+    const handleEditClick = () => {
+        navigate(`/admin/dishes/edit/${id}`, { state: { from: location.pathname } });
+    };
+
   return (
-    <>
-      <DishDetailsElement />
-      <Link to={`/admin/dishes/edit/${useParams().id}`}>
-        <FloatButton icon={<EditOutlined />} tooltip={<div>Edit</div>} />
-      </Link>
-    </>
+      <>
+          <DishDetailsElement />
+          <FloatButton icon={<EditOutlined />} tooltip={<div>Edit</div>} onClick={handleEditClick} />
+      </>
   );
 };
 
