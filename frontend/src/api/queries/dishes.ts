@@ -30,10 +30,9 @@ export const useDishes = () => {
 };
 
 export const useCategories = () => {
-  return useQuery<string[]>({
+  return useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
-    refetchOnWindowFocus: true,
   });
 };
 

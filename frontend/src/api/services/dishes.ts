@@ -15,16 +15,10 @@ export const getDishes = async () => {
   }
 };
 
-interface Category {
-  category: string;
-}
-
-export const getCategories = async (): Promise<string[]> => {
+export const getCategories = async () => {
   try {
-    const response = await client.get<Category[]>(`/dishes`);
-    const dishes = response.data;
-    const categories = Array.from(new Set(dishes.map((dish) => dish.category)));
-    return categories;
+    const response = await client.get('/dishes/categories');
+    return response.data;
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error?.response?.data?.message);
