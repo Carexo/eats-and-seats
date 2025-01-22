@@ -12,6 +12,7 @@ export interface CartDocument extends Document {
     products: Product[];
     active: boolean;
     modifiedOn: Date;
+    total: number;
 }
 
 const CartSchema = new Schema<CartDocument>(
@@ -32,6 +33,11 @@ const CartSchema = new Schema<CartDocument>(
         active: {
             type: Boolean,
             default: true,
+        },
+        total: {
+            type: Number,
+            required: true,
+            min: 0,
         },
         modifiedOn: {
             type: Date,

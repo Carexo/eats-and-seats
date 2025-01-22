@@ -1,4 +1,3 @@
-
 export interface IDish {
     _id: string;
     name: string;

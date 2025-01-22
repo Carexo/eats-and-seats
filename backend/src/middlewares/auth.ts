@@ -45,3 +45,14 @@ export const protectAdmin = async (req: Request, res: Response, next: NextFuncti
         next();
     });
 };
+
+export const optionalProtect = async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies[config.constants.JWT_ACCESS];
+
+    if (!token) {
+        next();
+        return;
+    }
+
+    await protect(req, res, next);
+};

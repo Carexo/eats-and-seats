@@ -20,6 +20,7 @@ import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
 import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
 import UserChangePasswordPage from "./pages/User/UserChangePasswordPage.tsx";
 
+
 createRoot(document.getElementById('root')!).render(
     <Provider>
       <QueryClientProvider client={queryClient}>

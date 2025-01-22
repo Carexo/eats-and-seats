@@ -8,7 +8,7 @@ export const getCartByUserID = (userId: string) => {
 const getCartView = (cart: CartDocument) => {
     return {
         products: cart.products,
-        total: cart.products.reduce((acc, product) => acc + product.price * product.quantity, 0),
+        total: cart.total,
     };
 };
 
@@ -32,6 +32,8 @@ export const addDish = async (userId: string, dish: IDish, quantity: number) => 
             cart.products.push({ dishId: dish._id, quantity, name: dish.name, price: dish.price });
         }
 
+        cart.total = cart.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+
         await cart.save();
 
         return getCartView(cart);
@@ -53,6 +55,8 @@ export const removeDish = async (userId: string, dishId: string) => {
 
     cart.products.splice(productIndex, 1);
 
+    cart.total = cart.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+
     await cart.save();
     return getCartView(cart);
 };
@@ -71,6 +75,8 @@ export const updateDish = async (userId: string, dishId: string, quantity: numbe
     }
 
     cart.products[productIndex].quantity = quantity;
+
+    cart.total = cart.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
 
     await cart.save();
 

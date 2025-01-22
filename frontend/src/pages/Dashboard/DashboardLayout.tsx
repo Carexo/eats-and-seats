@@ -5,7 +5,7 @@ import {
   CloudUploadOutlined,
   ProductOutlined,
   UnorderedListOutlined,
-    FormOutlined,
+  FormOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, theme } from 'antd';
 import { Link, Outlet } from 'react-router';
