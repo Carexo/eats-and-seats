@@ -1,20 +1,19 @@
 import { Card, Button, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Dish } from './Dish.types.ts';
-import './MenuDishCard.css';
-// import { useAddProductToCart } from '../../../hooks/cart/useAddProductToCart.ts';
-// import { Product } from '../../../store/cart/state.types.ts';
+//import './MenuDishCard.css';
+import { useAddProductToCart } from '../../../hooks/cart/useAddProductToCart.ts';
+import { Product } from '../../../store/cart/state.types.ts';
 const { Title, Text } = Typography;
 
 const MenuDishCard = ({ dish }: { dish: Dish }) => {
-  // const addToCart = useAddProductToCart();
-  // const handleAddToCart = (product: Product) => {
-  //     addToCart(product);
-  // };
+  const addToCart = useAddProductToCart();
+  const handleAddToCart = (product: Product) => {
+      addToCart(product);
+  };
 
   return (
     <Card
-      hoverable
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -74,14 +73,14 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
             style={{ width: '49%' }}
             type="primary"
             icon={<ShoppingCartOutlined />}
-            // onClick={() =>
-            //     handleAddToCart({
-            //         dishId: dish.id,
-            //         quantity: 1,
-            //         price: dish.price,
-            //         name: dish.name,
-            //     })
-            // }
+            onClick={() =>
+                handleAddToCart({
+                    dishId: dish.id,
+                    quantity: 1,
+                    price: dish.price,
+                    name: dish.name,
+                })
+            }
           >
             Dodaj do koszyka
           </Button>

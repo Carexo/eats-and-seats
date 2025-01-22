@@ -1,15 +1,15 @@
-import { Button, Typography } from 'antd';
+import {Button, Drawer, Typography} from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import CartItem from './CartItem/CartItem.tsx';
 import { useCart } from '../../store/hooks.ts';
-import { useEffect, useRef, useState } from 'react';
+import {useRef, useState } from 'react';
 
 const Cart = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const cartRef = useRef<HTMLDivElement>(null);
   const cart = useCart();
 
-  useEffect(() => {
+  /*useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
         setIsCartOpen(false);
@@ -19,7 +19,7 @@ const Cart = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, []);*/
 
   const items = cart.products.map((item) => (
     <CartItem
@@ -42,11 +42,15 @@ const Cart = () => {
       <Button onClick={handleOpenCart}>
         <ShoppingCartOutlined className="cart-icon" />
       </Button>
-      {isCartOpen && (
-        <div className="cart-dropdown">
-          {items.length > 1 ? items : <p>Your cart is empty</p>}
-        </div>
-      )}
+          <Drawer
+              title="Koszyk"
+              className={"menu_drawer"}
+              placement="right"
+              closable={false}
+              open={isCartOpen}
+              onClose={handleOpenCart}>
+            {items.length > 1 ? items : <p>Your cart is empty</p>}
+          </Drawer>
     </div>
   );
 };
