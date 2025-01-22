@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Typography } from 'antd';
-import ChangePasswordForm from '../../components/admin/ChangePassword/ChangePasswordForm.tsx';
+import ChangePasswordForm from '../../components/auth/ChangePassword/ChangePasswordForm.tsx';
 import { useAuth } from '../../store/hooks.ts';
 const { Paragraph } = Typography;
 
