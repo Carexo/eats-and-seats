@@ -47,10 +47,12 @@ const CartItem = ({ dishId, name, price, quantity }: CartItemProps) => {
           </Typography.Text>
         }
         description={
-            <Space direction="vertical">
-                <Typography.Text strong>Price: ${price.toFixed(2)}</Typography.Text>
-                <Typography.Text strong>Total: ${(price * quantity).toFixed(2)}</Typography.Text>
-            </Space>
+          <Space direction="vertical">
+            <Typography.Text strong>Price: ${price.toFixed(2)}</Typography.Text>
+            <Typography.Text strong>
+              Total: ${(price * quantity).toFixed(2)}
+            </Typography.Text>
+          </Space>
         }
       />
     </List.Item>

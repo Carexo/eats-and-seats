@@ -15,6 +15,10 @@ export const useAddProductToCart = () => {
   } else {
     return (product: Product) => {
       addProduct(product);
+      notificationSend('success', {
+        title: 'Product added to cart',
+        description: 'Product added to cart successfully',
+      });
     };
   }
 };

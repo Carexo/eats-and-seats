@@ -5,12 +5,12 @@ import {
   logoutUser,
   registerUser,
 } from '../services/auth.ts';
-import {useNavigate} from "react-router";
-import {useActions} from "../../store/hooks.ts";
+import { useNavigate } from 'react-router';
+import { useActions } from '../../store/hooks.ts';
 
 export const useLogIn = () => {
   const navigate = useNavigate();
-  const {notificationSend, loginUser: storeLoginUser} = useActions();
+  const { notificationSend, loginUser: storeLoginUser } = useActions();
 
   return useMutation({
     mutationFn: loginUser,
@@ -35,7 +35,7 @@ export const useLogIn = () => {
 
 export const useRegister = () => {
   const navigate = useNavigate();
-  const {notificationSend, loginUser: storeLoginUser} = useActions();
+  const { notificationSend, loginUser: storeLoginUser } = useActions();
 
   return useMutation({
     mutationFn: registerUser,
@@ -46,9 +46,9 @@ export const useRegister = () => {
         description: 'You have successfully logged in.',
       });
 
-        setTimeout(() => {
-            navigate(`/`);
-        }, 1000);
+      setTimeout(() => {
+        navigate(`/`);
+      }, 1000);
     },
     onError: (error) => {
       notificationSend('error', {
@@ -59,10 +59,8 @@ export const useRegister = () => {
   });
 };
 
-export const useLogout = (
-) => {
-
-  const {notificationSend, logoutUser : storeLogoutUser} = useActions();
+export const useLogout = () => {
+  const { notificationSend, logoutUser: storeLogoutUser } = useActions();
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
@@ -82,7 +80,7 @@ export const useLogout = (
 };
 
 export const useCheckLoggedStatus = () => {
-  const {loginUser: storeLoginUser} = useActions();
+  const { loginUser: storeLoginUser } = useActions();
 
   return useMutation({
     mutationFn: checkUserStatus,

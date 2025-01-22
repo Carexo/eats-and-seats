@@ -1,9 +1,13 @@
-export interface checkoutPayload {
-    firstName: string;
-    lastName: string;
-    email: string;
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
+export interface CheckoutFormPayload extends Address {
+  email?: string;
+}
+
+export interface Address {
+  firstName: string;
+  lastName: string;
+  street: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
 }

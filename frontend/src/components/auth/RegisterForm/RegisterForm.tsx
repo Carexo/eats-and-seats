@@ -5,7 +5,6 @@ import { RegisterUserPayload } from './RegisterForm.types.ts';
 import { useRegister } from '../../../api/queries/auth.ts';
 
 const RegisterForm = () => {
-
   const { mutate } = useRegister();
 
   const onFinish = (values: RegisterUserPayload) => {
