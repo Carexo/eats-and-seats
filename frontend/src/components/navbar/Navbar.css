@@ -23,7 +23,6 @@
 .button-important span {
     color: #3e91f7;
     border: none;
-    text-align: center;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
@@ -85,7 +84,6 @@
 .menu__mobile-button {
     height: 32px;
     padding: 6px;
-    margin-top: 8px;
     display: none !important; /* use of important to overwrite ant-btn */
     background: #3e91f7;
 }
@@ -105,6 +103,7 @@
         justify-content: flex-end;
     }
     .menu__mobile-button {
+        margin: 10px;
         display: inline-block !important;
     }
 

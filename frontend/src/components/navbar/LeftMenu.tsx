@@ -1,14 +1,8 @@
 import {Menu} from "antd";
 import {useAuth} from "../../store/hooks.ts";
 
-
-
-
 const LeftMenu = (props) => {
-
     const auth = useAuth();
-
-
 
     return (
         <Menu mode={props.mode}>
