@@ -1,5 +1,4 @@
 import { Button, Row, Col, Typography } from "antd";
-import React from "react";
 import "./HomePage.css";
 
 const { Title, Paragraph } = Typography;

@@ -3,8 +3,9 @@ import {Menu} from "antd";
 import {useActions, useAuth} from "../../store/hooks.ts";
 import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
 import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
+import type { MenuProps } from "antd";
 
-const RightMenu = (props) => {
+const RightMenu = (props: { mode: MenuProps['mode'] | undefined; }) => {
 
     const { loginUser, logoutUser, notificationSend } = useActions();
     const userStatusMutation = useCheckLoggedStatus(loginUser);
@@ -29,22 +30,26 @@ const RightMenu = (props) => {
         // eslint-disable-next-line
     }, [auth]);
 
-    return (
-        <Menu mode={props.mode}>
-            {auth.isLogged ? (
-                <>
-                    <Menu.Item className={"button-important"}>
-                        <a onClick={handleLogout}>Log out</a>
-                    </Menu.Item></>
-            ) : (<><Menu.Item>
-                    <a href="/auth/signin">Sign in</a>
-                </Menu.Item>
-                    <Menu.Item className={"button-important"}>
-                        <a href="/auth/signup">Sign up</a>
-                    </Menu.Item></>
-            )}
+    const items: MenuProps['items'] = auth.isLogged ? [
+        {
+            label: <a onClick={handleLogout}>Log out</a>,
+            key: 'logout',
+            className: "button-important"
+        }
+    ] : [
+        {
+            label: <a href="/auth/signin">Sign in</a>,
+            key: 'signin'
+        },
+        {
+            label: <a href="/auth/signup">Sign up</a>,
+            key: 'signup',
+            className: "button-important"
+        }
+    ];
 
-        </Menu>
+    return (
+        <Menu mode={props.mode} items={items}/>
     )
 }
 
