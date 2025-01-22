@@ -5,6 +5,7 @@ import {
   CloudUploadOutlined,
   ProductOutlined,
   UnorderedListOutlined,
+    FormOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, theme } from 'antd';
 import { Link, Outlet } from 'react-router';
@@ -39,6 +40,11 @@ const items = [
     key: '5',
     icon: <UserOutlined />,
     label: <Link to="/admin/users">Overview Users</Link>,
+  },
+  {
+    key: '6',
+    icon: <FormOutlined />,
+    label: <Link to="/admin/opinions">Manage opinions</Link>,
   },
 ];
 
