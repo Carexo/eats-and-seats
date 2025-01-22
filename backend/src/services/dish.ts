@@ -1,4 +1,5 @@
 import { dish } from "../models/dish/dish";
+import {Types} from "mongoose";
 
 export const getDishByID = async (dishID: string) => {
     try {
@@ -30,5 +31,15 @@ export const isDishPresent = async (dishID: string) => {
         return true;
     } catch (error: any) {
         return false;
+    }
+};
+
+export const getDishes = async (dishIds: Types.ObjectId[]) => {
+    try {
+        const dishes = await dish.find({ _id: { $in: dishIds } });
+
+        return dishes;
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 };
