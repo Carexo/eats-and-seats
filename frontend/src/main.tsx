@@ -17,10 +17,8 @@ import DashboardLayout from './pages/Dashboard/DashboardLayout.tsx';
 import OverviewUsers from './pages/Dashboard/OverviewUsers.tsx';
 import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
-import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
-import HomePage from "./pages/Home/HomePage.tsx";
-import UserChangePasswordPage from "./pages/User/UserChangePasswordPage.tsx";
-
+import ManageOpinionsPage from './pages/Dashboard/ManageOpinionsPage.tsx';
+import Checkout from './pages/Checkout/Checkout.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <Provider>
@@ -36,6 +34,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="user/account" element={<UserChangePasswordPage/>} />
               {/*<Route path="user/opinions" element={<UserOpinionsPage />} />*/}
               {/*<Route path="user/orders" element={<UserOrdersPage />} />*/}
+              <Route path="checkout" element={<Checkout />} />
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
               <Route path="account" element={<ManageYourAccount />} />

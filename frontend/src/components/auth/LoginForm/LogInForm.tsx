@@ -4,11 +4,9 @@ import { Link } from 'react-router';
 import { LoginUserPayload } from './LoginForm.types.ts';
 
 import { useLogIn } from '../../../api/queries/auth.ts';
-import { useActions } from '../../../store/hooks.ts';
 
 const LogInForm = () => {
-  const { loginUser, notificationSend } = useActions();
-  const { mutate } = useLogIn(notificationSend, loginUser);
+  const { mutate } = useLogIn();
 
   const onFinish = async (values: LoginUserPayload) => {
     mutate(values);

@@ -19,6 +19,7 @@ export const addDish = async (userId: string, dish: IDish, quantity: number) => 
         const newCart = new Cart({
             userId: userId,
             products: [{ dishId: dish._id, quantity, name: dish.name, price: dish.price }],
+            total: dish.price * quantity,
         });
 
         await newCart.save();
