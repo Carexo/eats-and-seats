@@ -1,13 +1,15 @@
 .dish-card {
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+  flex-grow: 1;
+  box-shadow: none;
 }
 
-.dish-card:hover {
+/* .dish-card:hover {
   transform: scale(1.05);
-}
+} */
 
 .dish-image {
   height: 200px;

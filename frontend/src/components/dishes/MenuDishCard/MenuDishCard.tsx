@@ -14,7 +14,6 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
 
   return (
     <Card
-      hoverable
       style={{
         display: 'flex',
         flexDirection: 'column',
