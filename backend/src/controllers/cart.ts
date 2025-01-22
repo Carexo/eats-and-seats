@@ -23,9 +23,9 @@ export const addDishToCart = async (req: Request, res: Response, next: NextFunct
             return;
         }
 
-        await addDish(req.user.userID, dish, quantity);
+        const cartView = await addDish(req.user.userID, dish, quantity);
 
-        res.status(201).json({ message: "Dish added to cart" });
+        res.status(201).json({ message: "Dish added to cart", data: cartView });
     } catch (error: any) {
         next(createError(500, error.message));
     }
@@ -60,9 +60,9 @@ export const removeDishFromCart = async (req: Request, res: Response, next: Next
     }
 
     try {
-        await removeDish(req.user.userID, dishId);
+        const cartView = await removeDish(req.user.userID, dishId);
 
-        res.json({ message: "Dish removed from cart" });
+        res.json({ message: "Dish removed from cart", data: cartView });
     } catch (error: any) {
         next(createError(500, error.message));
     }
@@ -85,9 +85,9 @@ export const updateDishQuantity = async (req: Request, res: Response, next: Next
     }
 
     try {
-        await updateDish(req.user.userID, dishId, quantity);
+        const cartView = await updateDish(req.user.userID, dishId, quantity);
 
-        res.json({ message: "Dish quantity updated" });
+        res.json({ message: "Dish quantity updated", data: cartView });
     } catch (error: any) {
         next(createError(500, error.message));
     }

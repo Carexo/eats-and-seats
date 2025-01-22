@@ -13,7 +13,7 @@ import {
 } from "../controllers/dishes";
 
 const router = express.Router();
-import {optimizeImage, uploadImage} from "../middlewares/uploadImage";
+import { optimizeImage, uploadImage } from "../middlewares/uploadImage";
 import { protectAdmin } from "../middlewares/auth";
 
 router.post("/", protectAdmin, uploadImage.single("image"), optimizeImage, addDish);
@@ -26,6 +26,5 @@ router.put("/:id", protectAdmin, uploadImage.single("image"), optimizeImage, upd
 router.put("/name/:name", protectAdmin, uploadImage.single("image"), optimizeImage, updateDishByName);
 router.delete("/:id", protectAdmin, deleteDishById);
 router.delete("/name/:name", protectAdmin, deleteDishByName);
-
 
 export default router;

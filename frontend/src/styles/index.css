@@ -1,3 +1,24 @@
 body {
   margin: 0;
 }
+
+.cart-container {
+  position: relative;
+}
+
+.cart-icon {
+  font-size: 2rem;
+}
+
+.cart-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9999;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
