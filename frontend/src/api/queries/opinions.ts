@@ -34,27 +34,28 @@ export const useAddOpinion = (
 
 export const useDeleteOpinion = (
     notification: ActionsContextType['notificationSend'],
-    ) => {
+) => {
     return useMutation({
         mutationFn: deleteOpinion,
         onSuccess: () => {
-        notification('success', {
-            title: 'Delete Opinion',
-            description: 'Opinion successfully deleted.',
-        });
+            notification('success', {
+                title: 'Delete Opinion',
+                description: 'Opinion successfully deleted.',
+            });
         },
         onError: (error) => {
-        notification('error', {
-            title: 'Deletion failed',
-            description: error.message,
-        });
+            notification('error', {
+                title: 'Deletion failed',
+                description: error.message,
+            });
         },
-    })};
+    });
+};
 
-export const useAllOpinions = () => {
+export const useAllOpinions = (sort? : string) => {
     return useQuery({
-        queryKey: ['opinions'],
-        queryFn: () => getOpinions(),
+        queryKey: ['opinions', sort||'default'],
+        queryFn: () => getOpinions(sort||''),
         refetchOnWindowFocus: true,
     });
 }
