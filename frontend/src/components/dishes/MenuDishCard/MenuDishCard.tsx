@@ -2,14 +2,14 @@ import { Card, Button, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Dish } from './Dish.types.ts';
 import './MenuDishCard.css';
-import {useAddProductToCart} from "../../../hooks/cart/useAddProductToCart.ts";
-import {Product} from "../../../store/cart/state.types.ts";
+import { useAddProductToCart } from '../../../hooks/cart/useAddProductToCart.ts';
+import { Product } from '../../../store/cart/state.types.ts';
 const { Title, Text } = Typography;
 
 const MenuDishCard = ({ dish }: { dish: Dish }) => {
   const addToCart = useAddProductToCart();
   const handleAddToCart = (product: Product) => {
-      addToCart(product);
+    addToCart(product);
   };
 
   return (
@@ -74,12 +74,12 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
             type="primary"
             icon={<ShoppingCartOutlined />}
             onClick={() =>
-                handleAddToCart({
-                    dishId: dish.id,
-                    quantity: 1,
-                    price: dish.price,
-                    name: dish.name,
-                })
+              handleAddToCart({
+                dishId: dish.id,
+                quantity: 1,
+                price: dish.price,
+                name: dish.name,
+              })
             }
           >
             Dodaj do koszyka

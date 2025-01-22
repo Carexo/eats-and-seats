@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -20,10 +19,10 @@ import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
 import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
 import HomePage from "./pages/Home/HomePage.tsx";
+import UserChangePasswordPage from "./pages/User/UserChangePasswordPage.tsx";
 
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
     <Provider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
@@ -34,6 +33,9 @@ createRoot(document.getElementById('root')!).render(
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="dishes/:id" element={<DishDetails />} />
               <Route path="menu" element={<MenuPage />} />
+              <Route path="user/account" element={<UserChangePasswordPage/>} />
+              {/*<Route path="user/opinions" element={<UserOpinionsPage />} />*/}
+              {/*<Route path="user/orders" element={<UserOrdersPage />} />*/}
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
               <Route path="account" element={<ManageYourAccount />} />
@@ -48,5 +50,4 @@ createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </QueryClientProvider>
     </Provider>
-  </StrictMode>,
 );

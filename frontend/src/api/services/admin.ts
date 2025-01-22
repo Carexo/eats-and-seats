@@ -1,6 +1,6 @@
 import { client } from '../index.ts';
 import { isAxiosError } from 'axios';
-import { ChangePasswordPayload } from '../../components/admin/ChangePassword/ChangePassword.types.ts';
+import { ChangePasswordPayload } from '../../components/auth/ChangePassword/ChangePassword.types.ts';
 import { ApiResponse } from '../types.ts';
 import { UserResponse } from './auth.ts';
 
