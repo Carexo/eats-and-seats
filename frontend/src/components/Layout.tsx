@@ -6,7 +6,7 @@ import { useActions, useAuth } from '../store/hooks.ts';
 import { useEffect } from 'react';
 import Cart from './cart/Cart.tsx';
 import { useGetInitCart } from '../hooks/cart/useGetInitCart.ts';
-import Navbar from "./Navbar.tsx";
+import Navbar from "./navbar/Navbar.tsx";
 
 
 const Layout = () => {

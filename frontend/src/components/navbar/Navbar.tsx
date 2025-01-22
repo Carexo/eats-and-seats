@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 
 import { MenuOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
-import LeftMenu from "./LeftMenu";
-import RightMenu from "./RightMenu";
+import LeftMenu from "./LeftMenu.tsx";
+import RightMenu from "./RightMenu.tsx";
 import "./Navbar.css";
-import {useActions, useAuth} from "../store/hooks.ts";
-import {useCheckLoggedStatus, useLogout} from "../api/queries/auth.ts";
-import {useGetInitCart} from "../hooks/cart/useGetInitCart.ts";
-import Cart from "./cart/Cart.tsx";
+import {useActions, useAuth} from "../../store/hooks.ts";
+import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
+import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
+import Cart from "../cart/Cart.tsx";
 
 const Navbar = () => {
 

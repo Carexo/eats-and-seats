@@ -1,5 +1,5 @@
 import {Menu} from "antd";
-import {useAuth} from "../store/hooks.ts";
+import {useAuth} from "../../store/hooks.ts";
 
 
 

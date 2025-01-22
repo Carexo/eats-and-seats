@@ -1,8 +1,8 @@
 import {useEffect} from "react";
 import {Menu} from "antd";
-import {useActions, useAuth} from "../store/hooks.ts";
-import {useCheckLoggedStatus, useLogout} from "../api/queries/auth.ts";
-import {useGetInitCart} from "../hooks/cart/useGetInitCart.ts";
+import {useActions, useAuth} from "../../store/hooks.ts";
+import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
+import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
 
 const RightMenu = (props) => {
 
