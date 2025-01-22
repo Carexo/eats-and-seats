@@ -9,7 +9,7 @@ import {
   UploadFile,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router';
 import { DishEditPayload } from './DishEditForm.types.ts';
 import { useDish } from '../../../api/queries/dishes.ts';
@@ -31,11 +31,7 @@ const DishEditForm: React.FC<DishFormProps> = ({ mutate }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    data: dish,
-    isLoading: dishLoading,
-    error: dishError,
-  } = useDish(id!);
+  const { data: dish, isLoading: dishLoading, error: dishError } = useDish(id!);
 
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
@@ -168,11 +164,9 @@ const DishEditForm: React.FC<DishFormProps> = ({ mutate }) => {
             block
             type="link"
             onClick={() =>
-              navigate(
-                location.state?.from || `/admin/dishdetails/${id}`, {
-                    state: { from: location.pathname },
-                  }
-              )
+              navigate(location.state?.from || `/admin/dishdetails/${id}`, {
+                state: { from: location.pathname },
+              })
             }
           >
             Anuluj

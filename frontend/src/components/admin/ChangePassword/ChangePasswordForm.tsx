@@ -3,7 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { useChangePassword } from '../../../api/queries/admin.ts';
 import { LockOutlined } from '@ant-design/icons';
 import { ChangePasswordPayload } from './ChangePassword.types.ts';
-import {useActions, useAuth} from '../../../store/hooks.ts';
+import { useActions, useAuth } from '../../../store/hooks.ts';
 
 const ChangePasswordForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -12,31 +12,32 @@ const ChangePasswordForm: React.FC = () => {
   const { username } = useAuth();
 
   const onFinish = async (values: ChangePasswordPayload) => {
-    mutate({
-      username,
-      oldPassword: values.oldPassword,
-      newPassword: values.newPassword
-    }, {
-      onSuccess: () => {
-        form.resetFields();
-      }
-    });
+    mutate(
+      {
+        username,
+        oldPassword: values.oldPassword,
+        newPassword: values.newPassword,
+      },
+      {
+        onSuccess: () => {
+          form.resetFields();
+        },
+      },
+    );
   };
 
   return (
     <Form
-        form = {form}
+      form={form}
       name="changePassword"
       onFinish={onFinish}
       layout="vertical"
       style={{ maxWidth: 400, margin: 'auto' }}
     >
       <Form.Item
-          label="Old Password"
-          name="oldPassword"
-          rules={[
-            { required: true, message: 'Please input old Password!' },
-          ]}
+        label="Old Password"
+        name="oldPassword"
+        rules={[{ required: true, message: 'Please input old Password!' }]}
       >
         <Input
           prefix={<LockOutlined />}

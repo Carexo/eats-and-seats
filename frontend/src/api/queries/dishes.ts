@@ -38,19 +38,19 @@ export const useCategories = () => {
 };
 
 export const useFilteredDishes = (filter: {
-    category: string;
-    minPrice: string;
-    maxPrice: string;
-    searchTerm: string;
-    sortBy: string;
-    page: number;
-    limit: number;
-    }) => {
-    return useQuery({
-        queryKey: ['filteredDishes', filter],
-        queryFn: () => getFilteredDishes(filter),
-    });
-}
+  category: string;
+  minPrice: string;
+  maxPrice: string;
+  searchTerm: string;
+  sortBy: string;
+  page: number;
+  limit: number;
+}) => {
+  return useQuery({
+    queryKey: ['filteredDishes', filter],
+    queryFn: () => getFilteredDishes(filter),
+  });
+};
 
 export const useDish = (dishId: string) => {
   return useQuery<Dish>({

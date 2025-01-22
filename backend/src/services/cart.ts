@@ -1,8 +1,15 @@
-import { Cart } from "../models/cart/cart";
+import { Cart, CartDocument } from "../models/cart/cart";
 import { IDish } from "../models/dish/dish";
 
 export const getCartByUserID = (userId: string) => {
     return Cart.findOne({ userId, active: true });
+};
+
+const getCartView = (cart: CartDocument) => {
+    return {
+        products: cart.products,
+        total: cart.products.reduce((acc, product) => acc + product.price * product.quantity, 0),
+    };
 };
 
 export const addDish = async (userId: string, dish: IDish, quantity: number) => {
@@ -15,6 +22,7 @@ export const addDish = async (userId: string, dish: IDish, quantity: number) => 
         });
 
         await newCart.save();
+        return getCartView(newCart);
     } else {
         const productIndex = cart.products.findIndex((product) => dish._id.toString() === product.dishId.toString());
 
@@ -25,6 +33,8 @@ export const addDish = async (userId: string, dish: IDish, quantity: number) => 
         }
 
         await cart.save();
+
+        return getCartView(cart);
     }
 };
 
@@ -44,6 +54,7 @@ export const removeDish = async (userId: string, dishId: string) => {
     cart.products.splice(productIndex, 1);
 
     await cart.save();
+    return getCartView(cart);
 };
 
 export const updateDish = async (userId: string, dishId: string, quantity: number) => {
@@ -62,6 +73,8 @@ export const updateDish = async (userId: string, dishId: string, quantity: numbe
     cart.products[productIndex].quantity = quantity;
 
     await cart.save();
+
+    return getCartView(cart);
 };
 
 export const getCartByUserIdView = async (userId: string) => {
@@ -69,9 +82,6 @@ export const getCartByUserIdView = async (userId: string) => {
     if (!cart) {
         return { products: [], total: 0 };
     } else {
-        return {
-            products: cart.products,
-            total: cart.products.reduce((acc, product) => acc + product.price * product.quantity, 0),
-        };
+        return getCartView(cart);
     }
 };

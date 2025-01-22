@@ -46,7 +46,14 @@ const DishCard = ({ dish }: { dish: Dish }) => {
   return (
     <Card
       hoverable
-      cover={<img alt={dish.name} src={dish.image} className="dish-image" loading="lazy" />}
+      cover={
+        <img
+          alt={dish.name}
+          src={dish.image}
+          className="dish-image"
+          loading="lazy"
+        />
+      }
       actions={[
         <Tooltip title="Edit">
           <Button icon={<EditOutlined />} onClick={handleEdit} />

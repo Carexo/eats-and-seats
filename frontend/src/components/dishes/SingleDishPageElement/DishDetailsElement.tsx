@@ -3,15 +3,16 @@ import { useParams, useNavigate, useLocation } from 'react-router';
 import { Card, Typography, Spin, Alert, Button, Rate, Tooltip } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { useDish } from '../../../api/queries/dishes.ts';
-import {useActions} from "../../../store/hooks.ts";
+import { useAddProductToCart } from '../../../hooks/cart/useAddProductToCart.ts';
 
 const { Title, Paragraph } = Typography;
 
 const DishDetailsElement: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const addProduct = useAddProductToCart();
+
   const navigate = useNavigate();
   const location = useLocation();
-
   const {
     data: dish,
     isLoading: dishLoading,
@@ -48,6 +49,15 @@ const DishDetailsElement: React.FC = () => {
       />
     );
   }
+
+  const handleAddToCart = () => {
+    addProduct({
+      dishId: dish.id,
+      quantity: 1,
+      price: dish.price,
+      name: dish.name,
+    });
+  };
 
   return (
     <Card
@@ -111,7 +121,12 @@ const DishDetailsElement: React.FC = () => {
           marginTop: 30,
         }}
       >
-        <Button type="primary" size="large" style={{ width: '49%' }}>
+        <Button
+          type="primary"
+          size="large"
+          style={{ width: '49%' }}
+          onClick={handleAddToCart}
+        >
           Dodaj do koszyka
         </Button>
         <Button type="default" size="large" style={{ width: '49%' }}>
@@ -122,7 +137,6 @@ const DishDetailsElement: React.FC = () => {
         <Tooltip title="Lista wszystkich dań">
           <LeftCircleOutlined
             style={{ fontSize: '36px', cursor: 'pointer', color: 'white' }}
-
             onClick={() => navigate(location.state?.from || '/menu')}
           />
         </Tooltip>

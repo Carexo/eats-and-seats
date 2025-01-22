@@ -3,7 +3,7 @@ import { User } from "../models/auth/user/user";
 import createError from "http-errors";
 import bcrypt from "bcrypt";
 import { loginUserValidator } from "../models/auth/user/userValidation";
-import {newAccessToken, newRefreshToken} from "../utils/auth";
+import { newAccessToken, newRefreshToken } from "../utils/auth";
 import config from "../config";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -73,7 +73,7 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
 
         res.status(200).json({
             message: "Password changed successfully.",
-            data: { username: user.username, role: user.role }
+            data: { username: user.username, role: user.role },
         });
     } catch (error: any) {
         next(createError(500, error.message));
