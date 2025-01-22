@@ -1,5 +1,5 @@
-import {model, Schema, Types} from "mongoose";
-import {AddressSchema, IAddress} from "../address/address";
+import { model, Schema, Types } from "mongoose";
+import { AddressSchema, IAddress } from "../address/address";
 
 // Define the structure of an order item
 export interface IOrderItem {
@@ -9,19 +9,19 @@ export interface IOrderItem {
 
 // Define the Order document interface
 export interface IOrder extends Document {
-    user?: Types.ObjectId
+    user?: Types.ObjectId;
     email?: string;
     address: IAddress;
     products: IOrderItem[];
     total: number;
-    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'canceled';
+    status: "pending" | "processing" | "shipped" | "delivered" | "canceled";
     orderDate: Date;
 }
 
 const OrderSchema: Schema = new Schema<IOrder>({
     user: {
         type: Types.ObjectId,
-        ref: 'user',
+        ref: "user",
     },
     email: {
         type: String,
@@ -32,7 +32,7 @@ const OrderSchema: Schema = new Schema<IOrder>({
             validator: function (v: string): boolean {
                 return this.user ? true : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
             },
-            message: 'Invalid email format.',
+            message: "Invalid email format.",
         },
     },
     address: {
@@ -43,7 +43,7 @@ const OrderSchema: Schema = new Schema<IOrder>({
         {
             dishId: {
                 type: Types.ObjectId,
-                ref: 'dish',
+                ref: "dish",
                 required: true,
             },
             quantity: {
@@ -60,8 +60,8 @@ const OrderSchema: Schema = new Schema<IOrder>({
     },
     status: {
         type: String,
-        enum: ['pending', 'processing', 'shipped', 'delivered', 'canceled'],
-        default: 'pending',
+        enum: ["pending", "processing", "shipped", "delivered", "canceled"],
+        default: "pending",
     },
     orderDate: {
         type: Date,
@@ -70,9 +70,9 @@ const OrderSchema: Schema = new Schema<IOrder>({
 });
 
 // Pre-save validation to ensure correct data based on user type
-OrderSchema.pre<IOrder>('save', function (next) {
+OrderSchema.pre<IOrder>("save", function (next) {
     if (!this.user && !this.email) {
-        next(new Error('Guest orders must include an email.'));
+        next(new Error("Guest orders must include an email."));
     } else if (this.user && this.email) {
         this.email = undefined;
     }
