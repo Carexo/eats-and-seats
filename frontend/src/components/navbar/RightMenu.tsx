@@ -3,12 +3,16 @@ import {Menu} from "antd";
 import {useActions, useAuth} from "../../store/hooks.ts";
 import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
 import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
+import SubMenu from "antd/es/menu/SubMenu";
+import {UserOutlined} from "@ant-design/icons";
+import {useNavigate} from "react-router";
 
 const RightMenu = (props) => {
 
     const { loginUser, logoutUser, notificationSend } = useActions();
     const userStatusMutation = useCheckLoggedStatus(loginUser);
     const getCart = useGetInitCart();
+    const navigate = useNavigate();
 
     const auth = useAuth();
 
@@ -16,6 +20,7 @@ const RightMenu = (props) => {
 
     const handleLogout = () => {
         logoutMutation.mutate();
+        navigate('/');
     };
 
     useEffect(() => {
@@ -32,10 +37,20 @@ const RightMenu = (props) => {
     return (
         <Menu mode={props.mode}>
             {auth.isLogged ? (
-                <>
-                    <Menu.Item className={"button-important"}>
+                <SubMenu title={<UserOutlined/>} className={"button-important"} style={{textAlign:'center', alignItems:'center'}}>
+                    <Menu.Item>
+                        <a href="/user/account">Profile</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <a href="/user/orders">Orders</a>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <a href="/user/opinions">Opinions</a>
+                    </Menu.Item>
+                    <Menu.Item>
                         <a onClick={handleLogout}>Log out</a>
-                    </Menu.Item></>
+                    </Menu.Item>
+                </SubMenu>
             ) : (<><Menu.Item>
                     <a href="/auth/signin">Sign in</a>
                 </Menu.Item>
