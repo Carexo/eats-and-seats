@@ -84,3 +84,18 @@ export const getOpinions = async ( sort? : string ) => {
         }
     }
 }
+
+export const getAverageRating = async (dishId: string) => {
+    try {
+        const response = await client.get(
+            `/opinions/average/${dishId}`,
+        );
+        return response.data.data;
+    } catch (error) {
+        if (isAxiosError(error)) {
+        console.warn(error?.response?.data.message);
+        } else {
+        console.warn('Failed to fetch average rating.');
+        }
+    }
+}
