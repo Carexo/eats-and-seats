@@ -37,6 +37,13 @@ export const addOpinion = async (req: Request, res: Response, next: NextFunction
             return;
         }
 
+        const existingOpinion = await Opinion.findOne({ user: req.user.userID, dish_id });
+
+        if (existingOpinion) {
+            next(createError(400, "User has already added an opinion for this dish"));
+            return;
+        }
+
         const newOpinion = new Opinion({ user: req.user.userID, dish_id, rating, description });
         await newOpinion.save();
 
