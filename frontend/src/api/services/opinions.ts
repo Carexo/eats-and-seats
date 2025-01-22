@@ -10,6 +10,10 @@ export interface IOpinion {
   username: string;
 }
 
+export interface IExtendOpinion extends IOpinion {
+  dish_name: string;
+}
+
 export const getOpinionsByDishId = async (dishId: string) => {
   try {
     const response = await client.get<ApiResponse<IOpinion[]>>(
@@ -51,3 +55,31 @@ export const addOpinion = async ({
     }
   }
 };
+
+export const deleteOpinion = async (opinionID: string) => {
+    try {
+        await client.delete(`/opinions/${opinionID}`, { withCredentials: true });
+    } catch (error) {
+        if (isAxiosError(error)) {
+        throw new Error(error?.response?.data.error.message);
+        } else {
+        throw new Error('something went wrong');
+        }
+    }
+}
+
+export const getOpinions = async () => {
+    try {
+        const response = await client.get<ApiResponse<IExtendOpinion[]>>(
+        '/opinions',
+        );
+
+        return response.data.data;
+    } catch (error) {
+        if (isAxiosError(error)) {
+        console.warn(error?.response?.data.message);
+        } else {
+        console.warn('Failed to fetch opinions.');
+        }
+    }
+}

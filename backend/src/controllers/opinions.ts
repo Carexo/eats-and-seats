@@ -6,6 +6,7 @@ import { opinionValidator } from "../models/opinion/opinionValidation";
 import { isUserPresent } from "../services/user";
 import { isDishPresent } from "../services/dish";
 import { IUser } from "../models/auth/user/user.types";
+import { IDish } from "../models/dish/dish.types";
 
 export const addOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { dish_id, rating, description } = req.body;
@@ -62,6 +63,47 @@ export const getOpinionsByDishId = async (req: Request, res: Response, next: Nex
                 rating: opinion.rating,
                 description: opinion.description,
                 username: opinion?.user?.username,
+            })),
+        });
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+};
+
+export const deleteOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            next(createError(400, "Invalid ID"));
+        }
+
+        const deletedOpinion = await Opinion.findByIdAndDelete(id);
+
+        if (!deletedOpinion) {
+            next(createError(404, "Opinion not found"));
+        }
+
+        res.status(200).json({ message: "Opinion deleted successfully." });
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+}
+
+export const getOpinions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const opinions = await Opinion.find()
+            .populate<{ user: IUser }>("user", "username")
+            .populate<{ dish: IDish }>("dish", "name");
+
+        res.status(200).json({
+            message: "Successfully get opinions",
+            data: opinions.map((opinion) => ({
+                opinionID: opinion._id,
+                dish_name: opinion.dish.name,
+                rating: opinion.rating,
+                description: opinion.description,
+                username: opinion.user.username,
             })),
         });
     } catch (error: any) {
