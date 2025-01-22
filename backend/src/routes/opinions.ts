@@ -1,6 +1,6 @@
 import { Router } from "express";
-import {addOpinion, getOpinionsByDishId, deleteOpinion, getOpinions, getAverageRating} from "../controllers/opinions";
-import {protect, protectAdmin} from "../middlewares/auth";
+import { addOpinion, getOpinionsByDishId, deleteOpinion, getOpinions, getAverageRating } from "../controllers/opinions";
+import { protect, protectAdmin } from "../middlewares/auth";
 
 const router = Router();
 

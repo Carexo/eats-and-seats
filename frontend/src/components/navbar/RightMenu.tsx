@@ -1,79 +1,37 @@
-import {useEffect} from "react";
-import {Menu} from "antd";
-import {useActions, useAuth} from "../../store/hooks.ts";
-import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
-import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
-import type { MenuProps } from "antd";
-import SubMenu from "antd/es/menu/SubMenu";
-import {UserOutlined} from "@ant-design/icons";
-import {useNavigate} from "react-router";
+import { Menu } from 'antd';
+import { useAuth } from '../../store/hooks.ts';
+import { useLogout } from '../../api/queries/auth.ts';
+import { RightMenuProps } from './RightMenu.types.ts';
 
-const RightMenu = (props: { mode: MenuProps['mode'] | undefined; }) => {
+const RightMenu = ({ mode }: RightMenuProps) => {
+  const auth = useAuth();
 
-    const { loginUser, logoutUser, notificationSend } = useActions();
-    const userStatusMutation = useCheckLoggedStatus(loginUser);
-    const getCart = useGetInitCart();
-    const navigate = useNavigate();
+  const logoutMutation = useLogout();
 
-    const auth = useAuth();
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
-    const logoutMutation = useLogout(notificationSend, logoutUser);
-
-    const handleLogout = () => {
-        logoutMutation.mutate();
-        navigate('/');
-    };
-
-    useEffect(() => {
-        userStatusMutation.mutate();
-
-        // eslint-disable-next-line
-    }, []);
-
-    useEffect(() => {
-        getCart();
-        // eslint-disable-next-line
-    }, [auth]);
-
-    const items: MenuProps['items'] = auth.isLogged ? [
-        {
-            label: <UserOutlined />,
-            key: 'user',
-            children: [
-                {
-                    label: <a href="/user/account">Profile</a>,
-                    key: 'profile'
-                },
-                {
-                    label: <a href="/user/orders">Orders</a>,
-                    key: 'orders'
-                },
-                {
-                    label: <a href="/user/opinions">Opinions</a>,
-                    key: 'opinions'
-                }
-            ]
-        },
-        {
-            label: <a onClick={handleLogout}>Log out</a>,
-            key: 'logout',
-            className: "button-important"
-        }
-    ] : [
-        {
-            label: <a href="/auth/signin">Sign in</a>,
-            key: 'signin'
-        },
-        {
-            label: <a href="/auth/signup">Sign up</a>,
-            key: 'signup',
-            className: "button-important"
-        }
-    ];
-
-    return (
-        <Menu mode={props.mode} items={items}/>
-    )
-}
+  return (
+    <Menu mode={mode}>
+      {auth.isLogged ? (
+        <>
+          <Menu.Item className={'button-important'}>
+            <a onClick={handleLogout}>Log out</a>
+          </Menu.Item>
+        </>
+      ) : (
+        <>
+          <Menu.Item>
+            <a href="/auth/signin">Sign in</a>
+          </Menu.Item>
+          <Menu.Item className={'button-important'}>
+            <a href="/auth/signup">Sign up</a>
+          </Menu.Item>
+        </>
+      )}
+    </Menu>
+  );
+};
 
 export default RightMenu;
