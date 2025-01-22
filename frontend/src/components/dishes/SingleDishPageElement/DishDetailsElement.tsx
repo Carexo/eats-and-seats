@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router';
 import { Card, Typography, Spin, Alert, Button, Rate, Tooltip } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 import { useDish } from '../../../api/queries/dishes.ts';
+import {useActions} from "../../../store/hooks.ts";
 
 const { Title, Paragraph } = Typography;
 
@@ -10,6 +11,7 @@ const DishDetailsElement: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+
   const {
     data: dish,
     isLoading: dishLoading,
@@ -120,6 +122,7 @@ const DishDetailsElement: React.FC = () => {
         <Tooltip title="Lista wszystkich dań">
           <LeftCircleOutlined
             style={{ fontSize: '36px', cursor: 'pointer', color: 'white' }}
+
             onClick={() => navigate(location.state?.from || '/menu')}
           />
         </Tooltip>

@@ -8,6 +8,7 @@ const DishSchema = new Schema(
             type: String,
             required: true,
             unique: true,
+            index: true,
         },
         description: {
             type: String,
@@ -21,6 +22,7 @@ const DishSchema = new Schema(
         price: {
             type: Number,
             required: true,
+            index: true,
         },
         image: {
             type: Buffer,

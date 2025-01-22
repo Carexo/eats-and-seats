@@ -9,12 +9,12 @@ import {
   UploadFile,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router';
-import { DishEditPayload } from './DishForm.types.ts';
+import { DishEditPayload } from './DishEditForm.types.ts';
 import { useDish } from '../../../api/queries/dishes.ts';
 import { UploadChangeParam } from 'antd/es/upload';
-import './DishForm.css';
+import './DishEditForm.css';
 const { TextArea } = Input;
 
 const onChange = (
@@ -27,7 +27,7 @@ interface DishFormProps {
   mutate: (values: DishEditPayload) => void;
 }
 
-const DishForm: React.FC<DishFormProps> = ({ mutate }) => {
+const DishEditForm: React.FC<DishFormProps> = ({ mutate }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +35,7 @@ const DishForm: React.FC<DishFormProps> = ({ mutate }) => {
     data: dish,
     isLoading: dishLoading,
     error: dishError,
-  } = useDish(id ?? '');
+  } = useDish(id!);
 
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
@@ -95,7 +95,7 @@ const DishForm: React.FC<DishFormProps> = ({ mutate }) => {
   return (
     <>
       <Form
-        name={id ? 'Edit' : 'New Dish'}
+        name={'Edit dish'}
         style={{ maxWidth: 360, width: '100%' }}
         onFinish={onFinish}
         layout="vertical"
@@ -169,9 +169,9 @@ const DishForm: React.FC<DishFormProps> = ({ mutate }) => {
             type="link"
             onClick={() =>
               navigate(
-                id
-                  ? location.state?.from || `/admin/dishdetails/${id}`
-                  : '/admin/dishes',
+                location.state?.from || `/admin/dishdetails/${id}`, {
+                    state: { from: location.pathname },
+                  }
               )
             }
           >
@@ -183,4 +183,4 @@ const DishForm: React.FC<DishFormProps> = ({ mutate }) => {
   );
 };
 
-export default DishForm;
+export default DishEditForm;

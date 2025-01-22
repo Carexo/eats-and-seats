@@ -1,6 +1,6 @@
 import { client } from '../index.ts';
 import { isAxiosError } from 'axios';
-import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
+import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types.ts';
 
 export const getDishes = async () => {
   try {
@@ -27,6 +27,29 @@ export const getCategories = async () => {
     }
   }
 };
+
+export const getFilteredDishes = async (filter: {
+    category: string;
+    minPrice: string;
+    maxPrice: string;
+    searchTerm: string;
+    sortBy: string;
+    page: number;
+    limit: number;
+    }) => {
+    try {
+        const response = await client.get('/dishes/filter', {
+        params: filter,
+        });
+        return response.data;
+    } catch (error) {
+        if (isAxiosError(error)) {
+        throw new Error(error?.response?.data?.message);
+        } else {
+        throw new Error('Failed to fetch filtered dishes.');
+        }
+    }
+}
 
 export const getDishById = async (dishId: string) => {
   try {

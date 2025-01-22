@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+  .ant-form {
+    width: 90% !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .ant-form {
+    width: 70% !important;
+  }
+}
