@@ -1,18 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router';
-import { Card, Typography, Spin, Alert, Button, Rate, Tooltip } from 'antd';
-import { LeftCircleOutlined } from '@ant-design/icons';
+import {Card, Typography, Spin, Alert, Button, Rate, Tooltip, Flex} from 'antd';
+import { LeftCircleOutlined, CaretLeftOutlined  } from '@ant-design/icons';
 import { useDish } from '../../../api/queries/dishes.ts';
 import { useAddProductToCart } from '../../../hooks/cart/useAddProductToCart.ts';
+import {useAverageRating} from "../../../api/queries/opinions.ts";
+import Opinions from "../../opinions/Opinions/Opinions.tsx";
+import AddOpinion from "../../opinions/AddOpinion/AddOpinion.tsx";
+import './DishDetailsElement.css';
 
 const { Title, Paragraph } = Typography;
 
 const DishDetailsElement: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const addProduct = useAddProductToCart();
-
+  const {data: averageRating, refetch } = useAverageRating(id!);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+    refetch();
+    if (!isFlipped){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        window.scrollTo({ top: 50 , behavior: 'smooth' });
+    }
+
+  };
+
   const {
     data: dish,
     isLoading: dishLoading,
@@ -37,7 +54,6 @@ const DishDetailsElement: React.FC = () => {
     );
   }
 
-  const rating = 2;
   if (!dish) {
     return (
       <Alert
@@ -60,7 +76,10 @@ const DishDetailsElement: React.FC = () => {
   };
 
   return (
-    <Card
+      <div className={`flip-card ${isFlipped ? 'flipped' : ''}`}>
+    <div className="flip-card-inner">
+      <div className="flip-card-front">
+        <Card
       className="dish-card"
       style={{
         maxWidth: 700,
@@ -90,24 +109,26 @@ const DishDetailsElement: React.FC = () => {
           {dish.category}
         </Paragraph>
       </div>
-      {rating !== null && (
-        <Paragraph style={{ textAlign: 'center', marginTop: '20px' }}>
-          <b>Ocena:</b>{' '}
-          <Rate
-            disabled
-            allowHalf
-            value={rating}
-            style={{ fontSize: '18px' }}
-          />
-          <span style={{ fontSize: '16px', marginLeft: '10px' }}>
-            ({rating.toFixed(1)} / 5)
-          </span>
-        </Paragraph>
+      {averageRating !== null && (
+          <Paragraph style={{ textAlign: 'center', marginTop: '20px' }}>
+            <div onClick={handleFlip} style={{ display: 'inline-block', cursor: 'pointer' }}>
+              <b>Ocena:</b>{' '}
+              <Rate
+                  disabled
+                  allowHalf
+                  value={averageRating}
+                  style={{ fontSize: '18px' }}
+              />
+              <span style={{ fontSize: '13px', marginLeft: '10px' }}>
+      {averageRating === 0 ? '(brak opinii)' : `${averageRating.toFixed(1)} / 5`}
+    </span>
+            </div>
+          </Paragraph>
       )}
-      <Paragraph
-        style={{ fontSize: '16px', lineHeight: '1.6', textAlign: 'justify' }}
-      >
-        {dish.description}
+          <Paragraph
+              style={{fontSize: '16px', lineHeight: '1.6', textAlign: 'justify'}}
+          >
+            {dish.description}
       </Paragraph>
       <Paragraph
         style={{ fontSize: '18px', fontWeight: 'bold', marginTop: '20px' }}
@@ -142,6 +163,22 @@ const DishDetailsElement: React.FC = () => {
         </Tooltip>
       </div>
     </Card>
+      </div>
+        <div className="flip-card-back">
+            <Card>
+              <Tooltip title="Wróć">
+                <CaretLeftOutlined onClick={handleFlip}/>
+              </Tooltip>
+              <Flex gap="small" vertical align="center" style={{textAlign:'center', alignItems:'center'}}>
+
+              <AddOpinion />
+              <Opinions />
+              </Flex>
+
+            </Card>
+        </div>
+    </div>
+      </div>
   );
 };
 
