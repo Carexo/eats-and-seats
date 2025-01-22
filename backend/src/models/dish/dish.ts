@@ -16,6 +16,7 @@ const DishSchema = new Schema(
         category: {
             type: String,
             required: false,
+            index: true,
         },
         price: {
             type: Number,

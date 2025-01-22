@@ -188,3 +188,16 @@ export const deleteDishByName = async (req: Request, res: Response, next: NextFu
         next(createError(500, error.message));
     }
 };
+
+export const getCategories = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log("Request received for categories");
+        const categories = await dish.distinct("category");
+        console.log("Fetched categories:", categories);
+
+        res.status(200).json(categories);
+    } catch (error: any) {
+        console.error("Error in getCategories:", error.message);
+        next(createError(400, error.message));
+    }
+};
