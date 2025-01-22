@@ -31,7 +31,7 @@ const Cart = () => {
     />
   ));
 
-  items.push(<Typography.Text>Total: {cart.total}</Typography.Text>);
+  items.push(<Typography.Text key="total">Total: {cart.total}</Typography.Text>);
 
   const handleOpenCart = () => {
     setIsCartOpen((prev) => !prev);

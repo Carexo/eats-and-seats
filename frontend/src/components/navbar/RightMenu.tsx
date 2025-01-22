@@ -3,11 +3,12 @@ import {Menu} from "antd";
 import {useActions, useAuth} from "../../store/hooks.ts";
 import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
 import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
+import type { MenuProps } from "antd";
 import SubMenu from "antd/es/menu/SubMenu";
 import {UserOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router";
 
-const RightMenu = (props) => {
+const RightMenu = (props: { mode: MenuProps['mode'] | undefined; }) => {
 
     const { loginUser, logoutUser, notificationSend } = useActions();
     const userStatusMutation = useCheckLoggedStatus(loginUser);
@@ -34,32 +35,44 @@ const RightMenu = (props) => {
         // eslint-disable-next-line
     }, [auth]);
 
-    return (
-        <Menu mode={props.mode}>
-            {auth.isLogged ? (
-                <SubMenu title={<UserOutlined/>} className={"button-important"} style={{textAlign:'center', alignItems:'center'}}>
-                    <Menu.Item>
-                        <a href="/user/account">Profile</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a href="/user/orders">Orders</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a href="/user/opinions">Opinions</a>
-                    </Menu.Item>
-                    <Menu.Item>
-                        <a onClick={handleLogout}>Log out</a>
-                    </Menu.Item>
-                </SubMenu>
-            ) : (<><Menu.Item>
-                    <a href="/auth/signin">Sign in</a>
-                </Menu.Item>
-                    <Menu.Item className={"button-important"}>
-                        <a href="/auth/signup">Sign up</a>
-                    </Menu.Item></>
-            )}
+    const items: MenuProps['items'] = auth.isLogged ? [
+        {
+            label: <UserOutlined />,
+            key: 'user',
+            children: [
+                {
+                    label: <a href="/user/account">Profile</a>,
+                    key: 'profile'
+                },
+                {
+                    label: <a href="/user/orders">Orders</a>,
+                    key: 'orders'
+                },
+                {
+                    label: <a href="/user/opinions">Opinions</a>,
+                    key: 'opinions'
+                }
+            ]
+        },
+        {
+            label: <a onClick={handleLogout}>Log out</a>,
+            key: 'logout',
+            className: "button-important"
+        }
+    ] : [
+        {
+            label: <a href="/auth/signin">Sign in</a>,
+            key: 'signin'
+        },
+        {
+            label: <a href="/auth/signup">Sign up</a>,
+            key: 'signup',
+            className: "button-important"
+        }
+    ];
 
-        </Menu>
+    return (
+        <Menu mode={props.mode} items={items}/>
     )
 }
 

@@ -1,15 +1,19 @@
+nav {
+    overflow: hidden;
+}
+
 
 .menu {
     padding: 0 20px;
     border-bottom: solid 1px #e8e8e8;
-    overflow: auto;
+    overflow: hidden;
     box-shadow: 0 0 30px #f3f1f1;
 }
 
 .menu__logo {
     width: 180px;
     float: left;
-
+    transition: 0.2s;
 }
 
 .menu__logo a {

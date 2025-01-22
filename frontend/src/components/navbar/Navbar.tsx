@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 import { MenuOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
@@ -6,23 +6,17 @@ import LeftMenu from "./LeftMenu.tsx";
 import RightMenu from "./RightMenu.tsx";
 import "./Navbar.css";
 import {useActions, useAuth} from "../../store/hooks.ts";
-import {useCheckLoggedStatus, useLogout} from "../../api/queries/auth.ts";
+import {useCheckLoggedStatus} from "../../api/queries/auth.ts";
 import {useGetInitCart} from "../../hooks/cart/useGetInitCart.ts";
 import Cart from "../cart/Cart.tsx";
 
 const Navbar = () => {
 
-    const { loginUser, logoutUser, notificationSend } = useActions();
+    const { loginUser } = useActions();
     const userStatusMutation = useCheckLoggedStatus(loginUser);
     const getCart = useGetInitCart();
 
     const auth = useAuth();
-
-    const logoutMutation = useLogout(notificationSend, logoutUser);
-
-    const handleLogout = () => {
-        logoutMutation.mutate();
-    };
 
     useEffect(() => {
         userStatusMutation.mutate();

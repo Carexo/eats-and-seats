@@ -18,7 +18,9 @@ import OverviewUsers from './pages/Dashboard/OverviewUsers.tsx';
 import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
 import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
+import HomePage from "./pages/Home/HomePage.tsx";
 import UserChangePasswordPage from "./pages/User/UserChangePasswordPage.tsx";
+
 
 createRoot(document.getElementById('root')!).render(
     <Provider>
@@ -26,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
               <Route path="auth/signup" element={<SignUp />} />
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="dishes/:id" element={<DishDetails />} />
