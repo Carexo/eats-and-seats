@@ -18,7 +18,7 @@ import DashboardLayout from './pages/Dashboard/DashboardLayout.tsx';
 import OverviewUsers from './pages/Dashboard/OverviewUsers.tsx';
 import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
-import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
+import ManageOpinionsPage from './pages/Dashboard/ManageOpinionsPage.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

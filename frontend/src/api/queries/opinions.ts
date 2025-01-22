@@ -33,23 +33,23 @@ export const useAddOpinion = (
 };
 
 export const useDeleteOpinion = (
-    notification: ActionsContextType['notificationSend'],
+  notification: ActionsContextType['notificationSend'],
 ) => {
-    return useMutation({
-        mutationFn: deleteOpinion,
-        onSuccess: () => {
-            notification('success', {
-                title: 'Delete Opinion',
-                description: 'Opinion successfully deleted.',
-            });
-        },
-        onError: (error) => {
-            notification('error', {
-                title: 'Deletion failed',
-                description: error.message,
-            });
-        },
-    });
+  return useMutation({
+    mutationFn: deleteOpinion,
+    onSuccess: () => {
+      notification('success', {
+        title: 'Delete Opinion',
+        description: 'Opinion successfully deleted.',
+      });
+    },
+    onError: (error) => {
+      notification('error', {
+        title: 'Deletion failed',
+        description: error.message,
+      });
+    },
+  });
 };
 
 export const useAllOpinions = (sort? : string) => {

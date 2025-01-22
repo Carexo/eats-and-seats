@@ -1,5 +1,4 @@
-import {model, Schema} from 'mongoose';
-
+import { model, Schema } from "mongoose";
 
 export interface IAddress {
     street: string;
@@ -28,7 +27,7 @@ export const AddressSchema: Schema = new Schema<IAddress>({
     zipcode: {
         type: String,
         required: true,
-        match: [/^\d{5}(-\d{4})?$/, 'Invalid zipcode format'],
+        match: [/^\d{5}(-\d{4})?$/, "Invalid zipcode format"],
     },
     country: {
         type: String,

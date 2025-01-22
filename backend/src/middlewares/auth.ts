@@ -55,4 +55,4 @@ export const optionalProtect = async (req: Request, res: Response, next: NextFun
     }
 
     await protect(req, res, next);
-}
+};

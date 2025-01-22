@@ -1,5 +1,5 @@
 import { dish } from "../models/dish/dish";
-import {Types} from "mongoose";
+import { Types } from "mongoose";
 
 export const getDishByID = async (dishID: string) => {
     try {
