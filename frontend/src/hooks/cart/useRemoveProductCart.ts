@@ -14,6 +14,10 @@ export const useRemoveProductCart = () => {
   } else {
     return (dishId: string) => {
       removeProduct(dishId);
+      notificationSend('success', {
+        title: 'Product removed from cart',
+        description: 'Product removed from cart successfully',
+      });
     };
   }
 };

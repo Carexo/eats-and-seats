@@ -1,11 +1,11 @@
 import Joi from "joi";
 
 export const addressSchema = Joi.object({
-    first_name: Joi.string().required().messages({
+    firstName: Joi.string().required().messages({
         "any.required": "First name is required.",
         "string.empty": "First name cannot be empty.",
     }),
-    last_name: Joi.string().required().messages({
+    lastName: Joi.string().required().messages({
         "any.required": "Last name is required.",
         "string.empty": "Last name cannot be empty.",
     }),

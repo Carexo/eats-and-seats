@@ -14,6 +14,10 @@ export const useUpdateProductCart = () => {
   } else {
     return (cartPayload: CartPayload) => {
       updateProduct(cartPayload);
+      notificationSend('success', {
+        title: 'Product updated in cart',
+        description: 'Product updated in cart successfully',
+      });
     };
   }
 };

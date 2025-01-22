@@ -1,4 +1,4 @@
-import {Button, Drawer, Flex, List, Typography} from 'antd';
+import { Button, Drawer, Flex, List, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import CartItem from './CartItem/CartItem.tsx';
 import { useCart } from '../../store/hooks.ts';
@@ -41,7 +41,9 @@ const Cart = () => {
               )}
             />
 
-            <Typography.Text strong style={{padding: "0.5rem"}}>Total: ${cart.total}</Typography.Text>
+            <Typography.Text strong style={{ padding: '0.5rem' }}>
+              Total: ${cart.total}
+            </Typography.Text>
           </Flex>
         ) : (
           <Typography.Text>Your cart is empty</Typography.Text>

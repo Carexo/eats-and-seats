@@ -1,9 +1,14 @@
 import { Form, Input, Button, Card } from 'antd';
-import {checkoutPayload} from "./CheckoutForm.types.ts";
+import { CheckoutFormPayload } from './CheckoutForm.types.ts';
+import { useAuth } from '../../store/hooks.ts';
+import { useCreateOrder } from '../../api/queries/order.ts';
 
 const CheckoutForm = () => {
-  const onFinish = (values: checkoutPayload) => {
-    console.log('Form Submitted:', values);
+  const auth = useAuth();
+  const createOrder = useCreateOrder();
+
+  const onFinish = (values: CheckoutFormPayload) => {
+    createOrder(values);
   };
 
   return (
@@ -25,16 +30,18 @@ const CheckoutForm = () => {
           <Input placeholder="Doe" />
         </Form.Item>
 
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: 'Please enter your email' },
-            { type: 'email', message: 'Please enter a valid email' },
-          ]}
-        >
-          <Input placeholder="example@mail.com" />
-        </Form.Item>
+        {!auth.isLogged ? (
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: 'Please enter your email' },
+              { type: 'email', message: 'Please enter a valid email' },
+            ]}
+          >
+            <Input placeholder="example@mail.com" />
+          </Form.Item>
+        ) : null}
 
         <Form.Item
           label="Street Address"
@@ -64,13 +71,21 @@ const CheckoutForm = () => {
 
         <Form.Item
           label="Zip Code"
-          name="zip"
+          name="zipcode"
           rules={[
             { required: true, message: 'Please enter your zip code' },
             { pattern: /^[0-9]{5}$/, message: 'Zip code must be 5 digits' },
           ]}
         >
           <Input placeholder="90001" />
+        </Form.Item>
+
+        <Form.Item
+          label="Country"
+          name="country"
+          rules={[{ required: true, message: 'Please enter your Country' }]}
+        >
+          <Input placeholder="United States" />
         </Form.Item>
 
         <Form.Item>
