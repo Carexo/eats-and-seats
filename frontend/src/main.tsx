@@ -18,6 +18,7 @@ import DashboardLayout from './pages/Dashboard/DashboardLayout.tsx';
 import OverviewUsers from './pages/Dashboard/OverviewUsers.tsx';
 import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
+import HomePage from "./pages/Home/HomePage.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
               <Route path="auth/signup" element={<SignUp />} />
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="dishes/:id" element={<DishDetails />} />
