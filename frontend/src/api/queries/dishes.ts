@@ -6,8 +6,9 @@ import {
   editDish,
   addDish,
   deleteDish,
+  getFilteredDishes,
 } from '../services/dishes';
-import { DishEditPayload } from '../../components/dishes/DishEdit/DishForm.types.ts';
+import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types.ts';
 import { useNavigate } from 'react-router';
 import { ActionsContextType } from '../../store/types.ts';
 
@@ -35,6 +36,21 @@ export const useCategories = () => {
     queryFn: getCategories,
   });
 };
+
+export const useFilteredDishes = (filter: {
+    category: string;
+    minPrice: string;
+    maxPrice: string;
+    searchTerm: string;
+    sortBy: string;
+    page: number;
+    limit: number;
+    }) => {
+    return useQuery({
+        queryKey: ['filteredDishes', filter],
+        queryFn: () => getFilteredDishes(filter),
+    });
+}
 
 export const useDish = (dishId: string) => {
   return useQuery<Dish>({

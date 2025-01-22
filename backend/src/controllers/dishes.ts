@@ -201,3 +201,46 @@ export const getCategories = async (req: Request, res: Response, next: NextFunct
         next(createError(400, error.message));
     }
 };
+
+export const getFilteredDishes = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { category, minPrice, maxPrice, searchTerm, sortBy, page = 1, limit = 10 } = req.query;
+
+        const filter: any = {};
+        if (category) {
+            filter.category = category;
+        }
+        if (minPrice) {
+            filter.price = { $gte: Number(minPrice) };
+        }
+        if (maxPrice) {
+            filter.price = { ...filter.price, $lte: Number(maxPrice) };
+        }
+        if (searchTerm) {
+            filter.name = { $regex: searchTerm, $options: "i" };
+        }
+
+        const sort: any = {};
+        if (sortBy) {
+            sort.price = sortBy === "asc" ? 1 : -1;
+        }
+
+        const skip = (Number(page) - 1) * Number(limit);
+        const dishes = await dish.find(filter).sort(sort).skip(skip).limit(Number(limit));
+
+        const total = await dish.countDocuments(filter);
+
+        const formattedDishes = dishes.map((dish) => ({
+            id: dish._id,
+            name: dish.name,
+            description: dish.description,
+            price: dish.price,
+            category: dish.category,
+            image: `data:${dish.imageType};base64,${dish.image.toString("base64")}`,
+        }));
+
+        res.status(200).json({ dishes: formattedDishes, total });
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+};

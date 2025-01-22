@@ -46,7 +46,7 @@ const DishCard = ({ dish }: { dish: Dish }) => {
   return (
     <Card
       hoverable
-      cover={<img alt={dish.name} src={dish.image} className="dish-image" />}
+      cover={<img alt={dish.name} src={dish.image} className="dish-image" loading="lazy" />}
       actions={[
         <Tooltip title="Edit">
           <Button icon={<EditOutlined />} onClick={handleEdit} />
@@ -63,7 +63,7 @@ const DishCard = ({ dish }: { dish: Dish }) => {
       <Card.Meta
         avatar={<Avatar src={dish.image} />}
         title={dish.name}
-        description={`Price: ${dish.price} €`}
+        description={`Price: ${dish.price} PLN`}
       />
     </Card>
   );
