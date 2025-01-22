@@ -5,6 +5,7 @@ import {
   CloudUploadOutlined,
   ProductOutlined,
   UnorderedListOutlined,
+    FormOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, theme } from 'antd';
 import { Link, Outlet } from 'react-router';
@@ -40,6 +41,11 @@ const items = [
     icon: <UserOutlined />,
     label: <Link to="/admin/users">Overview Users</Link>,
   },
+  {
+    key: '6',
+    icon: <FormOutlined />,
+    label: <Link to="/admin/opinions">Manage opinions</Link>,
+  },
 ];
 
 const DashboardLayout: React.FC = () => {
@@ -70,12 +76,6 @@ const DashboardLayout: React.FC = () => {
       <Sider
         breakpoint="lg"
         collapsedWidth="50"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
         style={{ position: 'fixed', height: '100%' }}
       >
         <div className="demo-logo-vertical" />

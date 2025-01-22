@@ -18,7 +18,9 @@ import DashboardLayout from './pages/Dashboard/DashboardLayout.tsx';
 import OverviewUsers from './pages/Dashboard/OverviewUsers.tsx';
 import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
+import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
 import HomePage from "./pages/Home/HomePage.tsx";
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -40,6 +42,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="dishes/edit/:id" element={<DishEditPage />} />
               <Route path="add-dish/" element={<AddDishPage />} />
               <Route path="users" element={<OverviewUsers />} />
+              <Route path="opinions" element={<ManageOpinionsPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
