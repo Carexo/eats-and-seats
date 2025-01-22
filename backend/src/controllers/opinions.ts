@@ -70,40 +70,41 @@ export const getOpinionsByDishId = async (req: Request, res: Response, next: Nex
     }
 };
 
-export const deleteOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteOpinion = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { id } = req.params;
+        const { opinion_id } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(id)) {
+        if (!mongoose.Types.ObjectId.isValid(opinion_id)) {
             next(createError(400, "Invalid ID"));
         }
-
-        const deletedOpinion = await Opinion.findByIdAndDelete(id);
-
-        if (!deletedOpinion) {
-            next(createError(404, "Opinion not found"));
-        }
-
+        await Opinion.findByIdAndDelete(opinion_id);
         res.status(200).json({ message: "Opinion deleted successfully." });
     } catch (error: any) {
         next(createError(500, error.message));
     }
-}
+};
 
 export const getOpinions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+        const { sort } = req.query;
+        const sortOption: Record<string, 1 | -1> = {};
+        if (sort === "asc" || sort === "desc") {
+            sortOption.rating = sort === "asc" ? 1 : -1;
+        }
+
         const opinions = await Opinion.find()
             .populate<{ user: IUser }>("user", "username")
-            .populate<{ dish: IDish }>("dish", "name");
+            .populate<{ dish_id: IDish }>("dish_id", "name")
+            .sort(sortOption);
 
         res.status(200).json({
             message: "Successfully get opinions",
             data: opinions.map((opinion) => ({
                 opinionID: opinion._id,
-                dish_name: opinion.dish.name,
+                dish_name: opinion.dish_id.name,
                 rating: opinion.rating,
                 description: opinion.description,
-                username: opinion.user.username,
+                username: opinion.user ? opinion.user.username : "unknown",
             })),
         });
     } catch (error: any) {

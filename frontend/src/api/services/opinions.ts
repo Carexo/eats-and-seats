@@ -56,24 +56,25 @@ export const addOpinion = async ({
   }
 };
 
-export const deleteOpinion = async (opinionID: string) => {
+export const deleteOpinion = async (opinionId: string) => {
     try {
-        await client.delete(`/opinions/${opinionID}`, { withCredentials: true });
+        await client.delete(`/opinions/${opinionId}`, {
+            withCredentials: true,
+        });
     } catch (error) {
         if (isAxiosError(error)) {
-        throw new Error(error?.response?.data.error.message);
+            throw new Error(error?.response?.data?.message);
         } else {
-        throw new Error('something went wrong');
+            throw new Error('Failed to delete opinion.');
         }
     }
-}
+};
 
-export const getOpinions = async () => {
+export const getOpinions = async ( sort? : string ) => {
     try {
-        const response = await client.get<ApiResponse<IExtendOpinion[]>>(
-        '/opinions',
+        const response = await client.get(
+            `/opinions?sort=${sort || ''}`,
         );
-
         return response.data.data;
     } catch (error) {
         if (isAxiosError(error)) {

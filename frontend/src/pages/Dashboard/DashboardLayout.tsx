@@ -76,12 +76,6 @@ const DashboardLayout: React.FC = () => {
       <Sider
         breakpoint="lg"
         collapsedWidth="50"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
         style={{ position: 'fixed', height: '100%' }}
       >
         <div className="demo-logo-vertical" />
