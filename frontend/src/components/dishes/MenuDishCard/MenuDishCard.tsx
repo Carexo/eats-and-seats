@@ -1,9 +1,9 @@
 import { Card, Button, Typography } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Dish } from './Dish.types.ts';
-//import './MenuDishCard.css';
-import { useAddProductToCart } from '../../../hooks/cart/useAddProductToCart.ts';
-import { Product } from '../../../store/cart/state.types.ts';
+import './MenuDishCard.css';
+import {useAddProductToCart} from "../../../hooks/cart/useAddProductToCart.ts";
+import {Product} from "../../../store/cart/state.types.ts";
 const { Title, Text } = Typography;
 
 const MenuDishCard = ({ dish }: { dish: Dish }) => {
