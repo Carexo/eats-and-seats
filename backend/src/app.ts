@@ -9,6 +9,7 @@ import opinionsRoutes from "./routes/opinions";
 import userRoutes from "./routes/users";
 import cartRoutes from "./routes/cart";
 import orderRoutes from "./routes/order";
+import reservationRoutes from "./routes/reservation";
 
 import { errorHandler } from "./middlewares/error";
 
@@ -37,6 +38,7 @@ app.use("/api/opinions", opinionsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/reservation", reservationRoutes);
 
 app.use(errorHandler);
 
