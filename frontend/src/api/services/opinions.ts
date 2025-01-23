@@ -95,3 +95,37 @@ export const getAverageRating = async (dishId: string) => {
     }
   }
 };
+
+export const getOpinionsByUserId = async () => {
+    try {
+        const response = await client.get(`/opinions/user`, {
+            withCredentials: true,
+        });
+        return response.data.data || [];
+    } catch (error) {
+        if (isAxiosError(error)) {
+        console.warn(error?.response?.data.message);
+        } else {
+        console.warn('Failed to fetch opinions.');
+        }
+    }
+}
+
+export const updateOpinion = async (opinionId: string, opinion: OpinionPayload) => {
+    try {
+        await client.patch(
+            `/opinions/${opinionId}`,
+            {
+                rating: opinion.rate,
+                description: opinion.description,
+            },
+            { withCredentials: true },
+        );
+    } catch (error) {
+        if (isAxiosError(error)) {
+            throw new Error(error?.response?.data.error.message);
+        } else {
+            throw new Error('something went wrong');
+        }
+    }
+}
