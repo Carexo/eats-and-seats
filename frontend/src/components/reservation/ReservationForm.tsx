@@ -1,11 +1,21 @@
 import {Button, Card, DatePicker, Form, Input, InputNumber, TimePicker} from "antd";
 import {ReservationFormValues} from "./Reservation.types.ts";
+import {useAddReservation} from "../../api/queries/reservation.ts";
 
 const ReservationForm = () => {
     const [form] = Form.useForm();
+    const {mutate} = useAddReservation()
 
     const onFinish = (values: ReservationFormValues) => {
-        console.log('Reservation Data:', values);
+        mutate({
+            name: values.name,
+            phone: values.phone,
+            email: values.email,
+            date: values.date.format('YYYY-MM-DD'),
+            time: values.time.format('HH:mm'),
+            guests: values.guests
+        })
+        form.resetFields();
     };
 
     return (
