@@ -40,7 +40,11 @@ export const addReservation = async (reservationPayload: ReservationPayload) => 
 
 export const getReservations = async () => {
     try {
-        const response = await client.get<ApiResponse<ReservationResponse[]>>('/reservation');
+        const response = await client.get<ApiResponse<ReservationResponse[]>>('/reservation',
+            {
+                withCredentials: true
+            }
+            );
 
         return response.data;
     } catch (error) {

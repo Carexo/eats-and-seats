@@ -6,18 +6,19 @@ import {
     getReservationById,
     updateReservation
 } from "../controllers/reservation";
+import {protectAdmin} from "../middlewares/auth";
 
 const router = Router();
 
 router.post("/", createReservation);
 
-router.get("/", getAllReservations);
+router.get("/", protectAdmin, getAllReservations);
 
-router.get("/:id", getReservationById);
+router.get("/:id", protectAdmin, getReservationById);
 
-router.put("/:id", updateReservation);
+router.put("/:id", protectAdmin, updateReservation);
 
-router.delete("/:id", deleteReservation);
+router.delete("/:id", protectAdmin, deleteReservation);
 
 export default router;
 
