@@ -55,3 +55,17 @@ export const getReservations = async () => {
         }
     }
 }
+
+export const deleteReservation = async (id: string) => {
+    try {
+        await client.delete(`/reservation/${id}`, {
+            withCredentials: true
+        });
+    } catch (error) {
+        if (isAxiosError(error)) {
+            throw new Error(error?.response?.data.error.message);
+        } else {
+            throw new Error('something went wrong');
+        }
+    }
+}
