@@ -79,6 +79,18 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
+export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const orders = await Order.find().populate({
+            path: "products.dishId",
+            select: "-image", // Wykluczamy pole 'image'
+        });
+        res.status(200).json(orders);
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+};
+
 export const getUserOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.user?.userID;
@@ -155,13 +167,18 @@ export const cancelOrder = async (req: Request, res: Response, next: NextFunctio
             return;
         }
 
-        if (order.user && order.user.toString() !== req.user?.userID) {
+        if (order.user && order.user.toString() !== req.user?.userID && req.user?.role !== "admin") {
             next(createError(403, "You are not authorized to cancel this order."));
             return;
         }
 
-        if (order.status !== "pending") {
+        if (req.user?.role !== 'admin' && order.status !== "pending") {
             next(createError(400, "Only pending orders can be canceled."));
+            return;
+        }
+        if (req.user?.role === 'admin' && order.status === "canceled") {
+            next(createError(400, "Order is already canceled."));
+            return;
         }
 
         order.status = "canceled";
