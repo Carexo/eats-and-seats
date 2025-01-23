@@ -137,3 +137,54 @@ export const getAverageRating = async (req: Request, res: Response, next: NextFu
         next(createError(500, error.message));
     }
 }
+
+export const getOpinionsByUserId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const userId = req.user?.userID;
+        console.log("User: ", userId);
+        if (!userId) {
+            next(createError(401, "Unauthorized. Please log in."));
+            return;
+        }
+
+        const opinions = await Opinion.find({ user: userId }).populate<{ dish_id: IDish }>("dish_id", "name");
+
+        res.status(200).json({
+            message: "Successfully get opinions",
+            data: opinions.map((opinion) => ({
+                opinionID: opinion._id,
+                dish_name: opinion.dish_id.name,
+                rating: opinion.rating,
+                description: opinion.description,
+            })),
+        });
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+}
+
+export const updateOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        const { opinion_id } = req.params;
+        const { rating, description } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(opinion_id)) {
+            next(createError(400, "Invalid ID"));
+        }
+
+        const opinion = await Opinion.findById(opinion_id);
+
+        if (!opinion) {
+            next(createError(404, "Opinion not found"));
+            return;
+        }
+
+        opinion.rating = rating;
+        opinion.description = description;
+        await opinion.save();
+
+        res.status(200).json({ message: "Opinion updated successfully", data: opinion });
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+}

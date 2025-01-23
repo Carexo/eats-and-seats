@@ -1,8 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import {deleteOpinion, getAverageRating, getOpinions, getOpinionsByDishId} from '../services/opinions';
+import {
+    deleteOpinion,
+    getAverageRating,
+    getOpinions,
+    getOpinionsByDishId,
+    getOpinionsByUserId, updateOpinion
+} from '../services/opinions';
 import { useMutation } from '@tanstack/react-query';
 import { addOpinion } from '../services/opinions.ts';
 import { ActionsContextType } from '../../store/types.ts';
+import {OpinionPayload} from "../../components/opinions/AddOpinion/AddOpinion.types.ts";
 
 export const useOpinions = (dishId: string) => {
   return useQuery({
@@ -66,5 +73,32 @@ export const useAverageRating = (dishId: string) => {
         queryFn: () => getAverageRating(dishId),
         refetchOnWindowFocus: true,
     });
-
 }
+
+export const useOpinionsByUserId = (username: string) => {
+    return useQuery({
+        queryKey: ['user', username],
+        queryFn: getOpinionsByUserId,
+        refetchOnWindowFocus: true,
+    });
+}
+
+export const useUpdateOpinion = (
+    notification: ActionsContextType['notificationSend'], opinionId: string, values: OpinionPayload
+) => {
+    return useMutation({
+        mutationFn: () => updateOpinion(opinionId, values),
+        onSuccess: () => {
+            notification('success', {
+                title: 'Opinion updated',
+                description: 'Opinion updated successfully',
+            });
+        },
+        onError: (error) => {
+            notification('error', {
+                title: "Opinion can't be updated",
+                description: error.message,
+            });
+        },
+    });
+};

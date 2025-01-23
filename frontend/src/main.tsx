@@ -19,6 +19,7 @@ import OverviewDishes from './pages/Dashboard/OverviewDishes.tsx';
 import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
 import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
 import UserChangePasswordPage from "./pages/User/UserChangePasswordPage.tsx";
+import UserOpinionsPage from "./pages/User/UserOpinionsPage.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <Provider>
@@ -31,7 +32,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="dishes/:id" element={<DishDetails />} />
               <Route path="menu" element={<MenuPage />} />
               <Route path="user/account" element={<UserChangePasswordPage/>} />
-              {/*<Route path="user/opinions" element={<UserOpinionsPage />} />*/}
+              <Route path="user/opinions" element={<UserOpinionsPage />} />
               {/*<Route path="user/orders" element={<UserOrdersPage />} />*/}
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
