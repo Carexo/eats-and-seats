@@ -103,6 +103,7 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
 export const getUserOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.user?.userID;
+
         const { sort } = req.query;
         const sortOption: Record<string, 1 | -1> = {};
         if (sort === "asc" || sort === "desc") {

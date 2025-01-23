@@ -70,18 +70,20 @@ export const deleteOpinion = async (opinionId: string) => {
   }
 };
 
-export const getOpinions = async (sort?: string) => {
-  try {
-    const response = await client.get(`/opinions?sort=${sort || ''}`);
-    return response.data.data;
-  } catch (error) {
-    if (isAxiosError(error)) {
-      console.warn(error?.response?.data.message);
-    } else {
-      console.warn('Failed to fetch opinions.');
+export const getOpinions = async ( sort? : string ) => {
+    try {
+        const response = await client.get(
+            `/opinions?sort=${sort || ''}`,
+        );
+        return response.data.data || [];
+    } catch (error) {
+        if (isAxiosError(error)) {
+            console.warn(error?.response?.data.message);
+        } else {
+            console.warn('Failed to fetch opinions.');
+        }
     }
-  }
-};
+}
 
 export const getAverageRating = async (dishId: string) => {
   try {

@@ -103,12 +103,11 @@ export const getOpinions = async (req: Request, res: Response, next: NextFunctio
             .populate<{ user: IUser }>("user", "username")
             .populate<{ dish_id: IDish }>("dish_id", "name")
             .sort(sortOption);
-
         res.status(200).json({
             message: "Successfully get opinions",
             data: opinions.map((opinion) => ({
                 opinionID: opinion._id,
-                dish_name: opinion.dish_id.name,
+                dish_name: opinion.dish_id?.name,
                 rating: opinion.rating,
                 description: opinion.description,
                 username: opinion.user ? opinion.user.username : "unknown",

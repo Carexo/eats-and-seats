@@ -60,13 +60,13 @@ export const useDeleteOpinion = (
   });
 };
 
-export const useAllOpinions = (sort?: string) => {
-  return useQuery({
-    queryKey: ['opinions', sort || 'default'],
-    queryFn: () => getOpinions(sort || ''),
-    refetchOnWindowFocus: true,
-  });
-};
+export const useAllOpinions = (sort? : string) => {
+    return useQuery({
+        queryKey: ['opinions', sort||'default'],
+        queryFn: () => getOpinions(sort||''),
+        refetchOnWindowFocus: true,
+    });
+}
 
 export const useAverageRating = (dishId: string) => {
     return useQuery({
