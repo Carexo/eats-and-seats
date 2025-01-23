@@ -1,14 +1,16 @@
-import {Menu, MenuProps} from 'antd';
+import { Menu, MenuProps } from 'antd';
 import { useAuth } from '../../store/hooks.ts';
 import { useLogout } from '../../api/queries/auth.ts';
-import {UserOutlined} from "@ant-design/icons";
-import {RightMenuProps} from "./RightMenu.types.ts";
-const RightMenu = (props: { mode: RightMenuProps }) => {
+import { UserOutlined } from "@ant-design/icons";
+
+const RightMenu = (props: { mode: MenuProps['mode'] }) => {
   const auth = useAuth();
   const logoutMutation = useLogout();
+
   const handleLogout = () => {
     logoutMutation.mutate();
   };
+
   const items: MenuProps['items'] = auth.isLogged ? [
     {
       label: <UserOutlined />,
@@ -46,7 +48,8 @@ const RightMenu = (props: { mode: RightMenuProps }) => {
   ];
 
   return (
-      <Menu mode={props.mode} items={items}/>
-  )
-}
+      <Menu mode={props.mode} items={items} />
+  );
+};
+
 export default RightMenu;
