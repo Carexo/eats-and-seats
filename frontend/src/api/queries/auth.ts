@@ -60,6 +60,7 @@ export const useRegister = () => {
 };
 
 export const useLogout = () => {
+  const navigate = useNavigate();
   const { notificationSend, logoutUser: storeLogoutUser } = useActions();
   return useMutation({
     mutationFn: logoutUser,
@@ -69,6 +70,9 @@ export const useLogout = () => {
         title: 'You are logged out!',
         description: 'You have successfully logged out.',
       });
+      setTimeout(() => {
+        navigate(`/`);
+      }, 1000);
     },
     onError: (error) => {
       notificationSend('success', {
