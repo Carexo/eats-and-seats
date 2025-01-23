@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
-import { createOrder } from '../services/order.ts';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {cancelOrder, createOrder, getOrders, getUserOrders} from '../services/order.ts';
 import { useActions, useAuth, useCart } from '../../store/hooks.ts';
 import {
   Address,
@@ -79,3 +79,38 @@ export const useCreateOrder = () => {
     };
   }
 };
+
+export const useOrders = () => {
+    return useQuery({
+        queryKey: ['orders'],
+        queryFn: getOrders,
+        refetchOnWindowFocus: true,
+    });
+}
+
+export const useUserOrders= (username: string) => {
+    return useQuery({
+        queryKey: ['userOrders', username],
+        queryFn: () => getUserOrders(),
+        refetchOnWindowFocus: true,
+    });
+}
+
+export const useCancelOrder = () => {
+    const { notificationSend } = useActions();
+    return useMutation({
+        mutationFn: (orderId: string) => cancelOrder(orderId),
+        onSuccess: () => {
+            notificationSend('success', {
+                title: 'Order is canceled',
+                description: 'Order is canceled successfully',
+            });
+        },
+        onError: (error) => {
+            notificationSend('error', {
+                title: "Order can't be canceled",
+                description: error.message,
+            });
+        },
+    });
+}
