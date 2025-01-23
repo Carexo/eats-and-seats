@@ -160,7 +160,7 @@ export const getOpinionsByUserId = async (req: Request, res: Response, next: Nex
     } catch (error: any) {
         next(createError(500, error.message));
     }
-}
+};
 
 export const updateOpinion = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -186,4 +186,4 @@ export const updateOpinion = async (req: Request, res: Response, next: NextFunct
     } catch (error: any) {
         next(createError(500, error.message));
     }
-}
+};

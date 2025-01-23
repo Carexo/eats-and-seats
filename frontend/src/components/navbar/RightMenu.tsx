@@ -1,7 +1,7 @@
 import { Menu, MenuProps } from 'antd';
 import { useAuth } from '../../store/hooks.ts';
 import { useLogout } from '../../api/queries/auth.ts';
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from '@ant-design/icons';
 
 const RightMenu = (props: { mode: MenuProps['mode'] }) => {
   const auth = useAuth();
@@ -11,45 +11,45 @@ const RightMenu = (props: { mode: MenuProps['mode'] }) => {
     logoutMutation.mutate();
   };
 
-  const items: MenuProps['items'] = auth.isLogged ? [
-    {
-      label: <UserOutlined />,
-      key: 'user',
-      children: [
+  const items: MenuProps['items'] = auth.isLogged
+    ? [
         {
-          label: <a href="/user/account">Profile</a>,
-          key: 'profile'
+          label: <UserOutlined />,
+          key: 'user',
+          children: [
+            {
+              label: <a href="/user/account">Profile</a>,
+              key: 'profile',
+            },
+            {
+              label: <a href="/user/orders">Orders</a>,
+              key: 'orders',
+            },
+            {
+              label: <a href="/user/opinions">Opinions</a>,
+              key: 'opinions',
+            },
+          ],
         },
         {
-          label: <a href="/user/orders">Orders</a>,
-          key: 'orders'
+          label: <a onClick={handleLogout}>Log out</a>,
+          key: 'logout',
+          className: 'button-important',
         },
-        {
-          label: <a href="/user/opinions">Opinions</a>,
-          key: 'opinions'
-        }
       ]
-    },
-    {
-      label: <a onClick={handleLogout}>Log out</a>,
-      key: 'logout',
-      className: "button-important"
-    }
-  ] : [
-    {
-      label: <a href="/auth/signin">Sign in</a>,
-      key: 'signin'
-    },
-    {
-      label: <a href="/auth/signup">Sign up</a>,
-      key: 'signup',
-      className: "button-important"
-    }
-  ];
+    : [
+        {
+          label: <a href="/auth/signin">Sign in</a>,
+          key: 'signin',
+        },
+        {
+          label: <a href="/auth/signup">Sign up</a>,
+          key: 'signup',
+          className: 'button-important',
+        },
+      ];
 
-  return (
-      <Menu mode={props.mode} items={items} />
-  );
+  return <Menu mode={props.mode} items={items} />;
 };
 
 export default RightMenu;

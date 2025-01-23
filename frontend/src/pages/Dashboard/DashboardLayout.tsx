@@ -7,7 +7,7 @@ import {
   UnorderedListOutlined,
   FormOutlined,
   ScheduleOutlined,
-    HomeOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, theme } from 'antd';
 import { Link, Outlet } from 'react-router';

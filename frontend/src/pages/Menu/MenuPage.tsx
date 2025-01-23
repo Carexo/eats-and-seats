@@ -31,7 +31,6 @@ const OverviewDishes = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
 
-
   const { data: filteredDishes = [], isLoading } = useFilteredDishes({
     category: selectedCategory === 'All' ? '' : selectedCategory,
     maxPrice: priceRange[1].toString(),
@@ -70,7 +69,6 @@ const OverviewDishes = () => {
     setSearchTerm(value);
     setCurrentPage(1);
   }, 300);
-  
 
   const handlePageChange = (page: number, pageSize?: number) => {
     setCurrentPage(page);

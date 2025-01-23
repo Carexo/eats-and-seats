@@ -5,10 +5,10 @@ import {
     deleteOpinion,
     getOpinions,
     getAverageRating,
-    getOpinionsByUserId, updateOpinion
+    getOpinionsByUserId,
+    updateOpinion,
 } from "../controllers/opinions";
-import {protect} from "../middlewares/auth";
-
+import { protect } from "../middlewares/auth";
 
 const router = Router();
 

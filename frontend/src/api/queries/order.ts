@@ -1,5 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {cancelOrder, createOrder, getOrders, getUserOrders} from '../services/order.ts';
+import {
+  cancelOrder,
+  createOrder,
+  getOrders,
+  getUserOrders,
+} from '../services/order.ts';
 import { useActions, useAuth, useCart } from '../../store/hooks.ts';
 import {
   Address,
@@ -81,36 +86,45 @@ export const useCreateOrder = () => {
 };
 
 export const useOrders = (sortOrder?: string) => {
-    return useQuery({
-        queryKey: ['orders', sortOrder || 'default'],
-        queryFn: () => getOrders(sortOrder || ''),
-        refetchOnWindowFocus: true,
-    });
-}
+  return useQuery({
+    queryKey: ['orders', sortOrder || 'default'],
+    queryFn: () => getOrders(sortOrder || ''),
+    refetchOnWindowFocus: true,
+  });
+};
 
-export const useUserOrders= (username: string, sortOrder?: string, user_id?: string) => {
-    return useQuery({
-        queryKey: ['userOrders', username, sortOrder || 'default', user_id||'none'],
-        queryFn: () => getUserOrders(sortOrder || '', user_id || ''),
-        refetchOnWindowFocus: true,
-    });
-}
+export const useUserOrders = (
+  username: string,
+  sortOrder?: string,
+  user_id?: string,
+) => {
+  return useQuery({
+    queryKey: [
+      'userOrders',
+      username,
+      sortOrder || 'default',
+      user_id || 'none',
+    ],
+    queryFn: () => getUserOrders(sortOrder || '', user_id || ''),
+    refetchOnWindowFocus: true,
+  });
+};
 
 export const useCancelOrder = () => {
-    const { notificationSend } = useActions();
-    return useMutation({
-        mutationFn: (orderId: string) => cancelOrder(orderId),
-        onSuccess: () => {
-            notificationSend('success', {
-                title: 'Order is canceled',
-                description: 'Order is canceled successfully',
-            });
-        },
-        onError: (error) => {
-            notificationSend('error', {
-                title: "Order can't be canceled",
-                description: error.message,
-            });
-        },
-    });
-}
+  const { notificationSend } = useActions();
+  return useMutation({
+    mutationFn: (orderId: string) => cancelOrder(orderId),
+    onSuccess: () => {
+      notificationSend('success', {
+        title: 'Order is canceled',
+        description: 'Order is canceled successfully',
+      });
+    },
+    onError: (error) => {
+      notificationSend('error', {
+        title: "Order can't be canceled",
+        description: error.message,
+      });
+    },
+  });
+};

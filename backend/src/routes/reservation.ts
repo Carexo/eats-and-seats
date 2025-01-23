@@ -1,12 +1,12 @@
-import {Router} from "express";
+import { Router } from "express";
 import {
     createReservation,
     deleteReservation,
     getAllReservations,
     getReservationById,
-    updateReservation
+    updateReservation,
 } from "../controllers/reservation";
-import {protectAdmin} from "../middlewares/auth";
+import { protectAdmin } from "../middlewares/auth";
 
 const router = Router();
 
@@ -21,4 +21,3 @@ router.put("/:id", protectAdmin, updateReservation);
 router.delete("/:id", protectAdmin, deleteReservation);
 
 export default router;
-
