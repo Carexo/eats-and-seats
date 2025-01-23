@@ -1,4 +1,4 @@
-import { useCategories, useFilteredDishes } from '../../api/queries/dishes.ts';
+import {useCategories, useFilteredDishes, useGetMinAndMaxPrice} from '../../api/queries/dishes.ts';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Pagination,
@@ -16,20 +16,25 @@ import {
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 import { Dish } from '../../components/dishes/DishCard/Dish.types.ts';
-import { Option } from 'antd/es/mentions';
 import { debounce } from 'lodash';
 import MenuDishCard from '../../components/dishes/MenuDishCard/MenuDishCard.tsx';
-
+const {Option} = Select;
 const OverviewDishes = () => {
-  const [maxPrice, setMaxPrice] = useState<number>(100);
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
   const { data: categories = [] } = useCategories();
+  const { data: minAndMaxPrice } = useGetMinAndMaxPrice();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('asc');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(12);
+
+  useEffect(() => {
+    if (minAndMaxPrice) {
+      setPriceRange([minAndMaxPrice.minPrice, minAndMaxPrice.maxPrice]);
+    }
+  }, [minAndMaxPrice]);
 
   const { data: filteredDishes = [], isLoading } = useFilteredDishes({
     category: selectedCategory === 'All' ? '' : selectedCategory,
@@ -46,7 +51,6 @@ const OverviewDishes = () => {
       const maxPrice = Math.max(
         ...filteredDishes.map((dish: Dish) => dish.price),
       );
-      setMaxPrice(maxPrice);
       setPriceRange([0, maxPrice]);
     }
   }, [filteredDishes]);
@@ -116,8 +120,8 @@ const OverviewDishes = () => {
               range
               step={1}
               min={0}
-              max={maxPrice}
-              defaultValue={[0, maxPrice]}
+              max={minAndMaxPrice?.maxPrice || 100}
+              defaultValue={[minAndMaxPrice?.minPrice || 0, minAndMaxPrice?.maxPrice|| 100]}
               onChange={handlePriceChange}
               style={{ maxWidth: '400px', margin: '0 auto' }}
             />

@@ -9,7 +9,7 @@ import {
     updateDishByName,
     deleteDishByName,
     getCategories,
-    getFilteredDishes,
+    getFilteredDishes, getMinAndMaxPrice,
 } from "../controllers/dishes";
 
 const router = express.Router();
@@ -18,6 +18,7 @@ import { protectAdmin } from "../middlewares/auth";
 
 router.post("/", protectAdmin, uploadImage.single("image"), optimizeImage, addDish);
 router.get("/", getDishes);
+router.get("/price-range", getMinAndMaxPrice);
 router.get("/categories", getCategories);
 router.get("/filter", getFilteredDishes);
 router.get("/name/:name", getDishByName);
@@ -26,5 +27,6 @@ router.put("/:id", protectAdmin, uploadImage.single("image"), optimizeImage, upd
 router.put("/name/:name", protectAdmin, uploadImage.single("image"), optimizeImage, updateDishByName);
 router.delete("/:id", protectAdmin, deleteDishById);
 router.delete("/name/:name", protectAdmin, deleteDishByName);
+
 
 export default router;

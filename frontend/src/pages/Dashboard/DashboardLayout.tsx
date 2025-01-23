@@ -63,14 +63,13 @@ const DashboardLayout: React.FC = () => {
     },
     {
       key: '8',
-      icon: <RetweetOutlined />,
-      label: <a onClick={handleLogout}>Log out</a>,
-      onclick: {handleLogout},
+      icon: <ScheduleOutlined />,
+      label: <Link to="/admin/reservations">Manage reservations</Link>,
     },
     {
       key: '9',
-      icon: <ScheduleOutlined />,
-      label: <Link to="/admin/reservations">Manage reservations</Link>,
+      icon: <RetweetOutlined />,
+      label: <a onClick={handleLogout}>Log out</a>,
     },
   ];
 

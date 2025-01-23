@@ -1,6 +1,6 @@
 import DishCard from '../../components/dishes/DishCard/DishCard.tsx';
-import { useCategories, useFilteredDishes } from '../../api/queries/dishes.ts';
-import { useEffect, useMemo, useState } from 'react';
+import {useCategories, useFilteredDishes, useGetMinAndMaxPrice} from '../../api/queries/dishes.ts';
+import {useEffect, useMemo, useState} from 'react';
 import {
   Pagination,
   Button,
@@ -17,19 +17,25 @@ import {
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 import { Dish } from '../../components/dishes/DishCard/Dish.types.ts';
-import { Option } from 'antd/es/mentions';
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
+const {Option} = Select;
 
 const OverviewDishes = () => {
   const { data: categories = [] } = useCategories();
-  const [maxPrice, setMaxPrice] = useState<number>(100);
+  const {data: minAndMaxPrice} = useGetMinAndMaxPrice();
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0,0]);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('asc');
   const [pageSize, setPageSize] = useState<number>(12);
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  useEffect(() => {
+    if (minAndMaxPrice) {
+      setPriceRange([minAndMaxPrice.minPrice, minAndMaxPrice.maxPrice]);
+    }
+  }, [minAndMaxPrice]);
 
   const { data: filteredDishes = [], isLoading } = useFilteredDishes({
     category: selectedCategory === 'All' ? '' : selectedCategory,
@@ -40,16 +46,6 @@ const OverviewDishes = () => {
     page: currentPage,
     limit: pageSize,
   });
-
-  useEffect(() => {
-    if (filteredDishes.length > 0) {
-      const maxPrice = Math.max(
-        ...filteredDishes.map((dish: Dish) => dish.price),
-      );
-      setMaxPrice(maxPrice);
-      setPriceRange([0, maxPrice]);
-    }
-  }, [filteredDishes]);
 
   const handleCategory = (category: string) => {
     setSelectedCategory(category);
@@ -64,7 +60,7 @@ const OverviewDishes = () => {
   const handleSearch = debounce((value: string) => {
     setSearchTerm(value);
     setCurrentPage(1);
-  }, 300); // 300 ms opóźnienia
+  }, 300);
 
   const handleSortOrderChange = (value: string) => {
     setSortOrder(value);
@@ -115,9 +111,9 @@ const OverviewDishes = () => {
             <Slider
               range
               step={1}
-              min={0}
-              max={maxPrice}
-              defaultValue={[0, maxPrice]}
+              min={minAndMaxPrice?.minPrice || 0}
+              max={minAndMaxPrice?.maxPrice || 0}
+              defaultValue={[minAndMaxPrice?.minPrice||0, minAndMaxPrice?.maxPrice||0]}
               onChange={handlePriceChange}
               style={{ maxWidth: '400px', margin: '0 auto' }}
             />

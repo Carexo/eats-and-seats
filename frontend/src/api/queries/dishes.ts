@@ -6,7 +6,7 @@ import {
   editDish,
   addDish,
   deleteDish,
-  getFilteredDishes,
+  getFilteredDishes, getMinAndMaxPrice,
 } from '../services/dishes';
 import { DishEditPayload } from '../../components/dishes/DishEdit/DishEditForm.types.ts';
 import { useNavigate } from 'react-router';
@@ -130,3 +130,10 @@ export const useDeleteDish = (
     },
   });
 };
+
+export const useGetMinAndMaxPrice= () => {
+    return useQuery({
+        queryKey: ['minAndMaxPrice'],
+        queryFn: getMinAndMaxPrice,
+    });
+}

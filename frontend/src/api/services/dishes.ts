@@ -129,3 +129,16 @@ export const deleteDish = async (dishId: string) => {
     }
   }
 };
+
+export const getMinAndMaxPrice = async () => {
+    try {
+        const response = await client.get('/dishes/price-range');
+        return response.data;
+    } catch (error) {
+        if (isAxiosError(error)) {
+        throw new Error(error?.response?.data.message);
+        } else {
+        throw new Error('Failed to fetch price range.');
+        }
+    }
+}

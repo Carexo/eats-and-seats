@@ -109,10 +109,10 @@ const DishAddForm: React.FC<DishFormProps> = ({ mutate }) => {
         </Form.Item>
         <Form.Item>
           <Button block type="primary" htmlType="submit">
-            Zapisz zmiany
+            Save
           </Button>
           <Button block type="link" onClick={() => navigate('/admin/dishes')}>
-            Anuluj
+            Cancel
           </Button>
         </Form.Item>
       </Form>

@@ -240,3 +240,25 @@ export const getFilteredDishes = async (req: Request, res: Response, next: NextF
         next(createError(500, error.message));
     }
 };
+
+export const getMinAndMaxPrice = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const minMaxPrice = await dish.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    minPrice: { $min: "$price" },
+                    maxPrice: { $max: "$price" },
+                },
+            },
+        ]);
+
+        if (minMaxPrice.length > 0) {
+            res.status(200).json(minMaxPrice[0]); // Access the first element of the array
+        } else {
+            res.status(200).json({_id:null, minPrice: 0, maxPrice: 0 }); // Default values if no dishes are found
+        }
+    } catch (error: any) {
+        next(createError(500, error.message));
+    }
+}
