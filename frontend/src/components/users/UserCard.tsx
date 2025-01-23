@@ -1,15 +1,19 @@
-import { Avatar, Button, Card, Col, Tooltip, Typography, Modal } from 'antd';
+import { Avatar, Button, Card, Col, Tooltip, Typography, Modal, Spin, List } from 'antd';
 import { UserDeleteOutlined, UserOutlined } from '@ant-design/icons';
 import { User } from './User.types.ts';
 import { useDeleteUser } from '../../api/queries/users.ts';
 import { useActions } from '../../store/hooks.ts';
+import {useState} from "react";
+import {useUserOrders} from "../../api/queries/order.ts";
+import { IOrder } from '../../api/services/order.ts';
 
 const { Title, Text } = Typography;
 
 const UserCard = ({ user }: { user: User }) => {
   const { notificationSend } = useActions();
   const deleteUser = useDeleteUser(notificationSend);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { data: orders = [], isLoading } = useUserOrders('admin_view','',user._id);
 
   const showDeleteConfirm = () => {
     Modal.confirm({
@@ -29,6 +33,14 @@ const UserCard = ({ user }: { user: User }) => {
       },
     });
   };
+
+    const handleSeeOrders = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+    };
 
   return (
     <Col key={user._id} xs={24} sm={12} md={8} lg={6}>
@@ -77,7 +89,7 @@ const UserCard = ({ user }: { user: User }) => {
             <Button
               size="large"
               style={{ width: '80%' }}
-              href={`/orders/${user._id}`}
+              onClick={handleSeeOrders}
             >
               See orders
             </Button>
@@ -92,6 +104,29 @@ const UserCard = ({ user }: { user: User }) => {
           </div>
         </div>
       </Card>
+        <Modal
+            open={isModalVisible}
+            title="User Orders"
+            footer={null}
+            onCancel={handleCloseModal}
+        >
+            {isLoading ? (
+                <Spin size="large" />
+            ) : (
+                <List
+                    itemLayout="horizontal"
+                    dataSource={orders}
+                    renderItem={(order: IOrder) => (
+                        <List.Item>
+                            <List.Item.Meta
+                                title={`Order #${order._id} - ${order.status}`}
+                                description={`Total: $${order.total.toFixed(2)}, Date: ${new Date(order.orderDate).toLocaleDateString()}`}
+                            />
+                        </List.Item>
+                    )}
+                />
+            )}
+        </Modal>
     </Col>
   );
 };

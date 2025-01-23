@@ -88,10 +88,10 @@ export const useOrders = (sortOrder?: string) => {
     });
 }
 
-export const useUserOrders= (username: string, sortOrder?: string) => {
+export const useUserOrders= (username: string, sortOrder?: string, user_id?: string) => {
     return useQuery({
-        queryKey: ['userOrders', username, sortOrder || 'default'],
-        queryFn: () => getUserOrders(sortOrder || ''),
+        queryKey: ['userOrders', username, sortOrder || 'default', user_id||'none'],
+        queryFn: () => getUserOrders(sortOrder || '', user_id || ''),
         refetchOnWindowFocus: true,
     });
 }

@@ -11,7 +11,7 @@ const { Option } = Select;
 const UserOrdersPage: React.FC = () => {
     const {username} = useAuth();
     const [sortOrder, setSortOrder] = useState<string>('');
-    const { data: orders = [], isLoading, refetch } = useUserOrders(username, sortOrder);
+    const { data: orders = [], isLoading, refetch } = useUserOrders(username, sortOrder, '');
     const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
     const cancelOrder = useCancelOrder();
 

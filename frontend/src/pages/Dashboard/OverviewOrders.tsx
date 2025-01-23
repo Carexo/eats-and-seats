@@ -122,6 +122,9 @@ const ManageOrdersPage: React.FC = () => {
                             <strong>Order Date:</strong> {new Date(selectedOrder.orderDate).toLocaleDateString()}
                         </p>
                         <p>
+                            <strong>Customer:</strong> {selectedOrder.email||selectedOrder.user}
+                        </p>
+                        <p>
                             <strong>Address:</strong>{' '}
                             {`${selectedOrder.address.street}, ${selectedOrder.address.city}, ${selectedOrder.address.zipcode}`}
                         </p>

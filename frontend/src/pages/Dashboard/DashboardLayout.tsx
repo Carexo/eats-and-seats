@@ -18,11 +18,6 @@ const { Content, Footer, Sider } = Layout;
 
 const items = [
   {
-    key: '6',
-    icon: <HomeOutlined />,
-    label: <Link to="/">Home Page</Link>,
-  },
-  {
     key: '1',
     icon: <HomeOutlined />,
     label: <Link to="/">Home Page</Link>,

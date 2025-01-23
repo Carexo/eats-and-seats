@@ -68,9 +68,9 @@ export const getOrders = async (sort?: string) => {
 };
 
 
-export const getUserOrders = async (sort?: string) => {
+export const getUserOrders = async (sort?: string, user_id?: string) => {
     try {
-        const response = await client.get(`/order/user?sort=${sort||''}`, {
+        const response = await client.get(`/order/user?sort=${sort||''}&user=${user_id || ''}`, {
         withCredentials: true,
         });
         return response.data || [];
