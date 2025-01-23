@@ -1,23 +1,23 @@
 .landing-page {
-    position: relative;
-    height: 100vh;
-    background: url('./bgimg.jpg') no-repeat center center;
-    background-size: cover;
+  position: relative;
+  height: 100vh;
+  background: url('./bgimg.jpg') no-repeat center center;
+  background-size: cover;
 }
 
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .landing-page__content {
-    text-align: center;
-    color: #fff;
+  text-align: center;
+  color: #fff;
 }

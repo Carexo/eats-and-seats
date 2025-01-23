@@ -33,7 +33,6 @@ export interface IOrder {
   __v: number; // Wersja dokumentu w bazie danych
 }
 
-
 export const createOrder = async (checkoutPayload: CheckoutPayload) => {
   try {
     await client.post(
@@ -67,34 +66,34 @@ export const getOrders = async (sort?: string) => {
   }
 };
 
-
 export const getUserOrders = async (sort?: string, user_id?: string) => {
-    try {
-        const response = await client.get(`/order/user?sort=${sort||''}&user=${user_id || ''}`, {
+  try {
+    const response = await client.get(
+      `/order/user?sort=${sort || ''}&user=${user_id || ''}`,
+      {
         withCredentials: true,
-        });
-        return response.data || [];
-    } catch (error) {
-        if (isAxiosError(error)) {
-        throw new Error(error?.response?.data.error.message);
-        } else {
-        throw new Error('something went wrong');
-        }
+      },
+    );
+    return response.data || [];
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data.error.message);
+    } else {
+      throw new Error('something went wrong');
     }
-}
+  }
+};
 
 export const cancelOrder = async (orderId: string) => {
-    try {
-        await client.get(`/order/cancel/${orderId}`, {
-        withCredentials: true,
-        });
-    } catch (error) {
-        if (isAxiosError(error)) {
-        throw new Error(error?.response?.data.error.message);
-        } else {
-        throw new Error('something went wrong');
-        }
+  try {
+    await client.get(`/order/cancel/${orderId}`, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data.error.message);
+    } else {
+      throw new Error('something went wrong');
     }
-}
-
-
+  }
+};

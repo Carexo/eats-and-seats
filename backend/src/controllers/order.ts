@@ -86,10 +86,12 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
         if (sort === "asc" || sort === "desc") {
             sortOption.orderDate = sort === "asc" ? 1 : -1;
         }
-        const orders = await Order.find().populate({
-            path: "products.dishId",
-            select: "-image",
-        }).sort(sortOption);
+        const orders = await Order.find()
+            .populate({
+                path: "products.dishId",
+                select: "-image",
+            })
+            .sort(sortOption);
         res.status(200).json(orders);
     } catch (error: any) {
         next(createError(500, error.message));
@@ -101,29 +103,28 @@ export const getUserOrders = async (req: Request, res: Response, next: NextFunct
         const { sort } = req.query;
         const { user } = req.query;
         let userId;
-        if (req.user?.role === 'admin' && user!='') {
+        if (req.user?.role === "admin" && user != "") {
             userId = user!.toString();
-        }
-        else {
+        } else {
             userId = req.user?.userID;
         }
-
 
         const sortOption: Record<string, 1 | -1> = {};
         if (sort === "asc" || sort === "desc") {
             sortOption.orderDate = sort === "asc" ? 1 : -1;
         }
 
-
         if (!userId) {
             next(createError(401, "Unauthorized. Please log in."));
             return;
         }
 
-        const orders = await Order.find({ user: userId }).populate({
-            path: "products.dishId",
-            select: "-image",
-        }).sort(sortOption);
+        const orders = await Order.find({ user: userId })
+            .populate({
+                path: "products.dishId",
+                select: "-image",
+            })
+            .sort(sortOption);
         console.log(orders);
 
         res.status(200).json(orders);
@@ -193,11 +194,11 @@ export const cancelOrder = async (req: Request, res: Response, next: NextFunctio
             return;
         }
 
-        if (req.user?.role !== 'admin' && order.status !== "pending") {
+        if (req.user?.role !== "admin" && order.status !== "pending") {
             next(createError(400, "Only pending orders can be canceled."));
             return;
         }
-        if (req.user?.role === 'admin' && order.status === "canceled") {
+        if (req.user?.role === "admin" && order.status === "canceled") {
             next(createError(400, "Order is already canceled."));
             return;
         }

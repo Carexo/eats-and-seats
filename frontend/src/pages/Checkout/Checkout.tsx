@@ -8,7 +8,7 @@ const Checkout = () => {
       <Typography.Title level={2}>Checkout</Typography.Title>
       <Row gutter={[16, 16]} justify="center" style={{ marginTop: '50px' }}>
         <Col xs={24} md={12}>
-            <CheckoutForm />
+          <CheckoutForm />
         </Col>
         <Col xs={24} md={12}>
           <CartOverview />

@@ -1,10 +1,11 @@
-import ManageYourAccount from "../Dashboard/ManageYourAccount.tsx";
+import ManageYourAccount from '../Dashboard/ManageYourAccount.tsx';
 
 const UserChangePasswordPage = () => {
-    return (
-        <>
-        <ManageYourAccount />
-        </>    )
-}
+  return (
+    <>
+      <ManageYourAccount />
+    </>
+  );
+};
 
 export default UserChangePasswordPage;

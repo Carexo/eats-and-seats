@@ -49,7 +49,7 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
           borderTop: '1px solid #f0f0f0',
         }}
       >
-        <Text strong style={{ fontSize: '20px', textAlign:'center' }}>
+        <Text strong style={{ fontSize: '20px', textAlign: 'center' }}>
           {dish.price} PLN
         </Text>
         <div
