@@ -77,7 +77,7 @@ export const useChangeProductCart = (
     onSuccess: (data) => {
       changeCart(data.data);
       notification('success', {
-        title: 'Successfully removed dish from cart',
+        title: 'Successfully edited dish in cart',
         description: 'You have successfully edit the dish.',
       });
     },

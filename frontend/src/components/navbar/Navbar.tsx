@@ -38,7 +38,7 @@ const Navbar = () => {
           onClick={showDrawer}
         />
         <Drawer
-          title="Nawigacja"
+          title="Navigation"
           className={'menu_drawer'}
           placement="right"
           closable={true}

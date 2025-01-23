@@ -21,20 +21,21 @@ import { debounce } from 'lodash';
 import MenuDishCard from '../../components/dishes/MenuDishCard/MenuDishCard.tsx';
 
 const OverviewDishes = () => {
-  const { data: categories = [] } = useCategories();
   const [maxPrice, setMaxPrice] = useState<number>(100);
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
+  const { data: categories = [] } = useCategories();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('asc');
-  const [pageSize, setPageSize] = useState<number>(12);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(12);
+
 
   const { data: filteredDishes = [], isLoading } = useFilteredDishes({
     category: selectedCategory === 'All' ? '' : selectedCategory,
-    minPrice: priceRange[0].toString(),
     maxPrice: priceRange[1].toString(),
+    minPrice: priceRange[0].toString(),
     searchTerm,
     sortBy: sortOrder,
     page: currentPage,
@@ -51,24 +52,25 @@ const OverviewDishes = () => {
     }
   }, [filteredDishes]);
 
-  const handleCategory = (category: string) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
-
   const handlePriceChange = (value: number[]) => {
     setPriceRange([value[0], value[1]]);
     setCurrentPage(1);
   };
 
-  const handleSearch = debounce((value: string) => {
-    setSearchTerm(value);
+  const handleCategory = (category: string) => {
+    setSelectedCategory(category);
     setCurrentPage(1);
-  }, 300); // 300 ms opóźnienia
+  };
 
   const handleSortOrderChange = (value: string) => {
     setSortOrder(value);
   };
+
+  const handleSearch = debounce((value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  }, 300);
+  
 
   const handlePageChange = (page: number, pageSize?: number) => {
     setCurrentPage(page);
@@ -85,7 +87,7 @@ const OverviewDishes = () => {
   return (
     <div style={{ padding: '20px' }}>
       <Input.Search
-        placeholder="Szukaj dania..."
+        placeholder="Search dish..."
         allowClear
         onSearch={handleSearch}
         style={{
