@@ -80,18 +80,18 @@ export const useCreateOrder = () => {
   }
 };
 
-export const useOrders = () => {
+export const useOrders = (sortOrder?: string) => {
     return useQuery({
-        queryKey: ['orders'],
-        queryFn: getOrders,
+        queryKey: ['orders', sortOrder || 'default'],
+        queryFn: () => getOrders(sortOrder || ''),
         refetchOnWindowFocus: true,
     });
 }
 
-export const useUserOrders= (username: string) => {
+export const useUserOrders= (username: string, sortOrder?: string) => {
     return useQuery({
-        queryKey: ['userOrders', username],
-        queryFn: () => getUserOrders(),
+        queryKey: ['userOrders', username, sortOrder || 'default'],
+        queryFn: () => getUserOrders(sortOrder || ''),
         refetchOnWindowFocus: true,
     });
 }

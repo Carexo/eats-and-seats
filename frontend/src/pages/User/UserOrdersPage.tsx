@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
-import {List, Button, Modal, Spin, Typography} from 'antd';
+import {List, Button, Modal, Spin, Typography, Select} from 'antd';
 import {IOrder} from '../../api/services/order';
 import { EyeOutlined, CloseOutlined } from '@ant-design/icons';
 import {useCancelOrder, useUserOrders} from "../../api/queries/order.ts";
 import {useAuth} from "../../store/hooks.ts";
 
 const { Title } = Typography;
+const { Option } = Select;
 
 const UserOrdersPage: React.FC = () => {
     const {username} = useAuth();
-    const { data: orders = [], isLoading, refetch } = useUserOrders(username);
+    const [sortOrder, setSortOrder] = useState<string>('');
+    const { data: orders = [], isLoading, refetch } = useUserOrders(username, sortOrder);
     const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
     const cancelOrder = useCancelOrder();
 
+    const handleSortOrderChange = (value: string) => {
+        setSortOrder(value);
+        refetch();
+    };
 
     const showCancelConfirm = (order: IOrder) => {
         Modal.confirm({
@@ -49,16 +55,30 @@ const UserOrdersPage: React.FC = () => {
             <Title level={2} style={{ textAlign: 'center' }}>
                 Orders
             </Title>
+            <div style={{marginTop: '20px', textAlign: 'center'}}>
+                <Title level={5} style={{textAlign: 'center'}}>
+                    Sort by date:
+                </Title>
+                <Select
+                    defaultValue={sortOrder}
+                    style={{width: 120, alignItems: 'center'}}
+                    onChange={handleSortOrderChange}
+                >
+                    <Option value="">Default</Option>
+                    <Option value="asc">Ascending</Option>
+                    <Option value="desc">Descending</Option>
+                </Select>
+            </div>
             <List
                 itemLayout="horizontal"
-                style={{alignItems:'center', textAlign:'center'}}
+                style={{alignItems: 'center', textAlign: 'center'}}
                 dataSource={orders}
                 renderItem={(order: IOrder) => (
                     <List.Item
                         actions={[
                             <Button
                                 type="primary"
-                                icon={<EyeOutlined />}
+                                icon={<EyeOutlined/>}
                                 onClick={() => handleViewDetails(order)}
                             >
                                 View Details

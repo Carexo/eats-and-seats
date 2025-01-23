@@ -6,6 +6,7 @@ import {
   ProductOutlined,
   UnorderedListOutlined,
   FormOutlined,
+    HomeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, theme } from 'antd';
 import { Link, Outlet } from 'react-router';
@@ -16,6 +17,11 @@ import { useCheckLoggedStatus } from '../../api/queries/auth.ts';
 const { Content, Footer, Sider } = Layout;
 
 const items = [
+  {
+    key: '6',
+    icon: <HomeOutlined />,
+    label: <Link to="/">Home Page</Link>,
+  },
   {
     key: '1',
     icon: <SettingOutlined />,
