@@ -20,6 +20,7 @@ import ManageYourAccount from './pages/Dashboard/ManageYourAccount.tsx';
 import ManageOpinionsPage from "./pages/Dashboard/ManageOpinionsPage.tsx";
 import UserChangePasswordPage from "./pages/User/UserChangePasswordPage.tsx";
 import UserOpinionsPage from "./pages/User/UserOpinionsPage.tsx";
+import Checkout from './pages/Checkout/Checkout.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <Provider>
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
               <Route path="auth/signup" element={<SignUp />} />
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="dishes/:id" element={<DishDetails />} />
@@ -34,6 +36,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="user/account" element={<UserChangePasswordPage/>} />
               <Route path="user/opinions" element={<UserOpinionsPage />} />
               {/*<Route path="user/orders" element={<UserOrdersPage />} />*/}
+              <Route path="checkout" element={<Checkout />} />
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
               <Route path="account" element={<ManageYourAccount />} />

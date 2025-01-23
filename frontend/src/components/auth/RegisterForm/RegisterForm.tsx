@@ -3,12 +3,9 @@ import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router';
 import { RegisterUserPayload } from './RegisterForm.types.ts';
 import { useRegister } from '../../../api/queries/auth.ts';
-import { useActions } from '../../../store/hooks.ts';
 
 const RegisterForm = () => {
-  const { loginUser, notificationSend } = useActions();
-
-  const { mutate } = useRegister(notificationSend, loginUser);
+  const { mutate } = useRegister();
 
   const onFinish = (values: RegisterUserPayload) => {
     mutate(values);

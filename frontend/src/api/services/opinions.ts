@@ -57,48 +57,44 @@ export const addOpinion = async ({
 };
 
 export const deleteOpinion = async (opinionId: string) => {
-    try {
-        await client.delete(`/opinions/${opinionId}`, {
-            withCredentials: true,
-        });
-    } catch (error) {
-        if (isAxiosError(error)) {
-            throw new Error(error?.response?.data?.message);
-        } else {
-            throw new Error('Failed to delete opinion.');
-        }
+  try {
+    await client.delete(`/opinions/${opinionId}`, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error?.response?.data?.message);
+    } else {
+      throw new Error('Failed to delete opinion.');
     }
+  }
 };
 
-export const getOpinions = async ( sort? : string ) => {
-    try {
-        const response = await client.get(
-            `/opinions?sort=${sort || ''}`,
-        );
-        return response.data.data;
-    } catch (error) {
-        if (isAxiosError(error)) {
-        console.warn(error?.response?.data.message);
-        } else {
-        console.warn('Failed to fetch opinions.');
-        }
+export const getOpinions = async (sort?: string) => {
+  try {
+    const response = await client.get(`/opinions?sort=${sort || ''}`);
+    return response.data.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.warn(error?.response?.data.message);
+    } else {
+      console.warn('Failed to fetch opinions.');
     }
-}
+  }
+};
 
 export const getAverageRating = async (dishId: string) => {
-    try {
-        const response = await client.get(
-            `/opinions/average/${dishId}`,
-        );
-        return response.data.data;
-    } catch (error) {
-        if (isAxiosError(error)) {
-        console.warn(error?.response?.data.message);
-        } else {
-        console.warn('Failed to fetch average rating.');
-        }
+  try {
+    const response = await client.get(`/opinions/average/${dishId}`);
+    return response.data.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.warn(error?.response?.data.message);
+    } else {
+      console.warn('Failed to fetch average rating.');
     }
-}
+  }
+};
 
 export const getOpinionsByUserId = async () => {
     try {

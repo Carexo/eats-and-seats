@@ -5,20 +5,24 @@ import {
   logoutUser,
   registerUser,
 } from '../services/auth.ts';
-import { ActionsContextType } from '../../store/types.ts';
+import { useNavigate } from 'react-router';
+import { useActions } from '../../store/hooks.ts';
 
-export const useLogIn = (
-  notificationSend: ActionsContextType['notificationSend'],
-  storeLogin: ActionsContextType['loginUser'],
-) => {
+export const useLogIn = () => {
+  const navigate = useNavigate();
+  const { notificationSend, loginUser: storeLoginUser } = useActions();
+
   return useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      storeLogin({ username: data.data.username, role: data.data.role });
+      storeLoginUser({ username: data.data.username, role: data.data.role });
       notificationSend('success', {
         title: 'Login Successful',
         description: 'You have successfully logged in.',
       });
+      setTimeout(() => {
+        navigate(`/`);
+      }, 1000);
     },
     onError: (error) => {
       notificationSend('error', {
@@ -29,10 +33,10 @@ export const useLogIn = (
   });
 };
 
-export const useRegister = (
-  notificationSend: ActionsContextType['notificationSend'],
-  storeLoginUser: ActionsContextType['loginUser'],
-) => {
+export const useRegister = () => {
+  const navigate = useNavigate();
+  const { notificationSend, loginUser: storeLoginUser } = useActions();
+
   return useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
@@ -41,6 +45,10 @@ export const useRegister = (
         title: 'Register Successful',
         description: 'You have successfully logged in.',
       });
+
+      setTimeout(() => {
+        navigate(`/`);
+      }, 1000);
     },
     onError: (error) => {
       notificationSend('error', {
@@ -51,10 +59,8 @@ export const useRegister = (
   });
 };
 
-export const useLogout = (
-  notificationSend: ActionsContextType['notificationSend'],
-  storeLogoutUser: ActionsContextType['logoutUser'],
-) => {
+export const useLogout = () => {
+  const { notificationSend, logoutUser: storeLogoutUser } = useActions();
   return useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
@@ -73,9 +79,9 @@ export const useLogout = (
   });
 };
 
-export const useCheckLoggedStatus = (
-  storeLoginUser: ActionsContextType['loginUser'],
-) => {
+export const useCheckLoggedStatus = () => {
+  const { loginUser: storeLoginUser } = useActions();
+
   return useMutation({
     mutationFn: checkUserStatus,
     onSuccess: (data) => {

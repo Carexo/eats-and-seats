@@ -27,7 +27,9 @@ const initialCartState: CartState = {
 };
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = notification.useNotification({
+    placement: 'bottomLeft',
+  });
 
   const reducerNotification = useReducer(notificationReducer, {
     notification: api,

@@ -1,4 +1,11 @@
-import { Button, Flex, InputNumber, InputNumberProps, Typography } from 'antd';
+import {
+  Button,
+  InputNumber,
+  InputNumberProps,
+  List,
+  Space,
+  Typography,
+} from 'antd';
 import { CartItemProps } from './CartItem.types.ts';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useRemoveProductCart } from '../../../hooks/cart/useRemoveProductCart.ts';
@@ -22,20 +29,33 @@ const CartItem = ({ dishId, name, price, quantity }: CartItemProps) => {
   };
 
   return (
-    <Flex vertical gap={2}>
-      <Typography.Title level={3}>{name}</Typography.Title>
-      <Flex vertical>
-        <Typography.Text>price: {price}</Typography.Text>
-
-        <Typography.Text>
-          quantity:
-          <InputNumber min={1} onChange={onChange} defaultValue={quantity} />
-        </Typography.Text>
-        <Button onClick={handleRemoveDish}>
-          <DeleteOutlined />
-        </Button>
-      </Flex>
-    </Flex>
+    <List.Item
+      actions={[
+        <InputNumber min={1} defaultValue={quantity} onChange={onChange} />,
+        <Button
+          type="text"
+          danger
+          onClick={handleRemoveDish}
+          icon={<DeleteOutlined />}
+        />,
+      ]}
+    >
+      <List.Item.Meta
+        title={
+          <Typography.Text style={{ margin: 0, fontSize: '1.25rem' }}>
+            {name}
+          </Typography.Text>
+        }
+        description={
+          <Space direction="vertical">
+            <Typography.Text strong>Price: ${price.toFixed(2)}</Typography.Text>
+            <Typography.Text strong>
+              Total: ${(price * quantity).toFixed(2)}
+            </Typography.Text>
+          </Space>
+        }
+      />
+    </List.Item>
   );
 };
 

@@ -1,127 +1,125 @@
-
 .menu {
-    padding: 0 20px;
-    border-bottom: solid 1px #e8e8e8;
-    overflow: auto;
-    box-shadow: 0 0 30px #f3f1f1;
+  padding: 0 20px;
+  border-bottom: solid 1px #e8e8e8;
+  overflow: auto;
+  box-shadow: 0 0 30px #f3f1f1;
 }
 
 .menu__logo {
-    width: 180px;
-    float: left;
-
+  width: 180px;
+  float: left;
 }
 
 .menu__logo a {
-    text-decoration: none;
-    font-size: 20px;
-    padding: 10px 5px;
-    color: black;
-    text-transform: uppercase;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px 5px;
+  color: black;
+  text-transform: uppercase;
 }
 
 .button-important span {
-    color: #3e91f7;
-    border: none;
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
-    border-radius: 5px;
+  color: #3e91f7;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .menu__logo a {
-    display: inline-block;
-    font-size: 20px;
-    padding: 19px 20px;
+  display: inline-block;
+  font-size: 20px;
+  padding: 19px 20px;
 }
 
 .menu__container .ant-menu-item {
-    padding: 10px 5px;
+  padding: 10px 5px;
 }
 
 .menu__container .ant-menu-submenu-title {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 
 .menu__container .ant-menu-item a,
 .menu__container .ant-menu-submenu-title a {
-    padding: 10px 15px;
+  padding: 10px 15px;
 }
 
 .menu__container .ant-menu-horizontal {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .menu__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .menu__left {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .menu__left .ant-menu-overflow {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 .menu__right {
-    display: flex;
-    justify-content: flex-end;
-    text-align: right;
-    flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  flex-grow: 1;
 }
 
 .menu__right .ant-menu-horizontal {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .menu__right .ant-menu-overflow {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
 
 .menu__mobile-button {
-    height: 32px;
-    padding: 6px;
-    display: none !important; /* use of important to overwrite ant-btn */
-    background: #3e91f7;
+  height: 32px;
+  padding: 6px;
+  display: none !important; /* use of important to overwrite ant-btn */
+  background: #3e91f7;
 }
 
 .menu_drawer .ant-drawer-body {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 /* align header of Drawer with header of page */
 .menu_drawer .ant-drawer-header {
-    padding: 14px 24px !important;
+  padding: 14px 24px !important;
 }
 
 @media (max-width: 767px) {
-    .menu__container {
-        display: flex;
-        justify-content: flex-end;
-    }
-    .menu__mobile-button {
-        margin: 10px;
-        display: inline-block !important;
-    }
+  .menu__container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .menu__mobile-button {
+    margin: 10px;
+    display: inline-block !important;
+  }
 
-    .menu__left,
-    .menu__right {
-        display: none;
-    }
+  .menu__left,
+  .menu__right {
+    display: none;
+  }
 
-    .menu__logo a {
-        margin-left: -20px;
-    }
+  .menu__logo a {
+    margin-left: -20px;
+  }
 
-    .menu__container .ant-menu-item,
-    .menu__container .ant-menu-submenu-title {
-        padding: 1px 20px;
-    }
+  .menu__container .ant-menu-item,
+  .menu__container .ant-menu-submenu-title {
+    padding: 1px 20px;
+  }
 
-    .menu__logo a {
-        padding: 10px 20px;
-    }
+  .menu__logo a {
+    padding: 10px 20px;
+  }
 }

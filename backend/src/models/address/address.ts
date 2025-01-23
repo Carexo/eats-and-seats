@@ -1,6 +1,8 @@
-import { model, Schema } from "mongoose";
+import { Schema } from "mongoose";
 
 export interface IAddress {
+    firstName: string;
+    lastName: string;
     street: string;
     city: string;
     state: string;
@@ -9,6 +11,16 @@ export interface IAddress {
 }
 
 export const AddressSchema: Schema = new Schema<IAddress>({
+    firstName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     street: {
         type: String,
         required: true,

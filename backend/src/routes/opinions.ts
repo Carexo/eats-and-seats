@@ -7,7 +7,8 @@ import {
     getAverageRating,
     getOpinionsByUserId, updateOpinion
 } from "../controllers/opinions";
-import {protect, protectAdmin} from "../middlewares/auth";
+import {protect} from "../middlewares/auth";
+
 
 const router = Router();
 

@@ -6,6 +6,7 @@ import {
     getOpinionsByDishId,
     getOpinionsByUserId, updateOpinion
 } from '../services/opinions';
+
 import { useMutation } from '@tanstack/react-query';
 import { addOpinion } from '../services/opinions.ts';
 import { ActionsContextType } from '../../store/types.ts';
@@ -59,13 +60,13 @@ export const useDeleteOpinion = (
   });
 };
 
-export const useAllOpinions = (sort? : string) => {
-    return useQuery({
-        queryKey: ['opinions', sort||'default'],
-        queryFn: () => getOpinions(sort||''),
-        refetchOnWindowFocus: true,
-    });
-}
+export const useAllOpinions = (sort?: string) => {
+  return useQuery({
+    queryKey: ['opinions', sort || 'default'],
+    queryFn: () => getOpinions(sort || ''),
+    refetchOnWindowFocus: true,
+  });
+};
 
 export const useAverageRating = (dishId: string) => {
     return useQuery({

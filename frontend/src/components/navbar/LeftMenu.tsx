@@ -1,22 +1,25 @@
 import {Menu} from "antd";
 import {useAuth} from "../../store/hooks.ts";
+import { Link } from "react-router-dom";
+import type { MenuProps } from "antd";
 
-const LeftMenu = (props) => {
+const LeftMenu = (props: { mode: MenuProps['mode'] | undefined; }) => {
     const auth = useAuth();
 
+    const items: MenuProps['items'] = [
+        {
+            label: <Link to="/menu">Menu</Link>,
+            key: 'menu',
+        },
+        ...(auth.isLogged && auth.role === 'admin' ? [{
+            label: <Link to="/admin">Dashboard</Link>,
+            key: 'admin',
+        }] : [])
+    ];
+
     return (
-        <Menu mode={props.mode}>
-            <Menu.Item>
-                <a href="/menu">Menu</a>
-            </Menu.Item>
-            {auth.isLogged && auth.role === 'admin' && (
-                <Menu.Item>
-                    <a href="/admin">Dashboard</a>
-                </Menu.Item>
-            )
-            }
-        </Menu>
-    )
+        <Menu mode={props.mode} items={items}/>
+    );
 }
 
 export default LeftMenu;

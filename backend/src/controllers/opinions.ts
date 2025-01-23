@@ -130,13 +130,13 @@ export const getAverageRating = async (req: Request, res: Response, next: NextFu
         const opinions = await Opinion.find({ dish_id });
 
         const averageRating =
-            opinions.length>0 ? opinions.reduce((acc, opinion) => acc + opinion.rating, 0) / opinions.length : 0;
+            opinions.length > 0 ? opinions.reduce((acc, opinion) => acc + opinion.rating, 0) / opinions.length : 0;
 
         res.status(200).json({ message: "Successfully get average rating", data: averageRating });
     } catch (error: any) {
         next(createError(500, error.message));
     }
-}
+};
 
 export const getOpinionsByUserId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
