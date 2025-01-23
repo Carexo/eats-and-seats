@@ -6,6 +6,7 @@ import {
   ProductOutlined,
   UnorderedListOutlined,
   FormOutlined,
+  ScheduleOutlined,
     HomeOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Spin, theme } from 'antd';
@@ -51,6 +52,11 @@ const items = [
     key: '7',
     icon: <FormOutlined />,
     label: <Link to="/admin/opinions">Manage opinions</Link>,
+  },
+  {
+    key: '8',
+    icon: <ScheduleOutlined />,
+    label: <Link to="/admin/reservations">Manage reservations</Link>,
   },
 ];
 

@@ -25,6 +25,7 @@ import HomePage from "./pages/Home/HomePage.tsx";
 import OverviewOrdersPage from "./pages/Dashboard/OverviewOrders.tsx";
 import UserOrdersPage from "./pages/User/UserOrdersPage.tsx";
 import Reservation from "./pages/Reservation/Reservation.tsx";
+import ManageReservations from "./pages/Dashboard/ManageReservations.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <Provider>
@@ -52,6 +53,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="users" element={<OverviewUsers />} />
               <Route path="opinions" element={<ManageOpinionsPage />} />
               <Route path="orders" element={<OverviewOrdersPage />} />
+               <Route path="reservations" element={<ManageReservations />} />
             </Route>
           </Routes>
         </BrowserRouter>
