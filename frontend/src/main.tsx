@@ -24,6 +24,7 @@ import Checkout from './pages/Checkout/Checkout.tsx';
 import HomePage from "./pages/Home/HomePage.tsx";
 import OverviewOrdersPage from "./pages/Dashboard/OverviewOrders.tsx";
 import UserOrdersPage from "./pages/User/UserOrdersPage.tsx";
+import Reservation from "./pages/Reservation/Reservation.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <Provider>
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="user/opinions" element={<UserOpinionsPage />} />
               <Route path="user/orders" element={<UserOrdersPage />} />
               <Route path="checkout" element={<Checkout />} />
+              <Route path="reservation" element={<Reservation />} />
             </Route>
             <Route path="admin/" element={<DashboardLayout />}>
               <Route path="account" element={<ManageYourAccount />} />

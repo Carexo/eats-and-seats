@@ -11,6 +11,10 @@ const LeftMenu = (props: { mode: MenuProps['mode'] | undefined; }) => {
             label: <Link to="/menu">Menu</Link>,
             key: 'menu',
         },
+        {
+            label: <Link to="/reservation">Reservation</Link>,
+            key: 'reservation',
+        },
         ...(auth.isLogged && auth.role === 'admin' ? [{
             label: <Link to="/admin/account">Dashboard</Link>,
             key: 'admin',
