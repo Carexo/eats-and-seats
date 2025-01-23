@@ -52,12 +52,11 @@ export const createOrder = async (checkoutPayload: CheckoutPayload) => {
   }
 };
 
-export const getOrders = async () => {
+export const getOrders = async (sort?: string) => {
   try {
-    const response = await client.get('/order', {
+    const response = await client.get(`/order?sort=${sort || ''}`, {
       withCredentials: true,
     });
-    console.log(response.data);
     return response.data || [];
   } catch (error) {
     if (isAxiosError(error)) {
@@ -68,9 +67,10 @@ export const getOrders = async () => {
   }
 };
 
-export const getUserOrders = async () => {
+
+export const getUserOrders = async (sort?: string) => {
     try {
-        const response = await client.get('/order/user', {
+        const response = await client.get(`/order/user?sort=${sort||''}`, {
         withCredentials: true,
         });
         return response.data || [];

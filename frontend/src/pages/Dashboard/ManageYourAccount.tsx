@@ -22,7 +22,7 @@ const ManageYourAccount: React.FC = () => {
         level={2}
         style={{ textAlign: 'center', marginBottom: '20px' }}
       >
-        Manage Your Account
+        Hello, {username}
       </Typography.Title>
       <Typography.Text>
         <Paragraph
@@ -33,7 +33,7 @@ const ManageYourAccount: React.FC = () => {
           }}
         >
           {' '}
-          Welcome, {username}
+          Manage your account here.
         </Paragraph>
       </Typography.Text>
       <div

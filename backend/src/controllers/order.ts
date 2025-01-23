@@ -4,6 +4,9 @@ import createError from "http-errors";
 import { orderValidator } from "../models/order/orderValidation";
 import { getDishes } from "../services/dish";
 import { getCartByUserID } from "../services/cart";
+import {Opinion} from "../models/opinion/opinion";
+import {IUser} from "../models/auth/user/user.types";
+import {IDish} from "../models/dish/dish.types";
 
 export const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -81,10 +84,16 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
 
 export const getOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const { sort } = req.query;
+        const sortOption: Record<string, 1 | -1> = {};
+        if (sort === "asc" || sort === "desc") {
+            sortOption.orderDate = sort === "asc" ? 1 : -1;
+        }
         const orders = await Order.find().populate({
             path: "products.dishId",
             select: "-image", // Wykluczamy pole 'image'
-        });
+        }).sort(sortOption);
+
         res.status(200).json(orders);
     } catch (error: any) {
         next(createError(500, error.message));
@@ -94,6 +103,11 @@ export const getOrders = async (req: Request, res: Response, next: NextFunction)
 export const getUserOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.user?.userID;
+        const { sort } = req.query;
+        const sortOption: Record<string, 1 | -1> = {};
+        if (sort === "asc" || sort === "desc") {
+            sortOption.orderDate = sort === "asc" ? 1 : -1;
+        }
 
         if (!userId) {
             next(createError(401, "Unauthorized. Please log in."));
@@ -103,7 +117,7 @@ export const getUserOrders = async (req: Request, res: Response, next: NextFunct
         const orders = await Order.find({ user: userId }).populate({
             path: "products.dishId",
             select: "-image",
-        });
+        }).sort(sortOption);
 
         res.status(200).json(orders);
     } catch (error: any) {

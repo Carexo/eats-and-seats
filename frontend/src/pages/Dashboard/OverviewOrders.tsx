@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { List, Button, Modal, Spin, Typography } from 'antd';
+import {List, Button, Modal, Spin, Typography, Select} from 'antd';
 import { IOrder } from '../../api/services/order';
 import {CloseOutlined, EyeOutlined} from '@ant-design/icons';
 import {useCancelOrder, useOrders} from "../../api/queries/order.ts";
 
 const { Title } = Typography;
+const { Option } = Select;
 
 const ManageOrdersPage: React.FC = () => {
-    const { data: orders = [], isLoading, refetch } = useOrders();
+    const [sortOrder, setSortOrder] = useState<string>('');
+    const { data: orders = [], isLoading, refetch } = useOrders(sortOrder);
     const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
     const cancelOrder = useCancelOrder();
+
+    const handleSortOrderChange = (value: string) => {
+        setSortOrder(value);
+        refetch();
+    };
 
     const showCancelConfirm = (order: IOrder) => {
         Modal.confirm({
@@ -42,10 +49,24 @@ const ManageOrdersPage: React.FC = () => {
     }
 
     return (
-        <div style={{ padding: '20px' }}>
-            <Title level={2} style={{ textAlign: 'center' }}>
+        <div style={{padding: '20px'}}>
+            <Title level={2} style={{textAlign: 'center'}}>
                 Orders
             </Title>
+            <div style={{marginTop: '20px', textAlign: 'center'}}>
+                <Title level={5} style={{textAlign: 'center'}}>
+                    Sort by date:
+                </Title>
+                <Select
+                    defaultValue={sortOrder}
+                    style={{width: 120, alignItems: 'center'}}
+                    onChange={handleSortOrderChange}
+                >
+                    <Option value="">Default</Option>
+                    <Option value="asc">Ascending</Option>
+                    <Option value="desc">Descending</Option>
+                </Select>
+            </div>
             <List
                 itemLayout="horizontal"
                 dataSource={orders}
@@ -54,7 +75,7 @@ const ManageOrdersPage: React.FC = () => {
                         actions={[
                             <Button
                                 type="primary"
-                                icon={<EyeOutlined />}
+                                icon={<EyeOutlined/>}
                                 onClick={() => handleViewDetails(order)}
                             >
                                 View Details
@@ -62,7 +83,7 @@ const ManageOrdersPage: React.FC = () => {
                             <Button
                                 type="primary"
                                 danger={true}
-                                icon={<CloseOutlined />}
+                                icon={<CloseOutlined/>}
                                 onClick={() => showCancelConfirm(order)}
                             >
                                 Cancel
