@@ -18,7 +18,7 @@ const Cart = () => {
         <ShoppingCartOutlined className="cart-icon" />
       </Button>
       <Drawer
-        title="Koszyk"
+        title="Cart"
         className={'menu_drawer'}
         placement="right"
         closable={false}
@@ -46,7 +46,7 @@ const Cart = () => {
             </Typography.Text>
           </Flex>
         ) : (
-          <Typography.Text>Your cart is empty</Typography.Text>
+            <Typography.Title level={4} style={{alignItems:'center', textAlign: 'center'}}>Your cart is empty</Typography.Title>
         )}
       </Drawer>
     </div>

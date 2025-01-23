@@ -132,7 +132,7 @@ const DishDetailsElement: React.FC = () => {
                   />
                   <span style={{ fontSize: '13px', marginLeft: '10px' }}>
                     {averageRating === 0
-                      ? '(brak opinii)'
+                      ? '(no ratings)'
                       : `${averageRating.toFixed(1)} / 5`}
                   </span>
                 </div>
@@ -154,7 +154,7 @@ const DishDetailsElement: React.FC = () => {
                 marginTop: '20px',
               }}
             >
-              Cena: <span style={{ color: 'green' }}>{dish.price} zł</span>
+              Price: <span style={{ color: 'green' }}>{dish.price} PLN</span>
             </Paragraph>
             <div
               style={{
@@ -166,17 +166,14 @@ const DishDetailsElement: React.FC = () => {
               <Button
                 type="primary"
                 size="large"
-                style={{ width: '49%' }}
+                style={{ width: '100%' }}
                 onClick={handleAddToCart}
               >
-                Dodaj do koszyka
-              </Button>
-              <Button type="default" size="large" style={{ width: '49%' }}>
-                Zamów teraz
+                Add to cart
               </Button>
             </div>
             <div style={{ position: 'absolute', top: 10, left: 10 }}>
-              <Tooltip title="Lista wszystkich dań">
+              <Tooltip title="All dishes">
                 <LeftCircleOutlined
                   style={{
                     fontSize: '36px',
@@ -191,7 +188,7 @@ const DishDetailsElement: React.FC = () => {
         </div>
         <div className="flip-card-back">
           <Card>
-            <Tooltip title="Wróć">
+            <Tooltip title="Back">
               <CaretLeftOutlined onClick={handleFlip} />
             </Tooltip>
             <Flex

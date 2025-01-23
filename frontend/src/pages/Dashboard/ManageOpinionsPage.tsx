@@ -48,16 +48,16 @@ const ManageOpinionsPage: React.FC = () => {
       </Title>
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <Title level={5} style={{ textAlign: 'center' }}>
-          Sortuj według wysokości opinii:
+          sort by opinion level:
         </Title>
         <Select
           defaultValue={sortOrder}
           style={{ width: 120, alignItems: 'center' }}
           onChange={handleSortOrderChange}
         >
-          <Option value="">Domyślnie</Option>
-          <Option value="asc">Rosnąco</Option>
-          <Option value="desc">Malejąco</Option>
+          <Option value="">default</Option>
+          <Option value="asc">ascending</Option>
+          <Option value="desc">descending</Option>
         </Select>
       </div>
       <List

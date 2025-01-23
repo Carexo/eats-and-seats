@@ -54,7 +54,7 @@ const MenuPage = () => {
       </Title>
 
       <Input.Search
-        placeholder="Szukaj użytkownika..."
+        placeholder="Search user..."
         allowClear
         onSearch={handleSearch}
         style={{

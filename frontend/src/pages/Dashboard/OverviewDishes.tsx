@@ -85,7 +85,7 @@ const OverviewDishes = () => {
   return (
     <div style={{ padding: '20px' }}>
       <Input.Search
-        placeholder="Szukaj dania..."
+        placeholder="Search dish..."
         allowClear
         onSearch={handleSearch}
         style={{
@@ -104,14 +104,14 @@ const OverviewDishes = () => {
           style={{ margin: '5px 0' }}
           onClick={() => setShowFilters((prev) => !prev)}
         >
-          {showFilters ? 'Ukryj filtry' : 'Dodaj filtry'}
+          {showFilters ? 'hide filters' : 'show filters'}
         </Button>
       </div>
 
       {showFilters && (
         <div style={{ marginBottom: '20px', textAlign: 'center' }}>
           <div style={{ marginTop: '20px' }}>
-            <Title level={5}>Filtruj według ceny:</Title>
+            <Title level={5}>filter by price:</Title>
             <Slider
               range
               step={1}
@@ -122,18 +122,18 @@ const OverviewDishes = () => {
               style={{ maxWidth: '400px', margin: '0 auto' }}
             />
             <Text>
-              Zakres: {priceRange[0]} zł - {priceRange[1]} zł
+              Range: {priceRange[0]} PLN - {priceRange[1]} PLN
             </Text>
           </div>
           <div style={{ marginTop: '20px' }}>
-            <Title level={5}>Sortuj według ceny:</Title>
+            <Title level={5}>sort by price:</Title>
             <Select
               defaultValue="asc"
               style={{ width: 120 }}
               onChange={handleSortOrderChange}
             >
-              <Option value="asc">Rosnąco</Option>
-              <Option value="desc">Malejąco</Option>
+              <Option value="asc">ascending</Option>
+              <Option value="desc">descending</Option>
             </Select>
           </div>
         </div>

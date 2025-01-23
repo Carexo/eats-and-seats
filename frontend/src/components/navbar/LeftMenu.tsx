@@ -12,7 +12,7 @@ const LeftMenu = (props: { mode: MenuProps['mode'] | undefined; }) => {
             key: 'menu',
         },
         ...(auth.isLogged && auth.role === 'admin' ? [{
-            label: <Link to="/admin">Dashboard</Link>,
+            label: <Link to="/admin/account">Dashboard</Link>,
             key: 'admin',
         }] : [])
     ];

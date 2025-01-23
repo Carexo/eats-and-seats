@@ -10,6 +10,7 @@ const UserCard = ({ user }: { user: User }) => {
   const { notificationSend } = useActions();
   const deleteUser = useDeleteUser(notificationSend);
 
+
   const showDeleteConfirm = () => {
     Modal.confirm({
       title: 'Are you sure you want to delete this user?',
@@ -78,7 +79,7 @@ const UserCard = ({ user }: { user: User }) => {
               style={{ width: '80%' }}
               href={`/orders/${user._id}`}
             >
-              Zobacz zamówienia
+              See orders
             </Button>
             <Tooltip title="Remove user">
               <Button

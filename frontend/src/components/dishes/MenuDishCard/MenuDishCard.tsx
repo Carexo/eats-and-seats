@@ -23,7 +23,7 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
       cover={
         <img
           alt={dish.name}
-          src={dish.image || 'https://via.placeholder.com/300'}
+          src={dish.image}
           style={{ height: '200px', objectFit: 'cover' }}
         />
       }
@@ -49,8 +49,8 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
           borderTop: '1px solid #f0f0f0',
         }}
       >
-        <Text strong style={{ fontSize: '20px' }}>
-          {dish.price} zł
+        <Text strong style={{ fontSize: '20px', textAlign:'center' }}>
+          {dish.price} PLN
         </Text>
         <div
           style={{
@@ -66,7 +66,7 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
             style={{ width: '49%' }}
             href={`/dishes/${dish.id}`}
           >
-            Zobacz więcej
+            See more
           </Button>
           <Button
             size="large"
@@ -82,7 +82,7 @@ const MenuDishCard = ({ dish }: { dish: Dish }) => {
               })
             }
           >
-            Dodaj do koszyka
+            Add to cart
           </Button>
         </div>
       </div>

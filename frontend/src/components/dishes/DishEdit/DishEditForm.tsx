@@ -158,7 +158,7 @@ const DishEditForm: React.FC<DishFormProps> = ({ mutate }) => {
         </Form.Item>
         <Form.Item>
           <Button block type="primary" htmlType="submit">
-            Zapisz zmiany
+            Save
           </Button>
           <Button
             block
@@ -169,7 +169,7 @@ const DishEditForm: React.FC<DishFormProps> = ({ mutate }) => {
               })
             }
           >
-            Anuluj
+            Cancel
           </Button>
         </Form.Item>
       </Form>

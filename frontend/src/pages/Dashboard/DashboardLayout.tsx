@@ -24,31 +24,36 @@ const items = [
   },
   {
     key: '1',
+    icon: <HomeOutlined />,
+    label: <Link to="/">Home Page</Link>,
+  },
+  {
+    key: '2',
     icon: <SettingOutlined />,
     label: <Link to="/admin/account">Manage Your Account</Link>,
   },
   {
-    key: '2',
+    key: '3',
     icon: <ProductOutlined />,
     label: <Link to="/admin/dishes">Overview Dishes</Link>,
   },
   {
-    key: '3',
+    key: '4',
     icon: <CloudUploadOutlined />,
     label: <Link to="/admin/add-dish">Add Dish</Link>,
   },
   {
-    key: '4',
+    key: '5',
     icon: <UnorderedListOutlined />,
     label: <Link to="/admin/orders">Overview Orders</Link>,
   },
   {
-    key: '5',
+    key: '6',
     icon: <UserOutlined />,
     label: <Link to="/admin/users">Overview Users</Link>,
   },
   {
-    key: '6',
+    key: '7',
     icon: <FormOutlined />,
     label: <Link to="/admin/opinions">Manage opinions</Link>,
   },
