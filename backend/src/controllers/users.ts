@@ -61,6 +61,7 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
             maxAge: config.secrets.accessJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         const refreshToken = newRefreshToken(user);
@@ -69,6 +70,7 @@ export const changePassword = async (req: Request, res: Response, next: NextFunc
             maxAge: config.secrets.refreshJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         res.status(200).json({

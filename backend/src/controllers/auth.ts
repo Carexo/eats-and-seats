@@ -30,6 +30,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             maxAge: config.secrets.accessJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         const refreshToken = newRefreshToken(user);
@@ -38,6 +39,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             maxAge: config.secrets.refreshJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         res.status(201).json({
@@ -73,6 +75,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             maxAge: config.secrets.accessJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         const refreshToken = newRefreshToken(user);
@@ -81,6 +84,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             maxAge: config.secrets.refreshJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         res.status(201).json({
@@ -176,6 +180,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
             maxAge: config.secrets.accessJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         const refreshTokenNew = newRefreshToken({ _id: decoded.user.userID, ...decoded.user });
@@ -184,6 +189,7 @@ export const handleRefreshToken = async (req: Request, res: Response, next: Next
             maxAge: config.secrets.refreshJwtExp * 1000,
             httpOnly: true,
             secure: config.production,
+            sameSite: "none",
         });
 
         res.status(200).json({ message: "Successfully refresh token" });
