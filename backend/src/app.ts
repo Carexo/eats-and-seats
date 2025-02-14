@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import config from "./config";
 
 import connectDB from "./config/dbConfig";
 import dishRoutes from "./routes/dishes";
@@ -21,7 +22,7 @@ connectDB();
 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: config.corsOrigin,
         credentials: true,
     }),
 );

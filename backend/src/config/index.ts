@@ -7,6 +7,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const config = {
     production: isProduction,
     mongoURI: process.env.MONGO_URI!!,
+    corsOrigin: isProduction ? process.env.CORS_ORIGIN : "http://localhost:5173",
     secrets: {
         jwt: process.env.JWT_SECRET!!,
         accessJwtExp: 30 * 60,
